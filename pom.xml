@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.donggri</groupId>
+  <artifactId>donggri</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <!-- macOS JDK 17 기준 (21이면 21로 바꿔도 됨) -->
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!-- ✅ SQLite JDBC 드라이버 -->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.46.0.0</version>
+    </dependency>
+  </dependencies>
+
+  <!-- (선택) 터미널에서 main 실행 쉽게 해주는 플러그인 -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.donggri.App</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
