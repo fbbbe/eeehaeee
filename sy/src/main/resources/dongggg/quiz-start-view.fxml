@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dongggg.QuizStartController"
+            stylesheets="@styles.css"
+            styleClass="root-pane">
+
+    <!-- 상단: 제목 영역 -->
+    <top>
+        <VBox spacing="16">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+            <children>
+
+                <!-- 타이틀 -->
+                <Label text="✏️  시험 시작하기"
+                       styleClass="section-title"/>
+
+                <Label text="개념노트 기반 문제를 풀어볼까요?"
+                       styleClass="profile-subtitle"/>
+            </children>
+        </VBox>
+    </top>
+
+    <!-- 중앙: 큰 카드 영역 -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <children>
+
+                <!-- 선택 카드 -->
+                <VBox spacing="20" alignment="TOP_CENTER"
+                    styleClass="quiz-card">
+
+                    <Label text="시험할 개념 노트를 선택하세요"
+                        styleClass="quiz-title"/>
+
+                    <ComboBox fx:id="noteSelectCombo"
+                            promptText="개념 노트 선택..."
+                            prefWidth="350"
+                            styleClass="combo-large"/>
+
+                    <Button fx:id="startQuizButton"
+                            text="시험 시작"
+                            styleClass="quiz-start-btn"
+                            prefWidth="180"
+                            prefHeight="45"/>
+                </VBox>
+
+
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

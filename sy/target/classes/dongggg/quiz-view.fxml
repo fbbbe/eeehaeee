@@ -1,0 +1,23 @@
+<!-- 시험 본 UI -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane prefWidth="500" prefHeight="350"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dongggg.QuizController">
+
+    <VBox spacing="20" alignment="CENTER" layoutX="50" layoutY="30">
+
+        <Label fx:id="conceptLabel" text="문제 개념" style="-fx-font-size: 20px;"/>
+
+        <TextArea fx:id="answerArea" prefWidth="350" prefHeight="120" 
+                  promptText="설명을 입력하세요"/>
+
+        <Button text="다음 문제" onAction="#nextQuestion" prefWidth="150"/>
+
+        <Label fx:id="progressLabel" text="1 / N 문제"/>
+    </VBox>
+</AnchorPane>
