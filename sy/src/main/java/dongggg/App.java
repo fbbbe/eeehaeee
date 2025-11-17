@@ -21,6 +21,7 @@ public class App extends Application {
 
         // scene, stage와 관련된 건 노션 참고
         Scene scene = new Scene(loader.load(), 1200, 700);
+        scene.getStylesheets().add(App.class.getResource("styles.css").toExternalForm());
 
         stage.setTitle("동그리 노트");
         stage.setScene(scene);

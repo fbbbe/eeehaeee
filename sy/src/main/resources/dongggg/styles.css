@@ -1,0 +1,133 @@
+/* 공통 색상 (참고용 주석)
+ * background:      #faf8ff
+ * foreground:      #2d1b4e
+ * primary:         #7c3aed
+ * primary-light:   #a78bfa
+ * accent:          #c084fc
+ * accent-light:    #e9d5ff
+ * muted-foreground:#6d28d9
+*/
+
+/* 전체 루트 영역 */
+.root-pane {
+    -fx-background-color: #faf8ff;
+    -fx-font-family: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    -fx-text-fill: #2d1b4e;
+}
+
+/* 기본 Label 텍스트 색 */
+.label {
+    -fx-text-fill: #2d1b4e;
+}
+
+/* 상단 프로필 영역 */
+.avatar-circle {
+    -fx-background-color: #ffeef5; /* 살짝 더 부드러운 연분홍 */
+    -fx-background-radius: 28;
+}
+
+.profile-name {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d1b4e;
+}
+
+.profile-subtitle {
+    -fx-text-fill: #6d28d9;
+}
+
+/* 검색 박스 */
+.search-container {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #e9d5ff;
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+    -fx-padding: 8 16;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-prompt-text-fill: #6d28d9;
+    -fx-text-fill: #2d1b4e;
+}
+
+/* 상단 오른쪽 버튼 (새 폴더 / 새 노트) */
+.primary-icon-button {
+    -fx-background-radius: 14;
+    -fx-background-color: linear-gradient(#7c3aed, #6d28d9);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.45), 12, 0.2, 0, 4);
+    -fx-cursor: hand;
+}
+
+.primary-icon-button:hover {
+    -fx-background-color: linear-gradient(#a78bfa, #7c3aed);
+}
+
+/* 섹션 제목 (폴더 / 최근 노트) */
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d1b4e;
+}
+
+/* 폴더 카드 */
+.folder-card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-color: #e9d5ff;
+    -fx-border-radius: 18;
+    -fx-border-width: 1;
+    -fx-padding: 12 18;
+    -fx-effect: dropshadow(gaussian, rgba(200,132,252,0.20), 10, 0.2, 0, 3);
+}
+
+.folder-card:hover {
+    -fx-border-color: #c084fc;
+}
+
+.folder-arrow {
+    -fx-text-fill: #7c3aed;
+}
+
+/* 최근 노트 카드 */
+.note-card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-color: #e9d5ff;
+    -fx-border-radius: 18;
+    -fx-border-width: 1;
+    -fx-padding: 12 18;
+    -fx-effect: dropshadow(gaussian, rgba(200,132,252,0.20), 10, 0.2, 0, 3);
+}
+
+.note-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d1b4e;
+}
+
+.note-tag {
+    -fx-background-color: #e9d5ff;
+    -fx-background-radius: 999;
+    -fx-padding: 2 8;
+    -fx-text-fill: #7c3aed;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+
+.note-date {
+    -fx-text-fill: #6d28d9;
+    -fx-font-size: 11px;
+}
+
+/* ScrollPane 배경 정리 */
+.transparent-scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
