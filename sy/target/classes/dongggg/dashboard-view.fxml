@@ -1,90 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.DashboardController"
-            prefWidth="1280" prefHeight="800"
-            style="-fx-background-color: #F9F6FF;">
+            styleClass="root-pane dashboard-root">
 
-    <!-- Header -->
-    <VBox layoutX="80" layoutY="40">
-        <Label text="동그리"
-               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3A2087;"/>
-        <Label text="똑똑한 암기 학습, 동그리와 함께"
-               style="-fx-font-size: 16px; -fx-text-fill: #8B8B8B;"/>
-    </VBox>
+    <center>
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED"
+                    styleClass="transparent-scroll-pane">
+            <content>
+                <VBox spacing="32">
+                    <padding>
+                        <Insets top="32" right="32" bottom="48" left="32"/>
+                    </padding>
 
-    <!-- Mascot Box -->
-    <HBox layoutX="80" layoutY="130" spacing="40"
-          style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 20, 0.2, 0, 3);">
+                    <children>
+                        <!-- 헤더 -->
+                        <VBox spacing="6">
+                            <Label text="동그리" styleClass="dashboard-title"/>
+                            <Label text="똑똑한 암기 학습, 동그리와 함께" styleClass="dashboard-subtitle"/>
+                        </VBox>
 
-        <!-- Left -->
-        <VBox spacing="10">
-            <Label text="마스코트 레벨" style="-fx-font-size:14px; -fx-text-fill:#888;"/>
-            <Label text="Lv. 5" style="-fx-font-size:32px; -fx-font-weight:bold; -fx-text-fill:#6A28F5;"/>
-            <Label text="다음 레벨까지 234 XP" style="-fx-font-size:14px; -fx-text-fill:#999;"/>
+                        <!-- 메인 카드 -->
+                        <HBox spacing="32"
+                              alignment="CENTER_LEFT"
+                              maxWidth="Infinity"
+                              styleClass="dashboard-hero-card">
+                            <VBox spacing="10">
+                                <Label text="마스코트 레벨" styleClass="dashboard-section-label"/>
+                                <Label text="Lv. 5" styleClass="dashboard-level-value"/>
+                                <Label text="다음 레벨까지 234 XP" styleClass="dashboard-section-helper"/>
+                                <ProgressBar progress="0.6"
+                                             prefWidth="260"
+                                             styleClass="dashboard-progress"/>
+                            </VBox>
 
-            <ProgressBar progress="0.6" prefWidth="200"
-                         style="-fx-accent:#6A28F5; -fx-control-inner-background:#E8D8FF;"/>
-        </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
 
-        <!-- Right Mascot -->
-        <VBox alignment="CENTER" spacing="10">
+                            <VBox spacing="12" alignment="CENTER">
+                                <StackPane prefWidth="140" prefHeight="140"
+                                           styleClass="dashboard-mascot-circle">
+                                    <Label text="🐤" styleClass="dashboard-mascot-emoji"/>
+                                </StackPane>
+                                <Label text="동그리" styleClass="dashboard-mascot-name"/>
+                            </VBox>
+                        </HBox>
 
-            <!-- 원 + 병아리를 중심 겹치기 -->
-            <StackPane prefWidth="140" prefHeight="140">
-                <Circle radius="70" fill="#FFE56A"/>
-                <Label text="🐥" style="-fx-font-size: 60px;"/>
-            </StackPane>
+                        <!-- 통계 카드 -->
+                        <HBox spacing="16" maxWidth="Infinity">
+                            <VBox spacing="6"
+                                  maxWidth="Infinity"
+                                  HBox.hgrow="ALWAYS"
+                                  styleClass="dashboard-stat-card">
+                                <Label text="📘" styleClass="dashboard-stat-icon"/>
+                                <Label text="12" styleClass="dashboard-stat-value"/>
+                                <Label text="개념 노트" styleClass="dashboard-stat-label"/>
+                            </VBox>
 
-            <Label text="동그리" style="-fx-font-size: 14px; -fx-text-fill: #444;"/>
-        </VBox>
-    </HBox>
+                            <VBox spacing="6"
+                                  maxWidth="Infinity"
+                                  HBox.hgrow="ALWAYS"
+                                  styleClass="dashboard-stat-card">
+                                <Label text="⚡" styleClass="dashboard-stat-icon"/>
+                                <Label text="8" styleClass="dashboard-stat-value"/>
+                                <Label text="시험 횟수" styleClass="dashboard-stat-label"/>
+                            </VBox>
 
-    <!-- Stats -->
-    <HBox layoutX="80" layoutY="340" spacing="20">
+                            <VBox spacing="6"
+                                  maxWidth="Infinity"
+                                  HBox.hgrow="ALWAYS"
+                                  styleClass="dashboard-stat-card">
+                                <Label text="📊" styleClass="dashboard-stat-icon"/>
+                                <Label text="85%" styleClass="dashboard-stat-value"/>
+                                <Label text="정답률" styleClass="dashboard-stat-label"/>
+                            </VBox>
+                        </HBox>
 
-        <VBox style="-fx-background-color:white; -fx-background-radius:15; -fx-padding:20; -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.05),12,0.2,0,2);"
-              prefWidth="180" prefHeight="120">
-            <Label text="📘" style="-fx-font-size:20px;"/>
-            <Label text="12" style="-fx-font-size:28px; -fx-font-weight:bold;"/>
-            <Label text="개념 노트" style="-fx-font-size:12px; -fx-text-fill:#999;"/>
-        </VBox>
+                        <!-- 버튼 -->
+                        <VBox spacing="12">
+                            <Button text="노트 관리"
+                                    maxWidth="Infinity"
+                                    prefHeight="56"
+                                    onAction="#goNoteManager"
+                                    styleClass="dashboard-primary-button"/>
 
-        <VBox style="-fx-background-color:white; -fx-background-radius:15; -fx-padding:20; -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.05),12,0.2,0,2);"
-              prefWidth="180" prefHeight="120">
-            <Label text="⚡" style="-fx-font-size:20px;"/>
-            <Label text="8" style="-fx-font-size:28px; -fx-font-weight:bold;"/>
-            <Label text="시험 횟수" style="-fx-font-size:12px; -fx-text-fill:#999;"/>
-        </VBox>
+                            <Button text="새 노트 작성"
+                                    maxWidth="Infinity"
+                                    prefHeight="56"
+                                    onAction="#goConceptNote"
+                                    styleClass="dashboard-secondary-button"/>
 
-        <VBox style="-fx-background-color:white; -fx-background-radius:15; -fx-padding:20; -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.05),12,0.2,0,2);"
-              prefWidth="180" prefHeight="120">
-            <Label text="📊" style="-fx-font-size:20px;"/>
-            <Label text="85%" style="-fx-font-size:28px; -fx-font-weight:bold;"/>
-            <Label text="정답률" style="-fx-font-size:12px; -fx-text-fill:#999;"/>
-        </VBox>
-    </HBox>
+                            <Button text="시험 보기"
+                                    maxWidth="Infinity"
+                                    prefHeight="56"
+                                    onAction="#goQuiz"
+                                    styleClass="dashboard-secondary-button"/>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
 
-    <!-- Buttons -->
-    <VBox layoutX="80" layoutY="500" spacing="15">
-
-        <Button text="노트 관리" prefWidth="300" prefHeight="50"
-                style="-fx-background-color:#6A28F5; -fx-text-fill:white; -fx-font-size:16px; -fx-background-radius:10;"
-                onAction="#goNoteManager"/>
-
-        <Button text="새 개념 노트 작성" prefWidth="300" prefHeight="50"
-                style="-fx-font-size:16px; -fx-background-radius:10;"
-                onAction="#goConceptNote"/>
-
-        <Button text="시험 보기" prefWidth="300" prefHeight="50"
-                style="-fx-font-size:16px; -fx-background-radius:10;"
-                onAction="#goQuiz"/>
-    </VBox>
-
-</AnchorPane>
+</BorderPane>
