@@ -1,5 +1,4 @@
 dongggg\Database.class
-dongggg\QuizStartController$1.class
 dongggg\DashboardController.class
 dongggg\ConceptNoteController$ConceptRow.class
 dongggg\QuizController.class
@@ -11,6 +10,7 @@ dongggg\Note.class
 dongggg\QuizStartController.class
 dongggg\NoteTypeSelectController.class
 dongggg\QuizResultController.class
+dongggg\NoteCardController.class
 dongggg\ConceptNoteController$ConceptPairData.class
 dongggg\QuizResultController$ResultRow.class
 dongggg\ConceptPairRepository.class

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -11,53 +10,62 @@
             stylesheets="@styles.css"
             styleClass="root-pane">
 
-    <!-- 상단: 제목 영역 -->
+    <!-- 상단 영역 -->
     <top>
-        <VBox spacing="16">
+        <VBox spacing="5">
             <padding>
-                <Insets top="20" right="20" bottom="10" left="20"/>
+                <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
+
             <children>
-
-                <!-- 타이틀 -->
-                <Label text="✏️  시험 시작하기"
-                       styleClass="section-title" />
-
-                <Label text="개념노트 기반 문제를 풀어볼까요?"
-                       styleClass="profile-subtitle"/>
-
+                <Label text="시험 준비" styleClass="section-title"/>
+                <Label text="시험 볼 노트를 선택하세요" styleClass="profile-subtitle"/>
             </children>
         </VBox>
     </top>
 
-    <!-- 중앙: 큰 카드 영역 -->
+    <!-- 중앙: 카드 리스트 -->
     <center>
-        <VBox alignment="TOP_CENTER" spacing="20">
+        <ScrollPane fitToWidth="true" styleClass="no-border">
+            <content>
+                <VBox fx:id="noteListBox"
+                      spacing="10"
+                      alignment="TOP_CENTER">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- 하단 -->
+    <bottom>
+        <VBox spacing="10">
             <padding>
-                <Insets top="30" right="30" bottom="30" left="30"/>
+                <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
             <children>
+                <Label fx:id="selectedCountLabel"
+                       text="0개의 노트가 선택되었습니다"
+                       styleClass="info-label"/>
 
-                <VBox spacing="20" alignment="TOP_CENTER"
-                      styleClass="quiz-card">
+                <HBox spacing="10">
+                    <children>
+                        <Button text="취소"
+                                styleClass="button-outlined"
+                                onAction="#goBack"/>
 
-                    <Label text="시험할 개념 노트를 선택하세요"
-                           styleClass="quiz-title"/>
-
-                    <ComboBox fx:id="noteSelectCombo"
-                              prefWidth="350"
-                              styleClass="combo-large"/>
-
-                    <Button fx:id="startButton"
-                            text="시험 시작"
-                            styleClass="button-primary"
-                            onAction="#startQuiz"/>
-
-                </VBox>
-
+                        <Button text="시험 시작"
+                                fx:id="startButton"
+                                styleClass="button-primary"
+                                disable="true"
+                                onAction="#startQuiz"/>
+                    </children>
+                </HBox>
             </children>
         </VBox>
-    </center>
+    </bottom>
 
 </BorderPane>
