@@ -19,10 +19,13 @@
             <children>
 
                 <!-- 프로필 -->
-                <HBox alignment="CENTER_LEFT" spacing="12">
+                <HBox alignment="CENTER_LEFT" spacing="12"
+                    onMouseClicked="#onClickDonggriIcon">
                     <children>
                         <StackPane prefWidth="56" prefHeight="56"
-                                   styleClass="avatar-circle">
+                                styleClass="avatar-circle"
+                                onMouseClicked="#onClickDonggriIcon">
+
                             <children>
                                 <Label text="🐤">
                                     <style>
@@ -30,22 +33,21 @@
                                     </style>
                                 </Label>
                             </children>
-                            <padding>
-                                <Insets top="8" right="8" bottom="8" left="8"/>
-                            </padding>
                         </StackPane>
+
 
                         <VBox spacing="4">
                             <children>
                                 <Label text="동그리" styleClass="profile-name"/>
                                 <Label text="오늘도 한 장씩 정리해볼까?"
-                                       styleClass="profile-subtitle"/>
+                                    styleClass="profile-subtitle"/>
                             </children>
                         </VBox>
 
                         <Pane HBox.hgrow="ALWAYS"/>
                     </children>
                 </HBox>
+
 
                 <!-- 검색 + 버튼들 -->
                 <HBox alignment="CENTER_LEFT" spacing="12">
