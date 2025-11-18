@@ -133,10 +133,10 @@
 }
 
 /* =========================
- * 노트 유형 선택 다이얼로그
+ * 노트 유형 선택 화면 / 버튼 스타일
  * ====================== */
 
-/* Alert/DialogPane 전체 배경 */
+/* (다이얼로그용은 안 쓰더라도 남겨둬도 됨) */
 .dialog-pane.note-type-dialog {
     -fx-background-color: #faf8ff;
     -fx-border-color: #e9d5ff;
@@ -145,54 +145,122 @@
     -fx-padding: 16 20 14 20;
 }
 
-/* 제목 */
+/* 제목 / 서브텍스트 */
 .note-type-title {
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: #2d1b4e;
 }
 
-/* 서브텍스트 */
 .note-type-subtitle {
     -fx-font-size: 12px;
     -fx-text-fill: #6d28d9;
 }
 
-/* 기본 버튼 스타일 */
-.button.note-type-choice {
-    -fx-background-radius: 999;
-    -fx-padding: 8 16;
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-}
-
-/* 일반 노트 버튼 */
-.button.note-type-normal {
-    -fx-background-color: #e9d5ff;
-    -fx-text-fill: #7c3aed;
-}
-
-.button.note-type-normal:hover {
-    -fx-background-color: #c084fc;
-    -fx-text-fill: white;
-}
-
-/* 개념 노트 버튼 */
-.button.note-type-concept {
-    -fx-background-color: linear-gradient(#7c3aed, #6d28d9);
-    -fx-text-fill: white;
-}
-
-.button.note-type-concept:hover {
-    -fx-background-color: linear-gradient(#a78bfa, #7c3aed);
-}
-
-/* 취소 버튼 */
-.button.note-type-cancel {
+/* ✅ 공통 pill 버튼 (일반 / 개념 / 뒤로가기 전부 여기에 맞춤) */
+.note-type-choice {
     -fx-background-color: transparent;
     -fx-text-fill: #6d28d9;
     -fx-border-color: #e9d5ff;
     -fx-border-radius: 999;
     -fx-background-radius: 999;
-    -fx-padding: 6 14;
+    -fx-border-width: 1.6;
+    -fx-padding: 8 26;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 6, 0.2, 0, 1);
+
+    /* Mac 파란 포커스 테두리 제거 */
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* hover 시 살짝 보라 배경 */
+.note-type-choice:hover {
+    -fx-background-color: rgba(233, 213, 255, 0.5);
+}
+
+/* 개념 노트 - 개념 입력 칸 */
+.concept-input {
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+    -fx-padding: 6 10;
+    -fx-border-color: #e9d5ff;      /* 연보라 테두리만 */
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-font-size: 12px;
+
+    /* 검은 focus 테두리 제거 */
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* 내부 content 배경도 카드랑 맞추기 */
+.concept-input .content {
+    -fx-background-color: transparent;
+}
+
+/* 개념 노트 - 설명 입력 칸 */
+.explanation-input {
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+    -fx-padding: 6 10;
+    -fx-border-color: #e9d5ff;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-font-size: 12px;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.explanation-input .content {
+    -fx-background-color: transparent;
+}
+/* 개념 노트 화면 - 하단 + 버튼 (동그란 버튼) */
+.concept-plus-button {
+    -fx-background-color: #7c3aed;
+    -fx-text-fill: white;
+    -fx-background-radius: 999;
+    -fx-padding: 4 14;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.3), 10, 0.2, 0, 2);
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.concept-plus-button:hover {
+    -fx-background-color: #6d28d9;
+}
+
+/* SplitPane 가운데 세로선: 기본은 얇은 라인 */
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #e5defa;   /* 연한 보라 세로선 */
+    -fx-padding: 0 1 0 1;            /* 2px 정도 두께 */
+}
+
+/* 마우스를 올리면 선이 조금 두꺼워지면서 색 진해짐 */
+.split-pane:horizontal > .split-pane-divider:hover {
+    -fx-background-color: #c084fc;
+    -fx-padding: 0 3 0 3;            /* hover 시 조금 더 두껍게 */
+}
+
+/* 기본 “잡는 손잡이(점선)” 숨기기 */ㄴ
+.split-pane-divider .horizontal-grabber,
+.split-pane-divider .vertical-grabber {
+    -fx-background-color: transparent;
+}
+
+/* ✅ TextArea 내부 스크롤바 완전 숨기기 */
+.text-area .scroll-bar:vertical,
+.text-area .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
 }

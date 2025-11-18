@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dongggg.NoteTypeSelectController"
+            styleClass="root-pane">
+
+    <center>
+        <VBox alignment="CENTER" spacing="24">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <children>
+                <VBox spacing="6" alignment="CENTER">
+                    <children>
+                        <Label text="어떤 노트를 만들까요?"
+                               styleClass="note-type-title"/>
+                        <Label text="나중에 언제든지 편집할 수 있어요."
+                               styleClass="note-type-subtitle"/>
+                    </children>
+                </VBox>
+
+                <HBox spacing="16" alignment="CENTER">
+                    <children>
+                        <Button fx:id="normalButton"
+                            text="✏️ 일반 노트"
+                            onAction="#onNormalNote"
+                            styleClass="note-type-choice"/>
+
+                        <Button fx:id="conceptButton"
+                            text="📚 개념 노트"
+                            onAction="#onConceptNote"
+                            styleClass="note-type-choice"/>
+                    </children>
+                </HBox>
+
+                <Button text="← 뒤로 가기"
+                        onAction="#onBack"
+                        styleClass="note-type-choice"/>
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -9,7 +9,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -120,10 +119,10 @@ public class NoteDetailController {
         });
     }
 
-    // 현재 창 닫기
+    // 현재 창 닫기 대신, 메인 화면으로 돌아가기
     private void closeWindow() {
-        Stage stage = (Stage) root.getScene().getWindow();
-        stage.close();
+        // App이 메인 화면 FXML을 다시 로드하고 root를 교체해 준다.
+        App.showMainView();
     }
 
     // 경고창 표시

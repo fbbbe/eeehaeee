@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
+<?import javafx.scene.control.SplitPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -17,61 +18,68 @@
                 <Insets top="16" right="20" bottom="8" left="20"/>
             </padding>
             <children>
-                <Label text="개념 노트" styleClass="section-title"/>
                 <TextField fx:id="titleField"
-                           promptText="제목을 입력하세요"
-                           style="-fx-background-radius: 10; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 10;"/>
+                           promptText="제목을 입력하세요..."
+                           style="-fx-background-radius: 12; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 12;"/>
             </children>
         </VBox>
     </top>
 
-    <!-- 중앙: 좌측 개념 리스트 / 우측 개념-설명 입력 -->
+    <!-- 중앙: 개념/설명 헤더 + SplitPane -->
     <center>
-        <HBox spacing="16">
+        <VBox spacing="8">
             <padding>
-                <Insets top="8" right="20" bottom="12" left="20"/>
+                <Insets top="4" right="20" bottom="8" left="20"/>
             </padding>
             <children>
 
-                <!-- 좌측: 개념 리스트 -->
-                <VBox spacing="8" prefWidth="220">
-                    <children>
-                        <Label text="개념 목록" styleClass="note-date"/>
-                        <ListView fx:id="pairListView" prefHeight="320"/>
-                        <HBox spacing="8" alignment="CENTER_RIGHT">
-                            <children>
-                                <Button text="+ 항목 추가" onAction="#onAddPair"
-                                        style="-fx-background-color: #e9d5ff; -fx-text-fill: #7c3aed; -fx-background-radius: 999; -fx-padding: 4 10;"/>
-                                <Button text="삭제" onAction="#onDeletePair"
-                                        style="-fx-background-color: #fee2e2; -fx-text-fill: #b91c1c; -fx-background-radius: 999; -fx-padding: 4 10;"/>
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
-
-                <!-- 우측: 개념 / 설명 입력 -->
-                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                <!-- 헤더: '개념 입력' / '설명 입력' -->
+                <HBox spacing="8">
                     <children>
                         <Label text="개념 입력" styleClass="note-date"/>
-                        <TextField fx:id="termField"
-                                   promptText="Ex. 데이터의 정의"
-                                   style="-fx-background-radius: 10; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 10;"/>
-
+                        <Pane HBox.hgrow="ALWAYS"/>
                         <Label text="설명 입력" styleClass="note-date"/>
-                        <TextArea fx:id="explanationArea"
-                                  wrapText="true"
-                                  prefRowCount="10"
-                                  promptText="설명을 입력하세요"
-                                  style="-fx-background-radius: 12; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 12;"/>
-
                     </children>
-                </VBox>
+                </HBox>
+
+                <!-- ✅ 좌우로 나뉘는 SplitPane (세로선 드래그로 좌우 비율 조절) -->
+                <SplitPane orientation="HORIZONTAL" dividerPositions="0.25">
+                    <items>
+
+                        <!-- 왼쪽: 개념 입력 칼럼 (ScrollPane 제거) -->
+                        <VBox spacing="8" VBox.vgrow="ALWAYS">
+                            <children>
+                                <!-- 여기에 개념 TextArea 들이 세로로 쌓인다 -->
+                                <VBox fx:id="conceptContainer" spacing="12" VBox.vgrow="ALWAYS"/>
+                            </children>
+                        </VBox>
+
+                        <!-- 오른쪽: 설명 입력 칼럼 (ScrollPane 제거) -->
+                        <VBox spacing="8" VBox.vgrow="ALWAYS">
+                            <children>
+                                <!-- 여기에 설명 TextArea 들이 세로로 쌓인다 -->
+                                <VBox fx:id="explanationContainer" spacing="12" VBox.vgrow="ALWAYS"/>
+                            </children>
+                        </VBox>
+
+                    </items>
+                </SplitPane>
+
+                <!-- 하단: 추가 버튼 -->
+                <HBox alignment="CENTER" spacing="8">
+                    <children>
+                        <Label text="추가" styleClass="note-date"/>
+                        <Button text="＋"
+                                onAction="#onAddPair"
+                                styleClass="concept-plus-button"/>
+                    </children>
+                </HBox>
 
             </children>
-        </HBox>
+        </VBox>
     </center>
 
-    <!-- 하단: 버튼 -->
+    <!-- 하단: 상태 + 닫기/저장 -->
     <bottom>
         <HBox spacing="8" alignment="CENTER_RIGHT">
             <padding>
@@ -81,10 +89,14 @@
                 <Label fx:id="statusLabel" styleClass="note-date" HBox.hgrow="ALWAYS"/>
 
                 <Button text="닫기" onAction="#onCancel"
-                        style="-fx-background-color: transparent; -fx-text-fill: #6d28d9; -fx-border-color: #e9d5ff; -fx-border-radius: 999; -fx-background-radius: 999; -fx-padding: 6 14;"/>
+                        styleClass="note-type-choice"/>
 
                 <Button text="저장" onAction="#onSaveAll"
-                        style="-fx-background-color: linear-gradient(#7c3aed, #6d28d9); -fx-text-fill: white; -fx-background-radius: 999; -fx-padding: 6 18;"/>
+                        style="-fx-background-color: linear-gradient(#7c3aed, #6d28d9);
+                               -fx-text-fill: white;
+                               -fx-background-radius: 999;
+                               -fx-padding: 6 18;
+                               -fx-cursor: hand;"/>
             </children>
         </HBox>
     </bottom>

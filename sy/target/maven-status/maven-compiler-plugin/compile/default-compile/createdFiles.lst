@@ -1,9 +1,12 @@
 dongggg/NoteRepository.class
 dongggg/ConceptNoteController.class
+dongggg/ConceptNoteController$ConceptPairData.class
 dongggg/ConceptPairRepository.class
 dongggg/MainController.class
 dongggg/NoteDetailController.class
+dongggg/ConceptNoteController$ConceptRow.class
 dongggg/App.class
+dongggg/NoteTypeSelectController.class
 dongggg/Note.class
 dongggg/ConceptPair.class
 dongggg/Database.class
