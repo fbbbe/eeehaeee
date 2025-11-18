@@ -28,14 +28,14 @@
                 <!-- 제목 -->
                 <TextField fx:id="titleField"
                            promptText="제목을 입력하세요"
-                           style="-fx-background-radius: 10; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 10;"/>
+                           styleClass="note-pill-input"/>
 
                 <!-- 내용 -->
                 <TextArea fx:id="contentArea"
                           promptText="내용을 입력하세요"
                           prefRowCount="16"
                           wrapText="true"
-                          style="-fx-background-radius: 12; -fx-background-color: white; -fx-padding: 8 10; -fx-border-color: #e9d5ff; -fx-border-radius: 12;"/>
+                          styleClass="note-pill-input"/>
 
                 <!-- 버튼들 -->
                 <HBox spacing="8" alignment="CENTER_RIGHT">

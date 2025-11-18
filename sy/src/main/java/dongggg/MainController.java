@@ -3,6 +3,7 @@ package dongggg;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -34,8 +35,6 @@ public class MainController {
     @FXML
     public void initialize() {
         System.out.println("MainController initialize");
-
-        // 최근 노트 목록 로드
         loadRecentNotes();
     }
 
@@ -46,7 +45,6 @@ public class MainController {
         recentNotesBox.getChildren().clear();
 
         List<Note> notes = NoteRepository.findRecent(10);
-
         for (Note note : notes) {
             HBox card = createNoteCard(note);
             recentNotesBox.getChildren().add(card);
@@ -64,33 +62,27 @@ public class MainController {
         card.setSpacing(8);
         card.getStyleClass().add("note-card");
 
-        VBox textBox = new VBox();
-        textBox.setSpacing(4);
+        VBox textBox = new VBox(4);
 
         Label titleLabel = new Label(note.getTitle());
         titleLabel.getStyleClass().add("note-title");
 
-        // 타입에 따라 태그 텍스트 변경
-        String tagText = "일반 노트";
-        if ("CONCEPT".equalsIgnoreCase(note.getType())) {
-            tagText = "개념 노트";
-        }
+        String tagText = note.getType().equalsIgnoreCase("CONCEPT") ?
+                "개념 노트" : "일반 노트";
 
         Label tagLabel = new Label(tagText);
         tagLabel.getStyleClass().add("note-tag");
 
-        String dateText = note.getUpdatedAt() != null ? note.getUpdatedAt() : "";
-        Label dateLabel = new Label(dateText);
+        Label dateLabel = new Label(note.getUpdatedAt() != null ? note.getUpdatedAt() : "");
         dateLabel.getStyleClass().add("note-date");
 
-        HBox metaBox = new HBox(8, tagLabel, dateLabel);
-        textBox.getChildren().addAll(titleLabel, metaBox);
+        HBox meta = new HBox(8, tagLabel, dateLabel);
 
+        textBox.getChildren().addAll(titleLabel, meta);
         card.getChildren().add(textBox);
 
-        // 카드 클릭 → 노트 타입에 따라 적절한 편집 화면으로 전환
-        card.setOnMouseClicked(event -> {
-            if ("CONCEPT".equalsIgnoreCase(note.getType())) {
+        card.setOnMouseClicked(e -> {
+            if (note.getType().equalsIgnoreCase("CONCEPT")) {
                 App.showConceptNoteEditor(note);
             } else {
                 App.showNoteEditor(note);
@@ -102,16 +94,17 @@ public class MainController {
 
     @FXML
     private void onNewFolder() {
-        System.out.println("새 폴더 버튼 클릭 (추후 구현)");
+        System.out.println("새 폴더 클릭");
     }
 
-    /**
-     * + 버튼 클릭 시:
-     * Alert를 띄우는 대신,
-     * 같은 창 안에서 "노트 유형 선택 화면"으로 페이지 전환.
-     */
     @FXML
     private void onNewNote() {
         App.showNoteTypeSelect();
+    }
+
+    // 🔥🔥 동그리 클릭 시 대시보드 이동
+    @FXML
+    private void onClickDonggriIcon(MouseEvent e) {
+        App.showDashboardView();
     }
 }

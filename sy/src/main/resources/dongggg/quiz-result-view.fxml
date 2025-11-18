@@ -1,0 +1,28 @@
+<!-- 채점 UI -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefWidth="500" prefHeight="350"
+            xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dongggg.QuizResultController">
+
+    <VBox spacing="15" alignment="CENTER" layoutX="40" layoutY="20">
+
+        <Label text="시험 결과" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+        <TableView fx:id="resultTable" prefWidth="450" prefHeight="220">
+            <columns>
+                <TableColumn fx:id="conceptCol" text="개념" prefWidth="150"/>
+                <TableColumn fx:id="correctCol" text="정답" prefWidth="150"/>
+                <TableColumn fx:id="userCol" text="내 답" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <Button text="메인으로" onAction="#goHome" prefWidth="150"/>
+    </VBox>
+</AnchorPane>
