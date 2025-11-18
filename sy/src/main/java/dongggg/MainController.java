@@ -10,6 +10,11 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+/**
+ * 메인 화면(폴더 + 최근 노트 목록)을 담당하는 컨트롤러.
+ * 여기서는 새 창(Stage)을 만들지 않고,
+ * App.showXXX 메서드를 써서 같은 창 안에서 화면을 전환한다.
+ */
 public class MainController {
 
     @FXML
@@ -33,6 +38,9 @@ public class MainController {
         loadRecentNotes();
     }
 
+    /**
+     * 최근 노트 목록을 DB에서 읽어서 화면에 뿌려주는 메서드.
+     */
     private void loadRecentNotes() {
         recentNotesBox.getChildren().clear();
 
@@ -43,6 +51,11 @@ public class MainController {
         }
     }
 
+    /**
+     * 하나의 노트 카드를 HBox로 만들어주는 함수.
+     * 노트 타입에 따라 "일반 노트 / 개념 노트" 태그를 붙이고,
+     * 클릭 시 해당 편집 화면으로 페이지 전환한다.
+     */
     private HBox createNoteCard(Note note) {
         HBox card = new HBox();
         card.setAlignment(Pos.CENTER_LEFT);
