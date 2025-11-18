@@ -8,202 +8,140 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.MainController"
-            styleClass="root-pane">
+            styleClass="root-pane main-root">
 
-    <!-- 상단: 프로필 + 검색 + 버튼 -->
     <top>
-        <VBox spacing="16.0">
+        <VBox spacing="18" styleClass="main-header">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="28" right="32" bottom="16" left="32"/>
             </padding>
             <children>
+                <HBox alignment="CENTER_LEFT" spacing="16" styleClass="profile-header"
+                      onMouseClicked="#onClickDonggriIcon">
+                    <StackPane prefWidth="60" prefHeight="60"
+                               styleClass="avatar-circle main-avatar"
+                               onMouseClicked="#onClickDonggriIcon">
+                        <children>
+                            <Label text="🐤">
+                                <style>
+                                    -fx-font-size: 34px;
+                                </style>
+                            </Label>
+                        </children>
+                    </StackPane>
 
-                <!-- 프로필 -->
-                <HBox alignment="CENTER_LEFT" spacing="12"
-                    onMouseClicked="#onClickDonggriIcon">
-                    <children>
-                        <StackPane prefWidth="56" prefHeight="56"
-                                styleClass="avatar-circle"
-                                onMouseClicked="#onClickDonggriIcon">
+                    <VBox spacing="4">
+                        <Label text="동그리" styleClass="profile-name main-profile-name"/>
+                        <Label text="오늘도 한 장씩 성장해볼까?" styleClass="profile-subtitle main-profile-subtitle"/>
+                    </VBox>
 
-                            <children>
-                                <Label text="🐤">
-                                    <style>
-                                        -fx-font-size: 32px;
-                                    </style>
-                                </Label>
-                            </children>
-                        </StackPane>
-
-
-                        <VBox spacing="4">
-                            <children>
-                                <Label text="동그리" styleClass="profile-name"/>
-                                <Label text="오늘도 한 장씩 정리해볼까?"
-                                    styleClass="profile-subtitle"/>
-                            </children>
-                        </VBox>
-
-                        <Pane HBox.hgrow="ALWAYS"/>
-                    </children>
+                    <Pane HBox.hgrow="ALWAYS"/>
                 </HBox>
 
-
-                <!-- 검색 + 버튼들 -->
                 <HBox alignment="CENTER_LEFT" spacing="12">
-                    <children>
-                        <HBox spacing="8" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS"
-                              styleClass="search-container">
-                            <children>
-                                <Label text="🔍"/>
-                                <TextField fx:id="searchField"
-                                           promptText="노트 또는 폴더명 검색..."
-                                           HBox.hgrow="ALWAYS"
-                                           styleClass="search-field"/>
-                            </children>
-                        </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS"
+                          styleClass="search-container main-search">
+                        <Label text="🔍" styleClass="search-icon"/>
+                        <TextField fx:id="searchField"
+                                   promptText="노트 검색 또는 폴더명 검색..."
+                                   HBox.hgrow="ALWAYS"
+                                   styleClass="search-field"/>
+                    </HBox>
 
-                        <Button fx:id="newFolderButton"
-                                text="📁"
-                                onAction="#onNewFolder"
-                                prefWidth="40" prefHeight="40"
-                                styleClass="primary-icon-button"/>
+                    <Button fx:id="newFolderButton"
+                            text="⚙"
+                            onAction="#onNewFolder"
+                            prefWidth="44" prefHeight="44"
+                            styleClass="primary-icon-button soft-icon-button"/>
 
-                        <Button fx:id="newNoteButton"
-                                text="+"
-                                onAction="#onNewNote"
-                                prefWidth="40" prefHeight="40"
-                                styleClass="primary-icon-button"/>
-                    </children>
+                    <Button fx:id="newNoteButton"
+                            text="+"
+                            onAction="#onNewNote"
+                            prefWidth="44" prefHeight="44"
+                            styleClass="primary-icon-button"/>
                 </HBox>
-
             </children>
         </VBox>
     </top>
 
-    <!-- 중앙: 폴더 + 최근 노트 -->
     <center>
         <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
                     styleClass="transparent-scroll-pane">
             <content>
-                <VBox spacing="24">
-                    <padding>
-                        <Insets top="20" right="20" bottom="20" left="20"/>
-                    </padding>
+                <HBox alignment="TOP_CENTER">
                     <children>
-
-                        <!-- 폴더 섹션 -->
-                        <VBox spacing="12">
+                        <VBox spacing="28" prefWidth="960" maxWidth="960"
+                              styleClass="main-content">
+                            <padding>
+                                <Insets top="16" right="0" bottom="40" left="0"/>
+                            </padding>
                             <children>
-                                <Label text="폴더"
-                                       styleClass="section-title"/>
 
-                                <GridPane fx:id="folderGrid" hgap="16" vgap="12">
-                                    <padding>
-                                        <Insets top="4" right="4" bottom="4" left="0"/>
-                                    </padding>
-
-                                    <!-- 예시 카드 4개 -->
+                                <VBox spacing="12">
                                     <children>
-                                        <HBox GridPane.rowIndex="0" GridPane.columnIndex="0"
-                                              alignment="CENTER_LEFT"
-                                              styleClass="folder-card">
-                                            <children>
-                                                <Label text="📁"/>
-                                                <Label text="영어">
-                                                    <style>
-                                                        -fx-padding: 0 0 0 8;
-                                                    </style>
-                                                </Label>
-                                                <Pane HBox.hgrow="ALWAYS"/>
-                                                <Label text="›" styleClass="folder-arrow"/>
-                                            </children>
+                                        <HBox spacing="8" alignment="CENTER_LEFT">
+                                            <Label text="📁" styleClass="section-icon"/>
+                                            <Label text="폴더" styleClass="section-heading"/>
                                         </HBox>
-
-                                        <HBox GridPane.rowIndex="0" GridPane.columnIndex="1"
-                                              alignment="CENTER_LEFT"
-                                              styleClass="folder-card">
+                                        <FlowPane fx:id="folderFlow"
+                                                  hgap="16" vgap="12"
+                                                  prefWrapLength="960">
                                             <children>
-                                                <Label text="📁"/>
-                                                <Label text="한국사">
-                                                    <style>
-                                                        -fx-padding: 0 0 0 8;
-                                                    </style>
-                                                </Label>
-                                                <Pane HBox.hgrow="ALWAYS"/>
-                                                <Label text="›" styleClass="folder-arrow"/>
-                                            </children>
-                                        </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="12"
+                                                      styleClass="folder-card">
+                                                    <Label text="📁" styleClass="folder-card-icon"/>
+                                                    <VBox spacing="4">
+                                                        <Label text="영어+" styleClass="folder-card-title"/>
+                                                        <Label text="12개" styleClass="folder-card-count"/>
+                                                    </VBox>
+                                                </HBox>
 
-                                        <HBox GridPane.rowIndex="1" GridPane.columnIndex="0"
-                                              alignment="CENTER_LEFT"
-                                              styleClass="folder-card">
-                                            <children>
-                                                <Label text="📁"/>
-                                                <Label text="수학">
-                                                    <style>
-                                                        -fx-padding: 0 0 0 8;
-                                                    </style>
-                                                </Label>
-                                                <Pane HBox.hgrow="ALWAYS"/>
-                                                <Label text="›" styleClass="folder-arrow"/>
-                                            </children>
-                                        </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="12"
+                                                      styleClass="folder-card">
+                                                    <Label text="📁" styleClass="folder-card-icon"/>
+                                                    <VBox spacing="4">
+                                                        <Label text="한국사+" styleClass="folder-card-title"/>
+                                                        <Label text="8개" styleClass="folder-card-count"/>
+                                                    </VBox>
+                                                </HBox>
 
-                                        <HBox GridPane.rowIndex="1" GridPane.columnIndex="1"
-                                              alignment="CENTER_LEFT"
-                                              styleClass="folder-card">
-                                            <children>
-                                                <Label text="📁"/>
-                                                <Label text="기타">
-                                                    <style>
-                                                        -fx-padding: 0 0 0 8;
-                                                    </style>
-                                                </Label>
-                                                <Pane HBox.hgrow="ALWAYS"/>
-                                                <Label text="›" styleClass="folder-arrow"/>
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="12"
+                                                      styleClass="folder-card">
+                                                    <Label text="📁" styleClass="folder-card-icon"/>
+                                                    <VBox spacing="4">
+                                                        <Label text="수학+" styleClass="folder-card-title"/>
+                                                        <Label text="15개" styleClass="folder-card-count"/>
+                                                    </VBox>
+                                                </HBox>
 
-                        <!-- 최근 노트 섹션 -->
-                        <VBox spacing="12">
-                            <children>
-                                <Label text="최근 노트"
-                                       styleClass="section-title"/>
-
-                                <VBox fx:id="recentNotesBox" spacing="8">
-                                    <!-- 여기 있는 예시 카드는 나중에 코드로 교체될 예정 -->
-                                    <children>
-                                        <HBox alignment="CENTER_LEFT"
-                                              styleClass="note-card">
-                                            <children>
-                                                <VBox spacing="4">
-                                                    <children>
-                                                        <Label text="영어 기본 문법"
-                                                               styleClass="note-title"/>
-                                                        <HBox spacing="8">
-                                                            <children>
-                                                                <Label text="개념 노트"
-                                                                       styleClass="note-tag"/>
-                                                                <Label text="2024.11.16"
-                                                                       styleClass="note-date"/>
-                                                            </children>
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="12"
+                                                      styleClass="folder-card">
+                                                    <Label text="📁" styleClass="folder-card-icon"/>
+                                                    <VBox spacing="4">
+                                                        <Label text="기타+" styleClass="folder-card-title"/>
+                                                        <Label text="5개" styleClass="folder-card-count"/>
+                                                    </VBox>
+                                                </HBox>
                                             </children>
-                                        </HBox>
+                                        </FlowPane>
                                     </children>
                                 </VBox>
+
+                                <VBox spacing="12">
+                                    <children>
+                                        <HBox spacing="8" alignment="CENTER_LEFT">
+                                            <Label text="🕒" styleClass="section-icon"/>
+                                            <Label text="최근 노트" styleClass="section-heading"/>
+                                        </HBox>
+                                        <VBox fx:id="recentNotesBox" spacing="12"/>
+                                    </children>
+                                </VBox>
+
                             </children>
                         </VBox>
-
                     </children>
-                </VBox>
+                </HBox>
             </content>
         </ScrollPane>
     </center>
