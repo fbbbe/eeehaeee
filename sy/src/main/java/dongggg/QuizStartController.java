@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
+import javafx.util.StringConverter;
+
 
 public class QuizStartController {
 
@@ -19,9 +21,24 @@ public class QuizStartController {
 
     @FXML
     public void initialize() {
+
+        // 콤보박스 표시 문자열 변경
+        noteSelectCombo.setConverter(new StringConverter<Note>() {
+            @Override
+            public String toString(Note note) {
+                return (note == null) ? "" : note.getTitle();
+            }
+
+            @Override
+            public Note fromString(String string) {
+                return null;
+            }
+        });
+
         // 🔥 getAllNotes() 없음 → findRecent() 사용
         noteSelectCombo.getItems().addAll(NoteRepository.findRecent(30));
     }
+
 
     @FXML
     public void startQuiz() {

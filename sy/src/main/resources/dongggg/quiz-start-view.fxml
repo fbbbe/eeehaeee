@@ -50,11 +50,11 @@
                             prefWidth="350"
                             styleClass="combo-large"/>
 
-                    <Button fx:id="startQuizButton"
-                            text="시험 시작"
-                            styleClass="quiz-start-btn"
-                            prefWidth="180"
-                            prefHeight="45"/>
+                    <Button fx:id="startButton"
+                        text="시험 시작"
+                        layoutX="500" layoutY="400"
+                        styleClass="button-primary"/>
+
                 </VBox>
 
 

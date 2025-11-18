@@ -116,27 +116,68 @@ public class NoteRepository {
     }
 
     // 노트가 하나도 없으면 샘플 노트 하나 만들어 넣기
+    // 노트가 하나도 없으면 개념노트 + 개념페어 샘플 생성
     public static void ensureSampleData() {
-        String countSql = "SELECT COUNT(*) FROM notes";
+        try (Connection conn = Database.getConnection()) {
 
-        try (Connection conn = Database.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(countSql)) {
+            // notes 테이블에 아무 것도 없으면
+            String countSql = "SELECT COUNT(*) FROM notes";
+            PreparedStatement countStmt = conn.prepareStatement(countSql);
+            ResultSet rs = countStmt.executeQuery();
 
-            int count = rs.next() ? rs.getInt(1) : 0;
+            if (rs.next() && rs.getInt(1) == 0) {
+                System.out.println("[DB] 노트가 없어 샘플 개념노트를 생성합니다.");
 
-            if (count == 0) {
-                System.out.println("[DB] 노트가 없어 샘플 노트를 생성합니다.");
-                insert(new Note(
-                        "동그리 노트 시작하기",
-                        "이곳은 동그리 노트 메모장입니다.\n" +
-                                "왼쪽에는 폴더, 아래에는 최근 노트가 표시되고\n" +
-                                "나중에는 상세 화면에서 내용을 편집할 수 있게 만들 거예요 :)"));
+                // -------------------------------
+                // 1) 개념 노트 생성
+                // -------------------------------
+                String insertNoteSql =
+                        "INSERT INTO notes (title, content, type, created_at, updated_at) " +
+                                "VALUES (?, ?, ?, datetime('now'), datetime('now'))";
+
+                PreparedStatement insertNote = conn.prepareStatement(insertNoteSql, Statement.RETURN_GENERATED_KEYS);
+
+                insertNote.setString(1, "자바 기본 개념 정리");
+                insertNote.setString(2, "기본 문법 정리 및 핵심 개념");
+                insertNote.setString(3, "CONCEPT");  // ★ 중요
+                insertNote.executeUpdate();
+
+                ResultSet key = insertNote.getGeneratedKeys();
+                int noteId = 0;
+                if (key.next()) {
+                    noteId = key.getInt(1);
+                }
+
+                // -------------------------------
+                // 2) 개념 페어 샘플 추가 (문제 3개)
+                // -------------------------------
+                String insertPairSql =
+                        "INSERT INTO concept_pairs (note_id, question, answer) VALUES (?, ?, ?)";
+
+                PreparedStatement insertPair = conn.prepareStatement(insertPairSql);
+
+                insertPair.setInt(1, noteId);
+                insertPair.setString(2, "JVM이란?");
+                insertPair.setString(3, "자바 프로그램을 실행하는 가상머신");
+                insertPair.executeUpdate();
+
+                insertPair.setInt(1, noteId);
+                insertPair.setString(2, "클래스와 객체의 차이?");
+                insertPair.setString(3, "클래스 = 설계도 / 객체 = 실제 생성된 인스턴스");
+                insertPair.executeUpdate();
+
+                insertPair.setInt(1, noteId);
+                insertPair.setString(2, "오버라이딩이란?");
+                insertPair.setString(3, "상속받은 메서드를 재정의하는 것");
+                insertPair.executeUpdate();
+
+                System.out.println("[DB] 샘플 개념노트 + 문제 3개 생성 완료!");
             }
 
         } catch (SQLException e) {
-            System.out.println("[DB] 샘플 데이터 확인 중 오류 발생");
+            System.out.println("[DB] 샘플 데이터 생성 중 오류 발생");
             e.printStackTrace();
         }
     }
+
 }

@@ -88,10 +88,28 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("dashboard-view.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
+
+            // ⭐ CSS 강제 재적용
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(App.class.getResource("styles.css").toExternalForm());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+    // 🔥 시험 시작 화면 전환 기능
+    public static void showQuizStartView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("quiz-start-view.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         launch();
