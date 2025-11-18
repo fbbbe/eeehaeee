@@ -32,6 +32,8 @@ public class QuizController {
     private int elapsedTime = 0;
     private Timeline timer;
 
+    private Scene previousScene;
+
     public void initQuiz(int noteId) {
 
         quizList = quizService.generateQuiz(noteId, 5);
@@ -86,19 +88,33 @@ public class QuizController {
 
     @FXML
     public void nextQuestion() {
-        userAnswers.add(answerArea.getText());
+
+        // 🔥 추가: 답변이 비어 있으면 넘어가지 못하도록 막기
+        String answer = answerArea.getText().trim();
+        if (answer.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("답변 필요");
+            alert.setHeaderText(null);
+            alert.setContentText("다음 문제로 넘어가기 전에 답을 입력하세요!");
+            alert.showAndWait();
+            return;   // ❌ 그대로 머물기
+        }
+
+        // 🔥 기존 기능 유지: 답변 저장
+        userAnswers.add(answer);
         answerArea.clear();
 
         currentIndex++;
 
         if (currentIndex >= quizList.size()) {
-            stopTimer();   // 🔥 결과 보기 직전 타이머 종료
+            stopTimer();   // 🔥 기존 타이머 종료 유지
             goToResult();
             return;
         }
 
         loadQuestion(currentIndex);
     }
+
 
     private void goToResult() {
         try {
@@ -116,19 +132,28 @@ public class QuizController {
         }
     }
 
+    public void setPreviousScene(Scene scene) {
+        this.previousScene = scene;
+    }
+
     // 🔥 FXML용 goBack()
     @FXML
     private void goBack() {
         try {
-            stopTimer(); // 뒤로가기 시 타이머도 정지
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
-            Parent root = loader.load();
+            stopTimer();  // 타이머 정지
 
             Stage stage = (Stage) conceptLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            // 🔥 시험 시작 전 화면으로 그대로 복귀
+            if (previousScene != null) {
+                stage.setScene(previousScene);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+
 }

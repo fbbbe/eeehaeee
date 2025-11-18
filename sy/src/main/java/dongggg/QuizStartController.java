@@ -63,18 +63,23 @@ public class QuizStartController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
             Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
             Stage stage = (Stage) noteListBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     // 시험 시작
     @FXML
     public void startQuiz() {
 
-        // 선택된 노트 모으기
         List<Note> selectedNotes = cardControllers.stream()
                 .filter(NoteCardController::isSelected)
                 .map(NoteCardController::getNote)
@@ -90,8 +95,10 @@ public class QuizStartController {
 
             QuizController controller = loader.getController();
 
-            // 첫 노트 ID로 시험 문제 초기화
             controller.initQuiz(firstNote.getId());
+
+            // 🔥 추가된 1줄 → 이전 화면 저장!
+            controller.setPreviousScene(startButton.getScene());
 
             Stage stage = (Stage) noteListBox.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -100,4 +107,6 @@ public class QuizStartController {
             e.printStackTrace();
         }
     }
+
+
 }
