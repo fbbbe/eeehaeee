@@ -368,6 +368,11 @@
     -fx-border-color: #E8DFF5;
 }
 
+.note-type-choice.general-choice:hover {
+    -fx-background-color: #F5F0FB;
+    -fx-border-color: #A855DD;
+}
+
 .note-type-choice.concept-choice {
     -fx-border-color: #FFE9BB;
 }
@@ -407,7 +412,7 @@
  * Note editor inputs
  * --------------------------------- */
 .note-pill-input {
-    -fx-background-color: #FFF5F7;
+    -fx-background-color: white;
     -fx-background-radius: 18;
     -fx-border-color: #E8DFF5;
     -fx-border-radius: 18;
@@ -421,11 +426,11 @@
 }
 
 .text-area.note-pill-input {
-    -fx-control-inner-background: #FFF5F7;
+    -fx-control-inner-background: white;
 }
 
 .text-area.note-pill-input .content {
-    -fx-background-color: #FFF5F7;
+    -fx-background-color: white;
     -fx-background-radius: 18;
 }
 
@@ -436,7 +441,7 @@
 
 .concept-input .content,
 .explanation-input .content {
-    -fx-background-color: #FFF5F7;
+    -fx-background-color: white;
 }
 
 .concept-split-pane {

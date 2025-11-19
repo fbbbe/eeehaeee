@@ -8,7 +8,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.NoteTypeSelectController"
-            styleClass="root-pane">
+            styleClass="root-pane, main-root">
 
     <center>
         <VBox alignment="CENTER" spacing="24">

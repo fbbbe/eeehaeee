@@ -9,7 +9,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.ConceptNoteController"
-            styleClass="root-pane">
+            styleClass="root-pane, main-root">
 
     <!-- 상단: 제목 -->
     <top>
