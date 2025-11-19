@@ -119,13 +119,21 @@ public class QuizResultController {
     @FXML
     private void goDashboard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("dashboard-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
+            Parent root = loader.load();
+
             Stage stage = (Stage) resultListBox.getScene().getWindow();
-            Scene scene = new Scene(root);
+
+            Scene scene = new Scene(root, 1200, 720);
             scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
             stage.setScene(scene);
+            stage.sizeToScene(); // 화면 재조정
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -128,7 +128,8 @@ public class QuizController {
             controller.setPreviousScene(conceptLabel.getScene());
 
             Stage stage = (Stage) conceptLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 1200, 720));
+
 
         } catch (Exception e) {
             e.printStackTrace();

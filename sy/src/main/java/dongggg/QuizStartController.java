@@ -59,12 +59,30 @@ public class QuizStartController {
 
     // 뒤로 가기
     @FXML
+    private void goDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root, 1200, 720);
+            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+            // 🔥 NOTE: resultListBox 절대 쓰면 안 됨!
+            Stage stage = (Stage) noteListBox.getScene().getWindow();
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1200, 720);
             scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
             Stage stage = (Stage) noteListBox.getScene().getWindow();
@@ -74,6 +92,9 @@ public class QuizStartController {
             e.printStackTrace();
         }
     }
+
+
+
 
 
     // 시험 시작
@@ -101,12 +122,13 @@ public class QuizStartController {
             controller.setPreviousScene(startButton.getScene());
 
             Stage stage = (Stage) noteListBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 1200, 720));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    
 
 }
