@@ -98,10 +98,10 @@
                 <Label fx:id="statusLabel" styleClass="note-date" HBox.hgrow="ALWAYS"/>
 
                 <Button text="닫기" onAction="#onCancel"
-                        styleClass="pill-button pill-button-outline"/>
+                        styleClass="pill-button, pill-button-outline"/>
 
                 <Button text="저장" onAction="#onSaveAll"
-                        styleClass="pill-button pill-button-primary"/>
+                        styleClass="pill-button, pill-button-primary"/>
             </children>
         </HBox>
     </bottom>

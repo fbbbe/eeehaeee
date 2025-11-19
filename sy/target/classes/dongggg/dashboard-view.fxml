@@ -8,7 +8,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.DashboardController"
-            styleClass="root-pane dashboard-root">
+            styleClass="root-pane, dashboard-root">
 
     <center>
         <ScrollPane fitToWidth="true"
@@ -82,7 +82,7 @@
                                   alignment="CENTER_LEFT"
                                   HBox.hgrow="ALWAYS"
                                   styleClass="dashboard-stat-card">
-                                <StackPane styleClass="dashboard-stat-icon-circle purple">
+                                <StackPane styleClass="dashboard-stat-icon-circle, purple">
                                     <Label text="⚡" styleClass="dashboard-stat-icon"/>
                                 </StackPane>
                                 <Label text="8" styleClass="dashboard-stat-value"/>
@@ -93,7 +93,7 @@
                                   alignment="CENTER_LEFT"
                                   HBox.hgrow="ALWAYS"
                                   styleClass="dashboard-stat-card">
-                                <StackPane styleClass="dashboard-stat-icon-circle green">
+                                <StackPane styleClass="dashboard-stat-icon-circle, green">
                                     <Label text="📈" styleClass="dashboard-stat-icon"/>
                                 </StackPane>
                                 <Label text="85%" styleClass="dashboard-stat-value"/>

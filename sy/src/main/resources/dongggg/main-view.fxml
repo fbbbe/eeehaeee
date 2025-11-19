@@ -8,7 +8,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dongggg.MainController"
-            styleClass="root-pane main-root">
+            styleClass="root-pane, main-root">
 
     <top>
         <VBox spacing="18" styleClass="main-header">
@@ -19,7 +19,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="16" styleClass="profile-header"
                       onMouseClicked="#onOpenMascot">
                     <StackPane prefWidth="60" prefHeight="60"
-                               styleClass="avatar-circle main-avatar"
+                               styleClass="avatar-circle, main-avatar"
                                onMouseClicked="#onOpenMascot">
                         <children>
                             <Label text="🐤">
@@ -31,8 +31,8 @@
                     </StackPane>
 
                     <VBox spacing="4">
-                        <Label text="동그리" styleClass="profile-name main-profile-name"/>
-                        <Label text="오늘도 한 장씩 성장해볼까?" styleClass="profile-subtitle main-profile-subtitle"/>
+                        <Label text="동그리" styleClass="profile-name, main-profile-name"/>
+                        <Label text="오늘도 한 장씩 성장해볼까?" styleClass="profile-subtitle, main-profile-subtitle"/>
                     </VBox>
 
                     <Pane HBox.hgrow="ALWAYS"/>
@@ -40,18 +40,13 @@
 
                 <HBox alignment="CENTER_LEFT" spacing="12">
                     <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS"
-                          styleClass="search-container main-search">
+                          styleClass="search-container, main-search">
                         <Label text="🔍" styleClass="search-icon"/>
                         <TextField fx:id="searchField"
                                    promptText="노트 검색 또는 폴더명 검색..."
                                    HBox.hgrow="ALWAYS"
                                    styleClass="search-field"/>
                     </HBox>
-
-                    <Button text="✨"
-                            onAction="#onOpenMascot"
-                            prefWidth="48" prefHeight="48"
-                            styleClass="primary-icon-button"/>
 
                     <Button fx:id="newNoteButton"
                             text="＋"

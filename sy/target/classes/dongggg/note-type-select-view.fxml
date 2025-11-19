@@ -34,11 +34,11 @@
                                 prefWidth="420"
                                 prefHeight="120"
                                 contentDisplay="GRAPHIC_ONLY"
-                                styleClass="note-type-choice general-choice">
+                                styleClass="note-type-choice, general-choice">
                             <graphic>
                                 <HBox spacing="16" alignment="CENTER_LEFT">
                                     <StackPane prefWidth="64" prefHeight="64"
-                                               styleClass="note-type-icon general-icon">
+                                               styleClass="note-type-icon, general-icon">
                                         <Label text="✏️" style="-fx-font-size: 28px; -fx-text-fill: white;"/>
                                     </StackPane>
                                     <VBox spacing="4" alignment="CENTER_LEFT">
@@ -55,11 +55,11 @@
                                 prefWidth="420"
                                 prefHeight="120"
                                 contentDisplay="GRAPHIC_ONLY"
-                                styleClass="note-type-choice concept-choice">
+                                styleClass="note-type-choice, concept-choice">
                             <graphic>
                                 <HBox spacing="16" alignment="CENTER_LEFT">
                                     <StackPane prefWidth="64" prefHeight="64"
-                                               styleClass="note-type-icon concept-icon">
+                                               styleClass="note-type-icon, concept-icon">
                                         <Label text="📚" style="-fx-font-size: 28px; -fx-text-fill: white;"/>
                                     </StackPane>
                                     <VBox spacing="4" alignment="CENTER_LEFT">
