@@ -49,15 +49,24 @@ public class MainController {
 
     @FXML
     private VBox recentNotesBox;
+    @FXML
+    private Label notesSectionLabel;
 
     private static final Duration HOVER_DURATION = Duration.millis(240);
     private static final String FOLDER_ICON_COLOR = "#F4B400";
+    private static final int FILTER_ALL = -1;
+    private static final int FILTER_CONCEPT = -2;
+    private static final int FILTER_NORMAL = -3;
+
+    private Region selectedFolderCard;
+    private int currentFilter = FILTER_ALL;
+    private String currentFolderName = "최근 노트";
 
     @FXML
     public void initialize() {
         loadFolders();
-        loadRecentNotes();
         applyFolderHoverAnimations();
+        selectDefaultFilter();
 
         // 🔥🔍 검색 기능 추가
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -74,14 +83,14 @@ public class MainController {
 
         if (k.isEmpty()) {
             loadFolders();
-            loadRecentNotes();
+            selectDefaultFilter();
             return;
         }
 
         // 폴더 검색
         List<Folder> fList = FolderRepository.search(k);
         for (Folder f : fList) {
-            folderRow.getChildren().add(createFolderCard(f.getName(), 0));
+            folderRow.getChildren().add(createFolderCard(f.getName(), 0, f.getId()));
         }
 
         // 노트 검색
@@ -89,16 +98,33 @@ public class MainController {
         for (Note n : nList) {
             recentNotesBox.getChildren().add(createNoteCard(n));
         }
+
+        if (notesSectionLabel != null) {
+            notesSectionLabel.setText("검색 결과");
+        }
     }
 
 
     /**
      * 최근 노트 목록을 DB에서 읽어서 화면에 뿌려주는 메서드.
      */
-    private void loadRecentNotes() {
+    private void loadNotesForFilter() {
         recentNotesBox.getChildren().clear();
 
-        List<Note> notes = NoteRepository.findRecent(10);
+        List<Note> notes;
+        switch (currentFilter) {
+            case FILTER_CONCEPT -> notes = NoteRepository.findByType("CONCEPT", 50);
+            case FILTER_NORMAL -> notes = NoteRepository.findByType("NORMAL", 50);
+            case FILTER_ALL -> notes = NoteRepository.findRecent(50);
+            default -> {
+                if (currentFilter >= 0) {
+                    notes = NoteRepository.findByFolder(currentFilter);
+                } else {
+                    notes = NoteRepository.findRecent(50);
+                }
+            }
+        }
+
         for (Note note : notes) {
             HBox card = createNoteCard(note);
             recentNotesBox.getChildren().add(card);
@@ -180,7 +206,6 @@ public class MainController {
         CustomMenuItem deleteItem = new CustomMenuItem(buildDeleteRow());
         deleteItem.setOnAction(e -> {
             NoteRepository.delete(note.getId());
-            loadRecentNotes();
             loadFolders();
         });
 
@@ -201,7 +226,8 @@ public class MainController {
             item.setHideOnClick(true);
             item.setOnAction(e -> {
                 NoteFolderRepository.setNoteFolder(note.getId(), folder.getId());
-                loadRecentNotes();
+                currentFilter = folder.getId();
+                currentFolderName = folder.getName();
                 loadFolders();
             });
             submenu.getItems().add(item);
@@ -283,22 +309,25 @@ public class MainController {
 
         // 기본 폴더 3종 (전체/개념/일반)
         NoteRepository.NoteStats stats = NoteRepository.getNoteStats();
-        folderRow.getChildren().add(createFolderCard("전체 노트", stats.totalCount()));
-        folderRow.getChildren().add(createFolderCard("개념 노트", stats.conceptCount()));
-        folderRow.getChildren().add(createFolderCard("일반 노트", stats.normalCount()));
+        folderRow.getChildren().add(createFolderCard("전체 노트", stats.totalCount(), FILTER_ALL));
+        folderRow.getChildren().add(createFolderCard("개념 노트", stats.conceptCount(), FILTER_CONCEPT));
+        folderRow.getChildren().add(createFolderCard("일반 노트", stats.normalCount(), FILTER_NORMAL));
 
         // 사용자 생성 폴더
         var folders = FolderRepository.findAll();
         for (Folder folder : folders) {
             int count = folderCounts.getOrDefault(folder.getId(), 0);
-            folderRow.getChildren().add(createFolderCard(folder.getName(), count));
+            folderRow.getChildren().add(createFolderCard(folder.getName(), count, folder.getId()));
         }
+
+        reselectCurrentFolder();
     }
 
-    private HBox createFolderCard(String title, int count) {
+    private HBox createFolderCard(String title, int count, int filterId) {
         HBox card = new HBox(12);
         card.setAlignment(Pos.CENTER_LEFT);
         card.getStyleClass().add("folder-card");
+        card.setUserData(filterId);
 
         StackPane iconHolder = new StackPane();
         iconHolder.getStyleClass().add("folder-icon-wrapper");
@@ -323,7 +352,98 @@ public class MainController {
         labels.getChildren().addAll(titleLabel, countLabel);
 
         card.getChildren().addAll(iconHolder, labels);
+        card.setOnMouseClicked(e -> {
+            if (selectedFolderCard == card) {
+                selectDefaultFilter();
+            } else {
+                selectFilter(filterId, title, card);
+            }
+        });
         return card;
+    }
+
+    private void selectDefaultFilter() {
+        currentFilter = FILTER_ALL;
+        currentFolderName = "최근 노트";
+        if (selectedFolderCard != null) {
+            selectedFolderCard.getStyleClass().remove("folder-card-selected");
+            selectedFolderCard = null;
+        }
+        updateSectionLabel();
+        loadNotesForFilter();
+    }
+
+    private void reselectCurrentFolder() {
+        if (folderRow == null || folderRow.getChildren().isEmpty()) return;
+
+        Region target = null;
+        String title = currentFolderName;
+
+        for (var node : folderRow.getChildren()) {
+            if (node instanceof Region region) {
+                Object data = region.getUserData();
+                if (data instanceof Integer fid && fid == currentFilter) {
+                    target = region;
+                    title = extractFolderTitle(region);
+                    break;
+                }
+            }
+        }
+
+        if (target == null && !folderRow.getChildren().isEmpty()) {
+            target = (Region) folderRow.getChildren().get(0);
+            Object data = target.getUserData();
+            int fid = data instanceof Integer ? (Integer) data : FILTER_ALL;
+            currentFilter = fid;
+            title = extractFolderTitle(target);
+        }
+
+        if (target != null) {
+            selectFilter(currentFilter, title, target);
+        } else {
+            selectDefaultFilter();
+        }
+    }
+
+    private String extractFolderTitle(Region card) {
+        if (card instanceof HBox hbox) {
+            for (var child : hbox.getChildren()) {
+                if (child instanceof VBox vbox) {
+                    for (var inner : vbox.getChildren()) {
+                        if (inner instanceof Label lbl) {
+                            return lbl.getText();
+                        }
+                    }
+                }
+            }
+        }
+        return "폴더";
+    }
+
+    private void selectFilter(int filterId, String title, Region card) {
+        currentFilter = filterId;
+        String displayTitle = (filterId == FILTER_ALL && "전체 노트".equals(title)) ? "최근 노트" : title;
+        currentFolderName = displayTitle;
+
+        updateSectionLabel();
+
+        if (selectedFolderCard != null) {
+            selectedFolderCard.getStyleClass().remove("folder-card-selected");
+        }
+        if (card != null) {
+            card.getStyleClass().add("folder-card-selected");
+            selectedFolderCard = card;
+        } else {
+            selectedFolderCard = null;
+        }
+
+        loadNotesForFilter();
+    }
+
+    private void updateSectionLabel() {
+        if (notesSectionLabel != null) {
+            notesSectionLabel.setText(currentFolderName);
+        }
     }
 
     private void applyFolderHoverAnimations() {

@@ -300,6 +300,11 @@
     -fx-effect: dropshadow(gaussian, rgba(168, 85, 221, 0.25), 18, 0.4, 0, 4);
 }
 
+.folder-card-selected {
+    -fx-border-color: #A855DD;
+    -fx-background-color: #F5F0FB;
+}
+
 .folder-card-title,
 .note-title {
     -fx-font-size: 15px;
@@ -1184,5 +1189,4 @@
     -fx-font-size: 12px;
     -fx-text-fill: #C4B5D8;
 }
-
 

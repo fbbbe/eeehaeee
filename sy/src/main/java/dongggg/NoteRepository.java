@@ -9,7 +9,6 @@ public class NoteRepository {
     public record NoteStats(int totalCount, int conceptCount, int normalCount) {
     }
 
-    // 최근 노트 N개 가져오기 (updated_at 기준 내림차순)
     public static List<Note> findRecent(int limit) {
         List<Note> notes = new ArrayList<>();
 
@@ -78,6 +77,42 @@ public class NoteRepository {
 
         } catch (SQLException e) {
             System.out.println("[DB] 노트 조회 중 오류 발생 (type)");
+            e.printStackTrace();
+        }
+
+        return notes;
+    }
+
+    public static List<Note> findByFolder(int folderId) {
+        List<Note> notes = new ArrayList<>();
+
+        String sql = """
+                SELECT n.id, n.title, n.content, n.created_at, n.updated_at, n.type
+                FROM notes n
+                JOIN note_folders nf ON n.id = nf.note_id
+                WHERE nf.folder_id = ?
+                ORDER BY datetime(n.updated_at) DESC
+                """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, folderId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    notes.add(new Note(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("content"),
+                            rs.getString("created_at"),
+                            rs.getString("updated_at"),
+                            rs.getString("type")));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 폴더별 노트 조회 중 오류 발생");
             e.printStackTrace();
         }
 
@@ -245,6 +280,27 @@ public class NoteRepository {
             e.printStackTrace();
         }
     }
+
+    // 추가
+    public static int getConceptNoteCount() {
+        String sql = "SELECT COUNT(*) FROM notes WHERE type = 'CONCEPT'";
+
+        try (Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 개념노트 개수 조회 중 오류 발생");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 
 
 
