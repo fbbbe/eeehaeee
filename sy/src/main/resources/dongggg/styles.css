@@ -883,11 +883,38 @@
     -fx-text-fill: #D9B5FF;
 }
 
+/* 텍스트 영역 전체 */
 .answer-area {
-    -fx-background-color: #F8F7FF;
-    -fx-border-radius: 14;
-    -fx-background-radius: 14;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
     -fx-border-color: #E8DFF5;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+
+    -fx-text-fill: #3B275B; /* 글자색 */
+
+    /* 포커스 파란 라인 제거 */
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* 기본 내부 백그라운드 제거 */
+.answer-area .scroll-pane,
+.answer-area .scroll-pane .viewport,
+.answer-area .scroll-pane .content {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3B275B;
+}
+
+/* placeholder 색 */
+.answer-area .text-input:prompt-text,
+.answer-area .scroll-pane .content .text-input-prompt {
+    -fx-text-fill: #C4B5D8;
+}
+
+/* 커서 색 */
+.answer-area .caret {
+    -fx-stroke: #A855DD;
 }
 
 .next-button {
