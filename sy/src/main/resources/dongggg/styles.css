@@ -257,7 +257,7 @@
 
 /* 📁📝 폴더/노트 카드 hover 효과 (메인 화면에서 카드에 커서를 올렸을 때 서서히 강조되는 스타일) */
 .folder-card,
-.note-card {
+.note-card {   
     -fx-background-color: white;
     -fx-background-radius: 24;
     -fx-border-color: #E8DFF5;
@@ -448,6 +448,16 @@
     -fx-background-color: white;
     -fx-background-radius: 18;
 }
+
+
+.text-area.note-pill-input .scroll-pane,
+.text-area.note-pill-input .viewport {
+    -fx-background-color: transparent; 
+}
+
+.text-area.note-pill-input .scroll-pane .corner {
+    -fx-background-color: transparent;
+} 
 
 .concept-input,
 .explanation-input {
