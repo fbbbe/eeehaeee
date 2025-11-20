@@ -472,11 +472,27 @@
     -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.12), 22, 0.25, 0, 6);
 }
 
+/* 보라색 아이콘 박스 → 정사각형으로 변경 */
 .folder-create-icon {
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
+
+    -fx-min-width: 90;
+    -fx-min-height: 90;
+
+    -fx-max-width: 90;
+    -fx-max-height: 90;
+
+
     -fx-background-color: linear-gradient(#c084fc, #a855dd);
-    -fx-background-radius: 24;
-    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.18), 18, 0.3, 0, 4);
+    -fx-background-radius: 23;
+    -fx-border-radius: 23;
+
+    -fx-alignment: center;
+
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.28), 18, 0.32, 0, 6);
 }
+
 
 .folder-create-title {
     -fx-text-fill: #7C3AED;
@@ -925,4 +941,159 @@
     -fx-border-radius: 14;
     -fx-background-radius: 14;
     -fx-padding: 16;
+}
+
+/* ================================
+ * Folder Create Input FIX
+ * ================================ */
+
+/* 입력창 전체 크기 조절 */
+.folder-create-input {
+    -fx-pref-height: 48;      /* 높이를 적당히 고정 */
+    -fx-min-height: 48;
+    -fx-max-height: 48;
+
+    -fx-padding: 8 14;        /* 패딩 줄여서 모서리와 글자 간격 통일 */
+    -fx-background-color: #F8F5FF;
+    -fx-background-radius: 14;
+
+    -fx-border-color: #D3C5F5;
+    -fx-border-radius: 14;
+    -fx-border-width: 2;
+
+    -fx-text-fill: #3B275B;
+    -fx-font-size: 14px;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* placeholder 색 통일 */
+.folder-create-input .text-input:prompt-text {
+    -fx-text-fill: #C4B5D8;
+}
+
+/* 커서색 보라로 통일 */
+.folder-create-input .caret {
+    -fx-stroke: #A855DD;
+}
+
+/* 전체 배경 */
+.main-root {
+    -fx-background-color: linear-gradient(#f8f7ff, #f5ecff);
+}
+
+/* 뒤로가기 버튼 */
+.dashboard-back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A855DD;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.dashboard-back-button:hover {
+    -fx-text-fill: #9333CC;
+}
+
+/* 📌 가운데 카드 */
+/* 카드 크기 축소 + 완전 중앙 정렬 */
+.folder-create-card {
+    -fx-max-width: 620;
+    -fx-min-width: 620;
+
+    -fx-padding: 48 48 56 48;
+
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 26;
+    -fx-border-radius: 26;
+
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.18), 28, 0.25, 0, 6);
+
+    /* 화면 중앙 배치용 margin */
+    -fx-translate-y: -30;   /* 위로 조금 올림 */
+}
+
+
+/* 아이콘 배경 원 */
+.folder-create-icon {
+    -fx-background-color: linear-gradient(#c084fc, #a855dd);
+    -fx-background-radius: 28;
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.28), 18, 0.32, 0, 5);
+}
+
+/* 큰 제목 */
+.folder-create-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #7C3AED;
+}
+
+/* 작은 설명 */
+.folder-create-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #C4B5D8;
+}
+
+/* 폴더 이름 라벨 */
+.folder-create-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #7C3AED;
+}
+
+/* 입력창 */
+.folder-create-input {
+    -fx-background-color: #F8F5FF;
+    -fx-border-color: #D3C5F5;
+    -fx-border-width: 2;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+
+    -fx-padding: 14 16;
+    -fx-font-size: 15px;
+    -fx-text-fill: #3B275B;
+    -fx-prompt-text-fill: #C4B5D8;
+}
+
+/* 왼쪽 취소 버튼 */
+.button-outlined-wide {
+    -fx-background-color: white;
+    -fx-text-fill: #A855DD;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #E8DFF5;
+    -fx-border-width: 2;
+    -fx-padding: 12 32;
+    -fx-cursor: hand;
+}
+
+.button-outlined-wide:hover {
+    -fx-background-color: #F5F0FB;
+    -fx-border-color: #A855DD;
+}
+
+/* 오른쪽 생성 버튼 */
+.button-primary-wide {
+    -fx-background-color: linear-gradient(#FFE999, #FFD966);
+    -fx-text-fill: #3B275B;
+    -fx-font-weight: 600;
+
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-padding: 12 32;
+
+    -fx-effect: dropshadow(gaussian, rgba(255,201,102,0.35), 18, 0.35, 0, 5);
+    -fx-cursor: hand;
+}
+
+.button-primary-wide:hover {
+    -fx-background-color: linear-gradient(#FFD966, #FFC640);
+}
+
+/* 팁 */
+.folder-create-tip {
+    -fx-font-size: 12px;
+    -fx-text-fill: #C4B5D8;
 }
