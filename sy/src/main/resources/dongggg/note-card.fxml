@@ -18,4 +18,9 @@
     <Pane HBox.hgrow="ALWAYS"/>
 
     <CheckBox fx:id="checkBox" styleClass="note-check"/>
+    <Button fx:id="moreButton"
+            text="⋮"
+            focusTraversable="false"
+            styleClass="note-more-button"
+            onMouseClicked="#onMore"/>
 </HBox>

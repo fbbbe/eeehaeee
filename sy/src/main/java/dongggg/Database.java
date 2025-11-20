@@ -94,7 +94,16 @@ public class Database {
              * required_cumulative_correct: 누적 맞은 문제 개수
              */
 
-            System.out.println("[DB] notes / concept_pairs / donggri_levels / donggri_status / folders 테이블 초기화 완료");
+            String createNoteFolders = """
+                    CREATE TABLE IF NOT EXISTS note_folders (
+                        note_id INTEGER NOT NULL,
+                        folder_id INTEGER NOT NULL,
+                        PRIMARY KEY (note_id, folder_id)
+                    );
+                    """;
+            stmt.execute(createNoteFolders);
+
+            System.out.println("[DB] notes / concept_pairs / donggri_levels / donggri_status / folders / note_folders 테이블 초기화 완료");
         } catch (SQLException e) {
             System.out.println("[DB] 초기화 중 오류 발생");
             e.printStackTrace();

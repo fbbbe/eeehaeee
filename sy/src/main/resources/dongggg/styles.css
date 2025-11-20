@@ -369,6 +369,92 @@
     -fx-border-color: #A855DD;
 }
 
+.note-more-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A855DD;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-padding: 6 6;
+    -fx-cursor: hand;
+}
+
+.note-more-button:hover {
+    -fx-text-fill: #7c3aed;
+    -fx-background-color: #f5f0fb;
+    -fx-background-radius: 12;
+}
+
+/* 노트 컨텍스트 메뉴 */
+.note-context-menu,
+.note-folder-menu {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-color: #E8DFF5;
+    -fx-border-radius: 16;
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(146, 125, 190, 0.25), 22, 0.4, 0, 6);
+}
+
+.note-context-menu .menu-item,
+.note-context-menu .menu-item:focused,
+.note-context-menu .custom-menu-item,
+.note-context-menu .custom-menu-item:focused,
+.note-folder-menu .menu-item,
+.note-folder-menu .menu-item:focused,
+.note-folder-menu .custom-menu-item,
+.note-folder-menu .custom-menu-item:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.note-menu-item {
+    -fx-padding: 10 14;
+    -fx-background-radius: 12;
+}
+
+.note-menu-item:hover {
+    -fx-background-color: #EEF0FF;
+}
+
+.note-menu-icon {
+    -fx-text-fill: #3B275B;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.note-menu-label {
+    -fx-text-fill: #3B275B;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.note-menu-label-danger {
+    -fx-text-fill: #DC2626;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.note-menu-delete:hover {
+    -fx-background-color: #FDECEC;
+}
+
+.note-folder-item {
+    -fx-padding: 10 12;
+    -fx-background-radius: 12;
+    -fx-background-insets: 0;
+}
+
+.note-folder-item:hover {
+    -fx-background-color: #F8F5FF;
+}
+
+.note-folder-label {
+    -fx-text-fill: #A855DD;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
 .note-check:selected > .box > .mark {
     -fx-background-color: white;
 }

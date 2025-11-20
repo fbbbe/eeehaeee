@@ -40,6 +40,7 @@ public class QuizStartController {
 
                 NoteCardController controller = loader.getController();
                 controller.setData(note);
+                controller.setMoreVisible(false);
 
                 controller.getCheckBox().selectedProperty()
                         .addListener((o, oldV, newV) -> updateSelectedCount());

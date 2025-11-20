@@ -134,16 +134,21 @@ public class NoteRepository {
     // 노트 삭제 + 관련 개념 페어 삭제
     public static void delete(int id) {
         String deletePairsSql = "DELETE FROM concept_pairs WHERE note_id = ?";
+        String deleteNoteFolderSql = "DELETE FROM note_folders WHERE note_id = ?";
         String deleteNoteSql = "DELETE FROM notes WHERE id = ?";
 
         try (Connection conn = Database.getConnection();
                 PreparedStatement deletePairs = conn.prepareStatement(deletePairsSql);
+                PreparedStatement deleteNoteFolder = conn.prepareStatement(deleteNoteFolderSql);
                 PreparedStatement deleteNote = conn.prepareStatement(deleteNoteSql)) {
 
             conn.setAutoCommit(false);
 
             deletePairs.setInt(1, id);
             deletePairs.executeUpdate();
+
+            deleteNoteFolder.setInt(1, id);
+            deleteNoteFolder.executeUpdate();
 
             deleteNote.setInt(1, id);
             deleteNote.executeUpdate();
