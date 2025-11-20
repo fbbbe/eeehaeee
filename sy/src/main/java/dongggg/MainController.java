@@ -49,11 +49,42 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        System.out.println("MainController initialize");
         loadFolders();
         loadRecentNotes();
         applyFolderHoverAnimations();
+
+        // 🔥🔍 검색 기능 추가
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            onSearch(newValue);
+        });
     }
+
+    /** 🔍 검색 기능 */
+    private void onSearch(String keyword) {
+        String k = keyword.trim();
+
+        folderRow.getChildren().clear();
+        recentNotesBox.getChildren().clear();
+
+        if (k.isEmpty()) {
+            loadFolders();
+            loadRecentNotes();
+            return;
+        }
+
+        // 폴더 검색
+        List<Folder> fList = FolderRepository.search(k);
+        for (Folder f : fList) {
+            folderRow.getChildren().add(createFolderCard(f.getName(), 0));
+        }
+
+        // 노트 검색
+        List<Note> nList = NoteRepository.search(k);
+        for (Note n : nList) {
+            recentNotesBox.getChildren().add(createNoteCard(n));
+        }
+    }
+
 
     /**
      * 최근 노트 목록을 DB에서 읽어서 화면에 뿌려주는 메서드.

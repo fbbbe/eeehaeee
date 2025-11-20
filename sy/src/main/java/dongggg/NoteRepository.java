@@ -21,7 +21,7 @@ public class NoteRepository {
                 """;
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, limit);
 
@@ -58,7 +58,7 @@ public class NoteRepository {
                 """;
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, type);
             pstmt.setInt(2, limit);
@@ -89,7 +89,7 @@ public class NoteRepository {
         String sql = "INSERT INTO notes (title, content, type) VALUES (?, ?, ?)";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, note.getTitle());
             pstmt.setString(2, note.getContent());
@@ -117,7 +117,7 @@ public class NoteRepository {
                 "WHERE id = ?";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, note.getTitle());
             pstmt.setString(2, note.getContent());
@@ -137,8 +137,8 @@ public class NoteRepository {
         String deleteNoteSql = "DELETE FROM notes WHERE id = ?";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement deletePairs = conn.prepareStatement(deletePairsSql);
-                PreparedStatement deleteNote = conn.prepareStatement(deleteNoteSql)) {
+             PreparedStatement deletePairs = conn.prepareStatement(deletePairsSql);
+             PreparedStatement deleteNote = conn.prepareStatement(deleteNoteSql)) {
 
             conn.setAutoCommit(false);
 
@@ -165,8 +165,8 @@ public class NoteRepository {
                 """;
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
             if (rs.next()) {
                 return new NoteStats(
@@ -184,7 +184,6 @@ public class NoteRepository {
     }
 
     // 노트가 하나도 없으면 샘플 노트 하나 만들어 넣기
-    // 노트가 하나도 없으면 개념노트 + 개념페어 샘플 생성
     public static void ensureSampleData() {
         try (Connection conn = Database.getConnection()) {
 
@@ -196,9 +195,6 @@ public class NoteRepository {
             if (rs.next() && rs.getInt(1) == 0) {
                 System.out.println("[DB] 노트가 없어 샘플 개념노트를 생성합니다.");
 
-                // -------------------------------
-                // 1) 개념 노트 생성
-                // -------------------------------
                 String insertNoteSql =
                         "INSERT INTO notes (title, content, type, created_at, updated_at) " +
                                 "VALUES (?, ?, ?, datetime('now'), datetime('now'))";
@@ -207,7 +203,7 @@ public class NoteRepository {
 
                 insertNote.setString(1, "자바 기본 개념 정리");
                 insertNote.setString(2, "기본 문법 정리 및 핵심 개념");
-                insertNote.setString(3, "CONCEPT");  // ★ 중요
+                insertNote.setString(3, "CONCEPT");
                 insertNote.executeUpdate();
 
                 ResultSet key = insertNote.getGeneratedKeys();
@@ -216,9 +212,6 @@ public class NoteRepository {
                     noteId = key.getInt(1);
                 }
 
-                // -------------------------------
-                // 2) 개념 페어 샘플 추가 (문제 3개)
-                // -------------------------------
                 String insertPairSql =
                         "INSERT INTO concept_pairs (note_id, question, answer) VALUES (?, ?, ?)";
 
@@ -246,6 +239,51 @@ public class NoteRepository {
             System.out.println("[DB] 샘플 데이터 생성 중 오류 발생");
             e.printStackTrace();
         }
+    }
+
+
+
+    /*───────────────────────────────────────────
+     🔍 검색 기능 추가 (부분 일치 검색)
+    ───────────────────────────────────────────*/
+
+    public static List<Note> search(String keyword) {
+        List<Note> notes = new ArrayList<>();
+
+        String sql = """
+                SELECT id, title, content, created_at, updated_at, type
+                FROM notes
+                WHERE title LIKE ?
+                   OR content LIKE ?
+                ORDER BY datetime(updated_at) DESC
+                """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            String like = "%" + keyword + "%";
+            pstmt.setString(1, like);
+            pstmt.setString(2, like);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Note note = new Note(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("content"),
+                            rs.getString("created_at"),
+                            rs.getString("updated_at"),
+                            rs.getString("type"));
+                    notes.add(note);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 검색 중 오류 발생");
+            e.printStackTrace();
+        }
+
+        return notes;
     }
 
 }
