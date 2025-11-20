@@ -59,10 +59,15 @@
                 <Label text="답변" styleClass="answer-label"/>
 
                 <TextArea fx:id="answerArea"
-                          prefHeight="160"
+                          prefHeight="90"
+                          maxHeight="90"
+                          minHeight="90"  
                           wrapText="true"
                           promptText="여기에 답변을 입력하세요..."
                           styleClass="answer-area"/>
+                    <VBox.margin>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </VBox.margin>
             </VBox>
 
         </VBox>
