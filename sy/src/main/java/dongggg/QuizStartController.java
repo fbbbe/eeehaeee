@@ -85,14 +85,12 @@ public class QuizStartController {
 
         if (selectedNotes.isEmpty()) return;
 
-        Note firstNote = selectedNotes.get(0);
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-view.fxml"));
             Parent root = loader.load();
 
             QuizController controller = loader.getController();
-            controller.initQuiz(firstNote.getId());
+            controller.initQuiz(selectedNotes);
             controller.setPreviousScene(startButton.getScene());
 
             Stage stage = App.getStage();

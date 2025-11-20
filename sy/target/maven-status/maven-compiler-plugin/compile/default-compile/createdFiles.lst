@@ -8,6 +8,7 @@ dongggg/DonggriLevelInfo.class
 dongggg/QuizController.class
 dongggg/ConceptPair.class
 dongggg/QuizService.class
+dongggg/FolderCreateController.class
 dongggg/DashboardController.class
 dongggg/MainController.class
 dongggg/NoteDetailController.class
@@ -15,8 +16,10 @@ dongggg/QuizResultController.class
 dongggg/QuizStartController.class
 dongggg/App.class
 dongggg/NoteRepository$NoteStats.class
+dongggg/Folder.class
 dongggg/NoteTypeSelectController.class
 dongggg/QuizServiceImpl.class
+dongggg/FolderRepository.class
 dongggg/DonggriRepository$LevelRequirement.class
 dongggg/Note.class
 dongggg/NoteCardController.class

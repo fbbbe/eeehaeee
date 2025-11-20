@@ -56,6 +56,23 @@
                                    styleClass="search-field"/>
                     </HBox>
 
+                    <Button onAction="#onNewFolder"
+                            prefWidth="48" prefHeight="48"
+                            styleClass="folder-add-button">
+                        <graphic>
+                            <StackPane prefWidth="20" prefHeight="20" alignment="CENTER">
+                                <!-- + 아이콘 -->
+                                <SVGPath
+                                    content="M12 10v6 M9 13h6 M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                                    stroke="#FFFFFF"
+                                    fill="transparent"
+                                    strokeWidth="2"
+                                    strokeLineCap="ROUND"
+                                    style="-fx-scale-x:0.9; -fx-scale-y:0.9;"/>
+                            </StackPane>
+                        </graphic>
+                    </Button>
+
                     <Button fx:id="newNoteButton"
                             onAction="#onNewNote"
                             prefWidth="48" prefHeight="48"

@@ -79,13 +79,22 @@ public class Database {
             stmt.execute(createDonggriStatus);
             ensureDonggriStatusRow(conn);
 
+            String createFolders = """
+                    CREATE TABLE IF NOT EXISTS folders (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL UNIQUE,
+                        created_at TEXT DEFAULT (datetime('now'))
+                    );
+                    """;
+            stmt.execute(createFolders);
+
             /*
              * level: 레벨
              * required_cumulative_socre: 누적 점수
              * required_cumulative_correct: 누적 맞은 문제 개수
              */
 
-            System.out.println("[DB] notes / concept_pairs / donggri_levels / donggri_status 테이블 초기화 완료");
+            System.out.println("[DB] notes / concept_pairs / donggri_levels / donggri_status / folders 테이블 초기화 완료");
         } catch (SQLException e) {
             System.out.println("[DB] 초기화 중 오류 발생");
             e.printStackTrace();

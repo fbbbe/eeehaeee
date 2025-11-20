@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dongggg.FolderCreateController"
+            stylesheets="@styles.css"
+            styleClass="root-pane, main-root">
+
+    <top>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="8"/>
+            </padding>
+            <Button text="← 뒤로가기" onAction="#onBack" styleClass="dashboard-back-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="22" styleClass="folder-create-card">
+            <padding>
+                <Insets top="32" right="32" bottom="36" left="32"/>
+            </padding>
+
+            <StackPane prefWidth="96" prefHeight="96" styleClass="folder-create-icon">
+                <SVGPath
+                        content="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+                        stroke="white"
+                        fill="transparent"
+                        strokeWidth="2"
+                        style="-fx-scale-x:1.1; -fx-scale-y:1.1;"/>
+            </StackPane>
+
+            <VBox alignment="CENTER" spacing="6">
+                <Label text="새 폴더 만들기" styleClass="folder-create-title"/>
+                <Label text="노트를 정리할 폴더를 만들어보세요" styleClass="folder-create-subtitle"/>
+            </VBox>
+
+            <VBox spacing="8" maxWidth="620" prefWidth="620">
+                <Label text="폴더 이름" styleClass="folder-create-label"/>
+                <TextField fx:id="folderNameField"
+                           promptText="예: 영어+, 한국사+, 수학+"
+                           styleClass="folder-create-input"/>
+            </VBox>
+
+            <HBox spacing="14" alignment="CENTER" maxWidth="620">
+                <Button text="취소" onAction="#onBack" styleClass="button-outlined-wide"/>
+                <Button text="생성하기" onAction="#onCreate" styleClass="button-primary-wide"/>
+            </HBox>
+
+            <Label text="💡 팁: 폴더 이름 뒤에 '+'를 붙이면 더 귀여워요!"
+                   styleClass="folder-create-tip"/>
+        </VBox>
+    </center>
+</BorderPane>

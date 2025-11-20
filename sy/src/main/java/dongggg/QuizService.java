@@ -5,6 +5,6 @@ package dongggg;
 import java.util.List;
 
 public interface QuizService {
-    List<ConceptPair> generateQuiz(int noteId, int limit); // 문제 출제
+    List<ConceptPair> generateQuiz(List<Integer> noteIds); // 문제 출제
     void updateResult(ConceptPair pair, boolean isCorrect); // 정답/오답 DB 반영
 }

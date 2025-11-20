@@ -14,6 +14,7 @@ import java.util.List;
 import dongggg.ConceptPair;
 import dongggg.QuizService;
 import dongggg.QuizServiceImpl;
+import dongggg.DonggriRepository;
 
 public class QuizResultController {
 
@@ -161,10 +162,22 @@ public class QuizResultController {
 
     private void persistResults(List<ConceptPair> quizList) {
         if (resultsPersisted || quizList == null || quizList.isEmpty()) return;
+
+        int correctCount = 0;
+        for (Boolean b : answerStateList) {
+            if (Boolean.TRUE.equals(b)) correctCount++;
+        }
+        int total = answerStateList.size();
+        int scorePercent = total == 0 ? 0 : (int) Math.round(correctCount * 100.0 / total);
+
         for (int i = 0; i < quizList.size(); i++) {
             boolean isCorrect = Boolean.TRUE.equals(answerStateList.get(i));
             quizService.updateResult(quizList.get(i), isCorrect);
         }
+
+        // 누적 점수는 이번 시험 점수를 그대로 더하고, 맞춘 개수를 누적
+        DonggriRepository.addProgress(scorePercent, correctCount);
+
         resultsPersisted = true;
     }
 

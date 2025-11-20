@@ -224,6 +224,31 @@
     -fx-background-color: linear-gradient(#FFD966, #FFC640);
 }
 
+.folder-add-button {
+    -fx-background-color: linear-gradient(#c084fc, #a855dd);
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 0 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.22), 12, 0.3, 0, 3);
+}
+
+.folder-add-button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.35), 16, 0.45, 0, 3);
+}
+
+.folder-add-plus {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+}
+
+.folder-add-text {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
 .soft-icon-button {
     -fx-background-color: white;
     -fx-text-fill: #A855DD;
@@ -293,6 +318,11 @@
 .folder-card-count {
     -fx-font-size: 12px;
     -fx-text-fill: #D9B5FF;
+}
+
+.folder-empty-label {
+    -fx-text-fill: #C4B5D8;
+    -fx-font-size: 13px;
 }
 
 .note-tag {
@@ -421,6 +451,75 @@
     -fx-background-color: #FFF7DF; /* 폴더 아이콘 뒤 연노랑 박스 */
     -fx-background-radius: 20;
     -fx-padding: 14;
+}
+
+.folder-create-card {
+    -fx-background-color: white;
+    -fx-background-radius: 24;
+    -fx-border-color: #E8DFF5;
+    -fx-border-radius: 24;
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.12), 22, 0.25, 0, 6);
+}
+
+.folder-create-icon {
+    -fx-background-color: linear-gradient(#c084fc, #a855dd);
+    -fx-background-radius: 24;
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.18), 18, 0.3, 0, 4);
+}
+
+.folder-create-title {
+    -fx-text-fill: #7C3AED;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+}
+
+.folder-create-subtitle {
+    -fx-text-fill: #C4B5D8;
+    -fx-font-size: 13px;
+}
+
+.folder-create-label {
+    -fx-text-fill: #7C3AED;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+
+.folder-create-input {
+    -fx-background-color: #F8F5FF;
+    -fx-background-radius: 16;
+    -fx-border-color: #D3C5F5;
+    -fx-border-radius: 16;
+    -fx-border-width: 2;
+    -fx-padding: 12 16;
+    -fx-text-fill: #3B275B;
+    -fx-prompt-text-fill: #C4B5D8;
+    -fx-font-size: 14px;
+}
+
+.button-outlined-wide {
+    -fx-background-color: white;
+    -fx-text-fill: #A855DD;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #E8DFF5;
+    -fx-border-width: 2;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+}
+
+.button-primary-wide {
+    -fx-background-color: linear-gradient(#c084fc, #a855dd);
+    -fx-text-fill: white;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-padding: 12 28;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(168,85,221,0.22), 16, 0.35, 0, 4);
+}
+
+.folder-create-tip {
+    -fx-text-fill: #C4B5D8;
+    -fx-font-size: 12px;
 }
 
 /* ---------------------------------

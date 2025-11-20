@@ -114,6 +114,16 @@ public class App extends Application {
         }
     }
 
+    public static void showFolderCreateView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("folder-create-view.fxml"));
+            Parent root = loader.load();
+            replaceSceneRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void reloadStylesheet() {
         if (scene != null) {
             scene.getStylesheets().clear();

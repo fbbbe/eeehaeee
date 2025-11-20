@@ -3,20 +3,25 @@
 package dongggg;
 
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import dongggg.DonggriRepository;
 
 public class QuizServiceImpl implements QuizService {
 
     private final ConceptPairRepository pairRepo = new ConceptPairRepository();
 
     @Override
-    public List<ConceptPair> generateQuiz(int noteId, int limit) {
-        // 🔥 네 기존 구조에 맞게 findByNoteId로 변경
-        List<ConceptPair> list = ConceptPairRepository.findByNoteId(noteId);
+    public List<ConceptPair> generateQuiz(List<Integer> noteIds) {
+        List<ConceptPair> list = new ArrayList<>();
+        if (noteIds != null) {
+            for (Integer id : noteIds) {
+                if (id == null) continue;
+                list.addAll(ConceptPairRepository.findByNoteId(id));
+            }
+        }
 
         Collections.shuffle(list); // 랜덤 출제
-        return list.stream().limit(limit).toList();
+        return list;
     }
 
     @Override
@@ -26,10 +31,6 @@ public class QuizServiceImpl implements QuizService {
         }
 
         ConceptPairRepository.updateResult(pair.getId(), isCorrect);
-
-        int scoreDelta = isCorrect ? 10 : 0;
-        int correctDelta = isCorrect ? 1 : 0;
-        DonggriRepository.addProgress(scoreDelta, correctDelta);
 
         System.out.println("[시험 기록][저장] " + pair.getTerm() + " / " + (isCorrect ? "정답" : "오답"));
     }

@@ -22,6 +22,9 @@ import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
 import java.util.List;
+import dongggg.Folder;
+import dongggg.FolderRepository;
+import dongggg.NoteRepository;
 
 /**
  * 메인 화면(폴더 + 최근 노트 목록)을 담당하는 컨트롤러.
@@ -43,11 +46,12 @@ public class MainController {
     private VBox recentNotesBox;
 
     private static final Duration HOVER_DURATION = Duration.millis(240);
+    private static final String FOLDER_ICON_COLOR = "#F4B400";
 
     @FXML
     public void initialize() {
         System.out.println("MainController initialize");
-        loadFolderStats();
+        loadFolders();
         loadRecentNotes();
         applyFolderHoverAnimations();
     }
@@ -114,22 +118,28 @@ public class MainController {
         return card;
     }
 
-    /** 노트 통계(개수)를 카드로 표시 */
-    private void loadFolderStats() {
+    /** 저장된 폴더를 카드로 표시 */
+    private void loadFolders() {
         if (folderFlow == null) {
             return;
         }
 
         folderFlow.getChildren().clear();
 
+        // 기본 폴더 3종 (전체/개념/일반)
         NoteRepository.NoteStats stats = NoteRepository.getNoteStats();
+        folderFlow.getChildren().add(createFolderCard("전체 노트", stats.totalCount()));
+        folderFlow.getChildren().add(createFolderCard("개념 노트", stats.conceptCount()));
+        folderFlow.getChildren().add(createFolderCard("일반 노트", stats.normalCount()));
 
-        folderFlow.getChildren().add(createFolderCard("전체 노트", stats.totalCount(), "#F4B400"));
-        folderFlow.getChildren().add(createFolderCard("개념 노트", stats.conceptCount(), "#F4B400"));
-        folderFlow.getChildren().add(createFolderCard("일반 노트", stats.normalCount(), "#F4B400"));
+        // 사용자 생성 폴더
+        var folders = FolderRepository.findAll();
+        for (Folder folder : folders) {
+            folderFlow.getChildren().add(createFolderCard(folder.getName(), 0));
+        }
     }
 
-    private HBox createFolderCard(String title, int count, String strokeColor) {
+    private HBox createFolderCard(String title, int count) {
         HBox card = new HBox(12);
         card.setAlignment(Pos.CENTER_LEFT);
         card.getStyleClass().add("folder-card");
@@ -141,7 +151,7 @@ public class MainController {
         SVGPath icon = new SVGPath();
         icon.setContent(
                 "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z");
-        icon.setStroke(Color.web(strokeColor));
+        icon.setStroke(Color.web(FOLDER_ICON_COLOR));
         icon.setFill(Color.TRANSPARENT);
         icon.setStrokeWidth(1.8);
         icon.setScaleX(0.85);
@@ -180,6 +190,11 @@ public class MainController {
     @FXML
     private void onNewNote() {
         App.showNoteTypeSelect();
+    }
+
+    @FXML
+    private void onNewFolder() {
+        App.showFolderCreateView();
     }
 
     // 🔥🔥 동그리 클릭 또는 단축 버튼 클릭 시 대시보드 이동

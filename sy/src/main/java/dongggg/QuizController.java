@@ -14,6 +14,7 @@ import javafx.util.Duration;
 
 import java.util.List;
 import java.util.ArrayList;
+import dongggg.Note;
 
 public class QuizController {
 
@@ -34,9 +35,18 @@ public class QuizController {
 
     private Scene previousScene;
 
-    public void initQuiz(int noteId) {
+    public void initQuiz(List<Note> selectedNotes) {
 
-        quizList = quizService.generateQuiz(noteId, 5);
+        List<Integer> noteIds = new ArrayList<>();
+        if (selectedNotes != null) {
+            for (Note note : selectedNotes) {
+                if (note != null) {
+                    noteIds.add(note.getId());
+                }
+            }
+        }
+
+        quizList = quizService.generateQuiz(noteIds);
 
         if (quizList == null || quizList.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
