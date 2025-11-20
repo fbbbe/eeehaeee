@@ -51,7 +51,7 @@
                             strokeWidth="1.8"
                             style="-fx-scale-x: 0.85 ; -fx-scale-y: 0.85;" />
                         <TextField fx:id="searchField"
-                                   promptText="노트 검색 또는 폴더명 검색..."
+                                   promptText="노트 검색 또는 폴더명 검색..."  
                                    HBox.hgrow="ALWAYS"
                                    styleClass="search-field"/>
                     </HBox>

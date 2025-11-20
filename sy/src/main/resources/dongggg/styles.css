@@ -255,6 +255,7 @@
     -fx-text-fill: #D9B5FF;
 }
 
+/* 📁📝 폴더/노트 카드 hover 효과 (메인 화면에서 카드에 커서를 올렸을 때 서서히 강조되는 스타일) */
 .folder-card,
 .note-card {
     -fx-background-color: white;
@@ -267,6 +268,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 12, 0.25, 0, 2);
 }
 
+/* ✨ hover 시 강조 (보더 색 + 그림자 더 진해짐) */
 .folder-card:hover,
 .note-card:hover {
     -fx-border-color: #A855DD;
@@ -670,6 +672,7 @@
     -fx-border-color: #E8DFF5;
     -fx-border-width: 2;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(168, 85, 221, 0.12), 14, 0.3, 0, 2);
 }
 
 .dashboard-tertiary-button:hover {
