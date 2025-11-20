@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import dongggg.ConceptPair;
+import dongggg.QuizService;
+import dongggg.QuizServiceImpl;
 
 public class QuizResultController {
 
@@ -21,10 +24,14 @@ public class QuizResultController {
     @FXML private VBox resultListBox;
 
     private Scene previousScene;
+    private List<ConceptPair> quizListRef;
     private List<Boolean> answerStateList;
+    private final QuizService quizService = new QuizServiceImpl();
+    private boolean resultsPersisted = false;
 
     public void showResult(List<ConceptPair> quizList, List<String> userAnswers) {
 
+        this.quizListRef = quizList;
         int total = quizList.size();
         answerStateList = new ArrayList<>(Collections.nCopies(total, false));
 
@@ -152,8 +159,18 @@ public class QuizResultController {
         scoreBar.setProgress(scorePercent / 100.0);
     }
 
+    private void persistResults(List<ConceptPair> quizList) {
+        if (resultsPersisted || quizList == null || quizList.isEmpty()) return;
+        for (int i = 0; i < quizList.size(); i++) {
+            boolean isCorrect = Boolean.TRUE.equals(answerStateList.get(i));
+            quizService.updateResult(quizList.get(i), isCorrect);
+        }
+        resultsPersisted = true;
+    }
+
     @FXML
     private void goBack() {
+        persistResults(quizListRef);
         if (previousScene != null) {
             Stage stage = App.getStage();
             stage.setScene(previousScene);
@@ -162,6 +179,7 @@ public class QuizResultController {
 
     @FXML
     private void goDashboard() {
+        persistResults(quizListRef);
         App.showDashboardView();
     }
 

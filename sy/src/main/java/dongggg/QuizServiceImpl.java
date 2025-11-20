@@ -4,6 +4,7 @@ package dongggg;
 
 import java.util.Collections;
 import java.util.List;
+import dongggg.DonggriRepository;
 
 public class QuizServiceImpl implements QuizService {
 
@@ -20,11 +21,16 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void updateResult(ConceptPair pair, boolean isCorrect) {
-        // 🔥 correctCount, wrongCount 필드는 기존 코드에 없음 → 일단 저장 없이 유지
-        // 원한다면 DB 필드를 추가해줄 수 있음
+        if (pair == null || pair.getId() == 0) {
+            return;
+        }
 
-        // 시험 기능 기본 버전이므로 저장 로직은 생략 또는 나중에 구현
-        System.out.println("[시험 기록] " + pair.getTerm() + " / " + (isCorrect ? "정답" : "오답"));
+        ConceptPairRepository.updateResult(pair.getId(), isCorrect);
+
+        int scoreDelta = isCorrect ? 10 : 0;
+        int correctDelta = isCorrect ? 1 : 0;
+        DonggriRepository.addProgress(scoreDelta, correctDelta);
+
+        System.out.println("[시험 기록][저장] " + pair.getTerm() + " / " + (isCorrect ? "정답" : "오답"));
     }
 }
-

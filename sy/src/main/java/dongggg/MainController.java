@@ -16,7 +16,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -45,10 +47,10 @@ public class MainController {
     @FXML
     public void initialize() {
         System.out.println("MainController initialize");
+        loadFolderStats();
         loadRecentNotes();
         applyFolderHoverAnimations();
     }
-
 
     /**
      * 최근 노트 목록을 DB에서 읽어서 화면에 뿌려주는 메서드.
@@ -79,8 +81,7 @@ public class MainController {
         Label titleLabel = new Label(note.getTitle());
         titleLabel.getStyleClass().add("note-title");
 
-        String tagText = note.getType().equalsIgnoreCase("CONCEPT") ?
-                "개념 노트" : "일반 노트";
+        String tagText = note.getType().equalsIgnoreCase("CONCEPT") ? "개념 노트" : "일반 노트";
 
         Label tagLabel = new Label(tagText);
         tagLabel.getStyleClass().add("note-tag");
@@ -108,9 +109,54 @@ public class MainController {
                 Color.web("#e8dff5"),
                 Color.web("#a855dd"),
                 6, 18,
-                0.05, 0.22
-        );
+                0.05, 0.22);
 
+        return card;
+    }
+
+    /** 노트 통계(개수)를 카드로 표시 */
+    private void loadFolderStats() {
+        if (folderFlow == null) {
+            return;
+        }
+
+        folderFlow.getChildren().clear();
+
+        NoteRepository.NoteStats stats = NoteRepository.getNoteStats();
+
+        folderFlow.getChildren().add(createFolderCard("전체 노트", stats.totalCount(), "#F4B400"));
+        folderFlow.getChildren().add(createFolderCard("개념 노트", stats.conceptCount(), "#F4B400"));
+        folderFlow.getChildren().add(createFolderCard("일반 노트", stats.normalCount(), "#F4B400"));
+    }
+
+    private HBox createFolderCard(String title, int count, String strokeColor) {
+        HBox card = new HBox(12);
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.getStyleClass().add("folder-card");
+
+        StackPane iconHolder = new StackPane();
+        iconHolder.getStyleClass().add("folder-icon-wrapper");
+        iconHolder.setPrefSize(40, 32);
+
+        SVGPath icon = new SVGPath();
+        icon.setContent(
+                "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z");
+        icon.setStroke(Color.web(strokeColor));
+        icon.setFill(Color.TRANSPARENT);
+        icon.setStrokeWidth(1.8);
+        icon.setScaleX(0.85);
+        icon.setScaleY(0.85);
+
+        iconHolder.getChildren().add(icon);
+
+        VBox labels = new VBox(4);
+        Label titleLabel = new Label(title);
+        titleLabel.getStyleClass().add("folder-card-title");
+        Label countLabel = new Label(count + "개");
+        countLabel.getStyleClass().add("folder-card-count");
+        labels.getChildren().addAll(titleLabel, countLabel);
+
+        card.getChildren().addAll(iconHolder, labels);
         return card;
     }
 
@@ -128,8 +174,7 @@ public class MainController {
                         Color.web("#e8dff5"),
                         Color.web("#ffb547"),
                         6, 18,
-                        0.05, 0.2
-                ));
+                        0.05, 0.2));
     }
 
     @FXML
@@ -144,14 +189,14 @@ public class MainController {
     }
 
     private void installHoverAnimation(Region region,
-                                       Color baseBackground,
-                                       Color hoverBackground,
-                                       Color baseBorder,
-                                       Color hoverBorder,
-                                       double baseShadowRadius,
-                                       double hoverShadowRadius,
-                                       double baseShadowOpacity,
-                                       double hoverShadowOpacity) {
+            Color baseBackground,
+            Color hoverBackground,
+            Color baseBorder,
+            Color hoverBorder,
+            double baseShadowRadius,
+            double hoverShadowRadius,
+            double baseShadowOpacity,
+            double hoverShadowOpacity) {
         if (region == null) {
             return;
         }

@@ -105,73 +105,7 @@
                                         </HBox>
                                         <FlowPane fx:id="folderFlow"
                                                   hgap="16" vgap="12"
-                                                  prefWrapLength="960">
-                                            <children>
-                                                <HBox alignment="CENTER_LEFT" spacing="12"
-                                                      styleClass="folder-card">
-                                                    <StackPane styleClass="folder-icon-wrapper">
-                                                        <SVGPath
-                                                            content="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                                            stroke="#F4B400"
-                                                            fill="transparent"
-                                                            strokeWidth="1.8"
-                                                            style="-fx-scale-x:0.85; -fx-scale-y:0.85;" />
-                                                    </StackPane>
-                                                    <VBox spacing="4">
-                                                        <Label text="영어+" styleClass="folder-card-title"/>
-                                                        <Label text="12개" styleClass="folder-card-count"/>
-                                                    </VBox>
-                                                </HBox>
-
-                                                <HBox alignment="CENTER_LEFT" spacing="12"
-                                                      styleClass="folder-card">
-                                                    <StackPane styleClass="folder-icon-wrapper">
-                                                        <SVGPath
-                                                            content="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                                            stroke="#F4B400"
-                                                            fill="transparent"
-                                                            strokeWidth="1.8"
-                                                            style="-fx-scale-x:0.85; -fx-scale-y:0.85;" />
-                                                    </StackPane>
-                                                    <VBox spacing="4">
-                                                        <Label text="한국사+" styleClass="folder-card-title"/>
-                                                        <Label text="8개" styleClass="folder-card-count"/>
-                                                    </VBox>
-                                                </HBox>
-
-                                                <HBox alignment="CENTER_LEFT" spacing="12"
-                                                      styleClass="folder-card">
-                                                    <StackPane styleClass="folder-icon-wrapper">
-                                                        <SVGPath
-                                                            content="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                                            stroke="#F4B400"
-                                                            fill="transparent"
-                                                            strokeWidth="1.8"
-                                                            style="-fx-scale-x:0.85; -fx-scale-y:0.85;" />
-                                                    </StackPane>
-                                                    <VBox spacing="4">
-                                                        <Label text="수학+" styleClass="folder-card-title"/>
-                                                        <Label text="15개" styleClass="folder-card-count"/>
-                                                    </VBox>
-                                                </HBox>
-
-                                                <HBox alignment="CENTER_LEFT" spacing="12"
-                                                      styleClass="folder-card">
-                                                    <StackPane styleClass="folder-icon-wrapper">
-                                                        <SVGPath
-                                                            content="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                                            stroke="#F4B400"
-                                                            fill="transparent"
-                                                            strokeWidth="1.8"
-                                                            style="-fx-scale-x:0.85; -fx-scale-y:0.85;" />
-                                                    </StackPane>
-                                                    <VBox spacing="4">
-                                                        <Label text="기타+" styleClass="folder-card-title"/>
-                                                        <Label text="5개" styleClass="folder-card-count"/>
-                                                    </VBox>
-                                                </HBox>
-                                            </children>
-                                        </FlowPane>
+                                                  prefWrapLength="960"/>
                                     </children>
                                 </VBox>
 

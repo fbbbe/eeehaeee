@@ -24,7 +24,14 @@ public class QuizStartController {
     @FXML
     public void initialize() {
 
-        List<Note> notes = NoteRepository.findRecent(30);
+        List<Note> notes = NoteRepository.findByType("CONCEPT", 30);
+
+        if (notes.isEmpty()) {
+            Label empty = new Label("개념 노트가 없습니다. 개념 노트를 먼저 만들어주세요.");
+            empty.getStyleClass().add("info-label");
+            noteListBox.getChildren().add(empty);
+            return;
+        }
 
         for (Note note : notes) {
             try {

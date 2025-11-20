@@ -34,7 +34,14 @@ public class NoteDetailController {
     private Note note;
 
     // 새 노트인지 여부
-    private boolean isNew = false;
+    private boolean isNew = true;
+
+    @FXML
+    private void initialize() {
+        if (note == null) {
+            setNewNoteMode();
+        }
+    }
 
     // 외부에서 편집할 노트를 주입
     public void setNote(Note note) {
@@ -53,12 +60,7 @@ public class NoteDetailController {
 
         } else {
             // 새 노트 작성 모드
-            isNew = true;
-
-            titleField.clear();
-            contentArea.clear();
-            dateLabel.setText("새 노트");
-            deleteButton.setDisable(true); // 새 노트는 삭제 버튼 비활성화
+            setNewNoteMode();
         }
     }
 
@@ -132,5 +134,13 @@ public class NoteDetailController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void setNewNoteMode() {
+        isNew = true;
+        titleField.clear();
+        contentArea.clear();
+        dateLabel.setText("새 노트");
+        deleteButton.setDisable(true); // 새 노트는 삭제 버튼 비활성화
     }
 }

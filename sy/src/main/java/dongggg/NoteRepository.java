@@ -6,6 +6,9 @@ import java.util.List;
 
 public class NoteRepository {
 
+    public record NoteStats(int totalCount, int conceptCount, int normalCount) {
+    }
+
     // 최근 노트 N개 가져오기 (updated_at 기준 내림차순)
     public static List<Note> findRecent(int limit) {
         List<Note> notes = new ArrayList<>();
@@ -37,6 +40,44 @@ public class NoteRepository {
 
         } catch (SQLException e) {
             System.out.println("[DB] 최근 노트 조회 중 오류 발생");
+            e.printStackTrace();
+        }
+
+        return notes;
+    }
+
+    public static List<Note> findByType(String type, int limit) {
+        List<Note> notes = new ArrayList<>();
+
+        String sql = """
+                SELECT id, title, content, created_at, updated_at, type
+                FROM notes
+                WHERE type = ?
+                ORDER BY datetime(updated_at) DESC
+                LIMIT ?
+                """;
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, type);
+            pstmt.setInt(2, limit);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Note note = new Note(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("content"),
+                            rs.getString("created_at"),
+                            rs.getString("updated_at"),
+                            rs.getString("type"));
+                    notes.add(note);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 노트 조회 중 오류 발생 (type)");
             e.printStackTrace();
         }
 
@@ -113,6 +154,33 @@ public class NoteRepository {
             System.out.println("[DB] 노트 삭제 중 오류 발생");
             e.printStackTrace();
         }
+    }
+
+    public static NoteStats getNoteStats() {
+        String sql = """
+                SELECT COUNT(*) AS total_count,
+                       SUM(CASE WHEN type = 'CONCEPT' THEN 1 ELSE 0 END) AS concept_count,
+                       SUM(CASE WHEN type = 'NORMAL' THEN 1 ELSE 0 END) AS normal_count
+                FROM notes
+                """;
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                return new NoteStats(
+                        rs.getInt("total_count"),
+                        rs.getInt("concept_count"),
+                        rs.getInt("normal_count"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 노트 통계 조회 중 오류 발생");
+            e.printStackTrace();
+        }
+
+        return new NoteStats(0, 0, 0);
     }
 
     // 노트가 하나도 없으면 샘플 노트 하나 만들어 넣기

@@ -82,4 +82,44 @@ public class ConceptPairRepository {
             e.printStackTrace();
         }
     }
+
+    public static void updateResult(int pairId, boolean isCorrect) {
+        String selectSql = """
+                SELECT total_attempts, correct_count
+                FROM concept_pairs
+                WHERE id = ?
+                """;
+        String updateSql = """
+                UPDATE concept_pairs
+                SET total_attempts = ?, correct_count = ?, wrong_rate = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement selectStmt = conn.prepareStatement(selectSql);
+                PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+
+            selectStmt.setInt(1, pairId);
+            try (ResultSet rs = selectStmt.executeQuery()) {
+                if (!rs.next()) return;
+
+                int totalAttempts = rs.getInt("total_attempts");
+                int correctCount = rs.getInt("correct_count");
+
+                int newTotal = totalAttempts + 1;
+                int newCorrect = correctCount + (isCorrect ? 1 : 0);
+                double wrongRate = newTotal == 0 ? 0.0 : (newTotal - newCorrect) / (double) newTotal;
+
+                updateStmt.setInt(1, newTotal);
+                updateStmt.setInt(2, newCorrect);
+                updateStmt.setDouble(3, wrongRate);
+                updateStmt.setInt(4, pairId);
+                updateStmt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 시험 결과 업데이트 중 오류 발생");
+            e.printStackTrace();
+        }
+    }
 }

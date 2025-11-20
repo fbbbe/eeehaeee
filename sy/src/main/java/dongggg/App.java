@@ -20,7 +20,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Database.init();
-        NoteRepository.ensureSampleData();
 
         App.stage = stage;
 

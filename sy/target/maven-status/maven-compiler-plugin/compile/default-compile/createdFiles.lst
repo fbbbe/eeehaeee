@@ -14,6 +14,7 @@ dongggg/NoteDetailController.class
 dongggg/QuizResultController.class
 dongggg/QuizStartController.class
 dongggg/App.class
+dongggg/NoteRepository$NoteStats.class
 dongggg/NoteTypeSelectController.class
 dongggg/QuizServiceImpl.class
 dongggg/DonggriRepository$LevelRequirement.class

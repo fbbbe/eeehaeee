@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,19 +33,26 @@ public class ConceptNoteController {
     private Label statusLabel;
 
     private Note note; // 필요하면 기존 노트 편집용
+    private boolean initialized = false;
 
     // 현재 화면에 존재하는 개념/설명 입력 행들을 관리
     private final List<ConceptRow> rows = new ArrayList<>();
 
     public void setNote(Note note) {
         this.note = note;
-        // TODO: 기존 노트 불러오기 로직이 필요하면 여기서 rows 채우기
+        if (initialized) {
+            loadExistingNote();
+        }
     }
 
     @FXML
     public void initialize() {
         // 화면 열릴 때 최소 1개의 입력 행을 만들어 둔다.
         addEmptyRow();
+        initialized = true;
+        if (note != null) {
+            loadExistingNote();
+        }
     }
 
     /** 하단 + 버튼 클릭 시: 새 개념/설명 행 추가 */
@@ -80,14 +88,30 @@ public class ConceptNoteController {
             return;
         }
 
-        // TODO: 여기서 NoteRepository를 이용해 DB에 저장하면 됨.
-        System.out.println("[ConceptNote] title = " + title);
-        for (int i = 0; i < dataList.size(); i++) {
-            ConceptPairData d = dataList.get(i);
-            System.out.printf("  #%d term=%s / explanation=%s%n", i + 1, d.term, d.explanation);
+        // 첫 번째 설명을 노트 콘텐츠 요약으로 사용
+        String contentSummary = dataList.get(0).explanation;
+
+        if (note == null) {
+            // 새 노트 생성
+            note = new Note(title, contentSummary, "CONCEPT");
+            NoteRepository.insert(note);
+        } else {
+            // 기존 노트 수정
+            note.setTitle(title);
+            note.setContent(contentSummary);
+            NoteRepository.update(note);
         }
 
-        statusLabel.setText("개념 노트가 임시로 저장되었습니다. (DB 저장 로직은 추후 추가)");
+        // 개념-설명 페어 저장 (정렬 순서 유지)
+        List<ConceptPair> pairs = new ArrayList<>();
+        for (int i = 0; i < dataList.size(); i++) {
+            ConceptPairData d = dataList.get(i);
+            pairs.add(new ConceptPair(0, note.getId(), d.term, d.explanation, i));
+        }
+        ConceptPairRepository.replaceAllForNote(note.getId(), pairs);
+
+        statusLabel.setText("개념 노트가 저장되었습니다.");
+        App.showMainView();
     }
 
     /** 닫기 버튼 → 메인 화면으로 */
@@ -100,6 +124,10 @@ public class ConceptNoteController {
      * 실제로 양쪽 컬럼에 새 입력 행을 추가하는 내부 메서드.
      */
     private void addEmptyRow() {
+        addRowWithValue("", "");
+    }
+
+    private void addRowWithValue(String term, String explanation) {
         // 왼쪽: 개념 입력 TextArea
         TextArea termArea = new TextArea();
         termArea.setPromptText("Ex. 데이터의 정의");
@@ -116,6 +144,9 @@ public class ConceptNoteController {
         termArea.setPrefRowCount(1);
         explanationArea.setPrefRowCount(1);
 
+        termArea.setText(term);
+        explanationArea.setText(explanation);
+
         // 행 객체 하나 만들어서 리스트에 넣어두기
         ConceptRow row = new ConceptRow(termArea, explanationArea);
         rows.add(row);
@@ -127,6 +158,28 @@ public class ConceptNoteController {
         // 컨테이너에 추가
         conceptContainer.getChildren().add(termArea);
         explanationContainer.getChildren().add(explanationArea);
+    }
+
+    private void loadExistingNote() {
+        if (note == null || !initialized) return;
+
+        titleField.setText(note.getTitle() != null ? note.getTitle() : "");
+
+        rows.clear();
+        conceptContainer.getChildren().clear();
+        explanationContainer.getChildren().clear();
+
+        List<ConceptPair> pairs = ConceptPairRepository.findByNoteId(note.getId());
+        if (pairs.isEmpty()) {
+            addEmptyRow();
+            return;
+        }
+
+        pairs.stream()
+                .sorted(Comparator.comparingInt(ConceptPair::getSortOrder))
+                .forEach(p -> addRowWithValue(
+                        p.getTerm() != null ? p.getTerm() : "",
+                        p.getExplanation() != null ? p.getExplanation() : ""));
     }
 
     // 한 행의 개념/설명 TextArea 높이를 "같은 줄 수"로 맞춰주는 함수

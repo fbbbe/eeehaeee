@@ -45,6 +45,27 @@ public class DonggriRepository {
         }
     }
 
+    public static void addProgress(int scoreDelta, int correctDelta) {
+        String sql = """
+                UPDATE donggri_status
+                SET cumulative_score = cumulative_score + ?,
+                    cumulative_correct = cumulative_correct + ?
+                WHERE id = 1
+                """;
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, scoreDelta);
+            pstmt.setInt(2, correctDelta);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("[DB] donggri_status 누적 업데이트 중 오류 발생");
+            e.printStackTrace();
+        }
+    }
+
     public static DonggriLevelInfo getLevelInfo() {
         DonggriStatus status = getStatus();
         List<LevelRequirement> requirements = fetchLevelRequirements();
@@ -53,11 +74,15 @@ public class DonggriRepository {
         Integer nextLevel = null;
         int nextScoreRequirement = 0;
         int nextCorrectRequirement = 0;
+        int prevScoreRequirement = 0;
+        int prevCorrectRequirement = 0;
 
         for (LevelRequirement req : requirements) {
             if (status.getCumulativeScore() >= req.requiredScore
                     && status.getCumulativeCorrect() >= req.requiredCorrect) {
                 currentLevel = req.level;
+                prevScoreRequirement = req.requiredScore;
+                prevCorrectRequirement = req.requiredCorrect;
             } else {
                 nextLevel = req.level;
                 nextScoreRequirement = req.requiredScore;
@@ -75,13 +100,14 @@ public class DonggriRepository {
             remainingScore = 0;
             remainingCorrect = 0;
         } else {
-            double scoreRatio = nextScoreRequirement == 0
-                    ? 1.0
-                    : Math.min(1.0, status.getCumulativeScore() / (double) nextScoreRequirement);
+            int scoreGap = Math.max(1, nextScoreRequirement - prevScoreRequirement);
+            int correctGap = Math.max(1, nextCorrectRequirement - prevCorrectRequirement);
 
-            double correctRatio = nextCorrectRequirement == 0
-                    ? 1.0
-                    : Math.min(1.0, status.getCumulativeCorrect() / (double) nextCorrectRequirement);
+            double scoreRatio = (status.getCumulativeScore() - prevScoreRequirement) / (double) scoreGap;
+            double correctRatio = (status.getCumulativeCorrect() - prevCorrectRequirement) / (double) correctGap;
+
+            scoreRatio = Math.max(0.0, Math.min(1.0, scoreRatio));
+            correctRatio = Math.max(0.0, Math.min(1.0, correctRatio));
 
             progressRatio = Math.max(0.0, Math.min(1.0, (scoreRatio + correctRatio) / 2.0));
 

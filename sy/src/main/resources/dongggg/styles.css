@@ -282,6 +282,14 @@
     -fx-text-fill: #A855DD;
 }
 
+.folder-icon-placeholder {
+    -fx-background-color: #FFE999;
+    -fx-background-radius: 10;
+    -fx-border-color: #FFC640;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.4;
+}
+
 .folder-card-count {
     -fx-font-size: 12px;
     -fx-text-fill: #D9B5FF;

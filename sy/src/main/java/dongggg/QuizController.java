@@ -39,10 +39,13 @@ public class QuizController {
         quizList = quizService.generateQuiz(noteId, 5);
 
         if (quizList == null || quizList.isEmpty()) {
-            quizList = new ArrayList<>();
-            quizList.add(new ConceptPair(0, noteId, "클래스(Class)", "객체를 만들기 위한 설계도", 0));
-            quizList.add(new ConceptPair(0, noteId, "객체(Object)", "클래스로부터 생성된 실체", 0));
-            quizList.add(new ConceptPair(0, noteId, "상속(Inheritance)", "부모 클래스 기능을 자식이 물려받는 것", 0));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("문제 없음");
+            alert.setHeaderText(null);
+            alert.setContentText("선택한 노트에 저장된 개념/설명이 없습니다. 먼저 문제를 등록하세요.");
+            alert.showAndWait();
+            goBack();
+            return;
         }
 
         currentIndex = 0;
