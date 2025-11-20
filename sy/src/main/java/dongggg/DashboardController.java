@@ -25,6 +25,8 @@ public class DashboardController {
     @FXML private Label levelValueLabel;
     @FXML private Label levelHelperLabel;
     @FXML private ProgressBar levelProgressBar;
+    @FXML private Label conceptNoteCountLabel;
+
 
     private static final Duration HOVER_DURATION = Duration.millis(220);
 
@@ -53,6 +55,16 @@ public class DashboardController {
         );
 
         updateLevelCard();
+        updateConceptNoteCount();
+    }
+
+    /** 🔥 개념 노트 개수 갱신 */
+    private void updateConceptNoteCount() {
+        int count = NoteRepository.getConceptNoteCount();
+
+        if (conceptNoteCountLabel != null) {
+            conceptNoteCountLabel.setText(String.valueOf(count));
+        }
     }
 
     /** 🔥 노트 관리 화면 이동 — Scene 방식 */

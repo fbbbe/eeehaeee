@@ -82,8 +82,9 @@
                                             strokeLineJoin="ROUND"
                                             style="-fx-scale-x:1.3; -fx-scale-y:1.3;"/>
                                 </StackPane>
-                                <Label text="12" styleClass="dashboard-stat-value"/>
+                                <Label fx:id="conceptNoteCountLabel" text="0" styleClass="dashboard-stat-value"/>
                                 <Label text="개념 노트" styleClass="dashboard-stat-label"/>
+
                             </VBox>
 
                             <VBox spacing="10"

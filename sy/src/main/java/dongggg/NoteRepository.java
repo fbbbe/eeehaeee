@@ -9,7 +9,6 @@ public class NoteRepository {
     public record NoteStats(int totalCount, int conceptCount, int normalCount) {
     }
 
-    // 최근 노트 N개 가져오기 (updated_at 기준 내림차순)
     public static List<Note> findRecent(int limit) {
         List<Note> notes = new ArrayList<>();
 
@@ -281,6 +280,27 @@ public class NoteRepository {
             e.printStackTrace();
         }
     }
+
+    // 추가
+    public static int getConceptNoteCount() {
+        String sql = "SELECT COUNT(*) FROM notes WHERE type = 'CONCEPT'";
+
+        try (Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[DB] 개념노트 개수 조회 중 오류 발생");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 
 
 

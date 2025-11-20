@@ -49,11 +49,12 @@
 
             <HBox spacing="14" alignment="CENTER" maxWidth="620">
                 <Button text="취소" onAction="#onBack" styleClass="button-outlined-wide"/>
-                <Button text="생성하기" onAction="#onCreate" styleClass="button-primary-wide"/>
-            </HBox>
+                <Button text="생성하기"
+                    onAction="#onCreate"
+                    styleClass="button-primary-wide"
+                    style="-fx-text-fill: white;" />
 
-            <Label text="💡 팁: 폴더 이름 뒤에 '+'를 붙이면 더 귀여워요!"
-                   styleClass="folder-create-tip"/>
+            </HBox>
         </VBox>
     </center>
 </BorderPane>
