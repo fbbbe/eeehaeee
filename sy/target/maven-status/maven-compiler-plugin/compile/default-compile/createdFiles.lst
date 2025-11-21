@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 dongggg/NoteRepository.class
 dongggg/ConceptNoteController.class
 dongggg/ConceptNoteController$ConceptPairData.class
@@ -30,36 +29,3 @@ dongggg/NoteCardController.class
 dongggg/Database.class
 dongggg/QuizModeSelectController.class
 dongggg/DonggriRepository.class
-=======
-dongggg\QuizServiceImpl$1.class
-dongggg\Database.class
-dongggg\DashboardController.class
-dongggg\ConceptNoteController$ConceptRow.class
-dongggg\QuizController.class
-dongggg\ConceptNoteController.class
-dongggg\App.class
-dongggg\FolderRepository.class
-dongggg\NoteRepository.class
-dongggg\ConceptPair.class
-dongggg\Folder.class
-dongggg\Note.class
-dongggg\QuizModeSelectController.class
-dongggg\DonggriRepository$LevelRequirement.class
-dongggg\QuizStartController.class
-dongggg\FolderCreateController.class
-dongggg\NoteRepository$NoteStats.class
-dongggg\NoteTypeSelectController.class
-dongggg\QuizResultController.class
-dongggg\NoteCardController.class
-dongggg\ConceptNoteController$ConceptPairData.class
-dongggg\DonggriLevelInfo.class
-dongggg\ConceptPairRepository.class
-dongggg\DonggriRepository.class
-dongggg\QuizService$QuizMode.class
-dongggg\QuizService.class
-dongggg\NoteFolderRepository.class
-dongggg\QuizServiceImpl.class
-dongggg\NoteDetailController.class
-dongggg\MainController.class
-dongggg\DonggriStatus.class
->>>>>>> 1b0ece954f1c7fcadac3b6869441a51641d8fdf1

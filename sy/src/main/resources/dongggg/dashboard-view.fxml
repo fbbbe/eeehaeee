@@ -5,6 +5,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 <?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -56,9 +58,13 @@
                             <Pane HBox.hgrow="ALWAYS"/>
 
                             <VBox spacing="12" alignment="CENTER">
-                                <StackPane prefWidth="140" prefHeight="140"
+                                <StackPane prefWidth="200" prefHeight="200"
                                            styleClass="dashboard-mascot-circle">
-                                    <Label text="🐤" styleClass="dashboard-mascot-emoji"/>
+                                    <ImageView fitWidth="200" fitHeight="200" preserveRatio="true" smooth="true">
+                                        <image>
+                                            <Image url="@images/dongdong.png"/>
+                                        </image>
+                                    </ImageView>
                                 </StackPane>
                                 <Label text="동그리" styleClass="dashboard-mascot-name"/>
                             </VBox>
