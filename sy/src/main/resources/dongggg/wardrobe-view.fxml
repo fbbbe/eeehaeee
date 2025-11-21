@@ -38,7 +38,7 @@
                     <StackPane styleClass="wardrobe-main-card">
                         <VBox alignment="CENTER" spacing="12">
                             <ImageView fx:id="currentSkinImage"
-                                       fitWidth="240" fitHeight="240"
+                                       fitWidth="300" fitHeight="300"
                                        preserveRatio="true" smooth="true"/>
                             <Label fx:id="currentSkinNameLabel" text="기본 동그리" styleClass="wardrobe-main-name"/>
                             <Label fx:id="currentSkinDescLabel" text="귀여운 동그리" styleClass="wardrobe-main-desc"/>

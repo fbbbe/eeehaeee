@@ -1214,6 +1214,7 @@
 
 .timer-text {
     -fx-font-weight: bold;
+    -fx-font-size: 25px;
     -fx-text-fill: #A855DD;
 }
 
@@ -1357,6 +1358,22 @@
 
 .dashboard-back-button:hover {
     -fx-text-fill: #9333CC;
+}
+
+.quiz-back-button {
+    -fx-background-color:#FFE999;
+    -fx-text-fill: #A855DD;
+    -fx-font-size: 25px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(255, 201, 102, 0.4), 16, 0.35, 0, 3);
+    -fx-cursor: hand;
+}
+
+.quiz-back-button:hover {
+    -fx-background-color: linear-gradient(#FFD966, #FFC640);
 }
 
 /* 📌 가운데 카드 */

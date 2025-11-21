@@ -19,7 +19,7 @@
             </padding>
 
             <!-- 뒤로가기 버튼 -->
-            <Button text="◀" onAction="#goBack" styleClass="back-button"/>
+            <Button text="◀" onAction="#goBack" styleClass="quiz-back-button"/>
 
             <VBox alignment="CENTER_LEFT" spacing="2">
                 <Label text="시험 중" styleClass="quiz-title"/>
@@ -36,7 +36,7 @@
                 </HBox>
 
                 <ImageView fx:id="quizMascotImage"
-                           fitWidth="36" fitHeight="36"
+                           fitWidth="150" fitHeight="150"
                            preserveRatio="true" smooth="true"/>
             </HBox>
 

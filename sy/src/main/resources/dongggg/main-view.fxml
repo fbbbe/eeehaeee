@@ -28,7 +28,7 @@
                                onMouseClicked="#onOpenMascot">
                         <children>
                             <ImageView fx:id="avatarImageView"
-                                       fitWidth="60" fitHeight="60"
+                                       fitWidth="100" fitHeight="100"
                                        preserveRatio="true" smooth="true"
                                        styleClass="main-avatar-image"/>
                         </children>
