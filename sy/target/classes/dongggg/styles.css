@@ -461,6 +461,14 @@
 }
 
 /* 시험 모드 선택 */
+.quiz-mode-root {
+    -fx-padding: 36 32 36 32;
+}
+
+.quiz-mode-wrapper {
+    -fx-padding: 10 0 0 0;
+}
+
 .quiz-mode-card {
     -fx-background-color: white;
     -fx-background-radius: 28;
@@ -479,8 +487,10 @@
     -fx-border-color: #FFE5A0;
 }
 
-.quiz-mode-emoji {
-    -fx-font-size: 36px;
+.quiz-mode-icon-surface {
+    -fx-padding: 14;
+    -fx-background-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.24, 0, 3);
 }
 
 .quiz-mode-icon-purple,
@@ -496,6 +506,20 @@
 
 .quiz-mode-icon-yellow {
     -fx-background-color: linear-gradient(#ffe297, #fbbf24);
+}
+
+.quiz-mode-icon-surface.purple {
+    -fx-background-color: linear-gradient(#c084fc, #a855dd);
+}
+
+.quiz-mode-icon-surface.yellow {
+    -fx-background-color: linear-gradient(#ffe297, #fbbf24);
+}
+
+.quiz-mode-icon-path {
+    -fx-stroke: white;
+    -fx-stroke-width: 2;
+    -fx-fill: transparent;
 }
 
 .quiz-mode-title {
@@ -544,7 +568,6 @@
 }
 
 .quiz-mode-start {
-    -fx-pref-width: 100%;
     -fx-padding: 14;
     -fx-font-size: 15px;
     -fx-font-weight: 700;

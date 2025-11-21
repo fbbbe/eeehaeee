@@ -5,6 +5,7 @@ dongggg/DonggriStatus.class
 dongggg/ConceptPairRepository.class
 dongggg/ConceptNoteController$ConceptRow.class
 dongggg/DonggriLevelInfo.class
+dongggg/QuizService$QuizMode.class
 dongggg/NoteFolderRepository.class
 dongggg/QuizController.class
 dongggg/ConceptPair.class
@@ -18,6 +19,7 @@ dongggg/QuizStartController.class
 dongggg/App.class
 dongggg/NoteRepository$NoteStats.class
 dongggg/Folder.class
+dongggg/QuizServiceImpl$1.class
 dongggg/NoteTypeSelectController.class
 dongggg/QuizServiceImpl.class
 dongggg/FolderRepository.class
@@ -25,4 +27,5 @@ dongggg/DonggriRepository$LevelRequirement.class
 dongggg/Note.class
 dongggg/NoteCardController.class
 dongggg/Database.class
+dongggg/QuizModeSelectController.class
 dongggg/DonggriRepository.class

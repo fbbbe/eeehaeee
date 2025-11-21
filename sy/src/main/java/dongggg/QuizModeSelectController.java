@@ -41,8 +41,9 @@ public class QuizModeSelectController {
         totalCountLabel.setText(totalQuestions + "문제");
         totalTimeLabel.setText(estimateMinutes(totalQuestions) + "분");
 
-        int defaultWorst = Math.min(10, Math.max(1, totalQuestions));
-        worstCountSlider.setMax(Math.max(1, totalQuestions));
+        int max = Math.max(1, totalQuestions);
+        int defaultWorst = Math.min(10, max);
+        worstCountSlider.setMax(max);
         worstCountSlider.setValue(defaultWorst);
         updateWorstCountDisplay();
     }
