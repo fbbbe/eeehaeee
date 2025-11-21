@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import dongggg.QuizModeSelectController;
 
 public class QuizStartController {
 
@@ -55,6 +54,7 @@ public class QuizStartController {
         }
     }
 
+    /** 선택된 노트 개수 업데이트 */
     private void updateSelectedCount() {
         long count = cardControllers.stream()
                 .filter(NoteCardController::isSelected)
@@ -104,5 +104,4 @@ public class QuizStartController {
             e.printStackTrace();
         }
     }
-
 }
