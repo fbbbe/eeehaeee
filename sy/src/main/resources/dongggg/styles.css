@@ -726,6 +726,15 @@
     -fx-opacity: 0.7;
 }
 
+.wardrobe-lock-overlay {
+    -fx-background-color: rgba(255,255,255,0.9);
+    -fx-background-radius: 18;
+    -fx-padding: 10 12;
+    -fx-alignment: center;
+    -fx-max-width: Infinity;
+    -fx-max-height: Infinity;
+}
+
 .wardrobe-skin-thumb {
     -fx-background-color: linear-gradient(#fff7df, #ffd966);
     -fx-background-radius: 16;
@@ -743,7 +752,7 @@
 }
 
 .wardrobe-lock-text {
-    -fx-text-fill: #c4b5d8;
+    -fx-text-fill: #d97706;
     -fx-font-size: 12px;
     -fx-font-weight: 700;
 }
