@@ -30,6 +30,9 @@
                     styleClass="transparent-scroll-pane">
             <content>
                 <VBox alignment="CENTER" spacing="16">
+                    <padding>
+                        <Insets top="24" right="80" bottom="120" left="80"/>
+                    </padding>
                     <VBox alignment="CENTER" spacing="6">
                         <HBox alignment="CENTER" spacing="6">
                             <Label text="동그리 옷장" styleClass="wardrobe-title"/>
@@ -62,7 +65,7 @@
 
                     <Label text="스타일 컬렉션" styleClass="wardrobe-section-title"/>
 
-                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" styleClass="transparent-scroll-pane">
+                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="transparent-scroll-pane">
                         <content>
                             <HBox fx:id="skinListBox"
                                   spacing="14"
