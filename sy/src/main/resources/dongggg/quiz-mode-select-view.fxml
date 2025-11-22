@@ -116,10 +116,10 @@
                                 styleClass="quiz-mode-slider"/>
 
                         <HBox alignment="CENTER" spacing="12">
-                            <Button text="5개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect5"/>
-                            <Button text="10개" styleClass="pill-button, quiz-pill-primary" onAction="#onQuickSelect10"/>
-                            <Button text="15개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect15"/>
-                            <Button text="20개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect20"/>
+                            <Button fx:id="btn5" text="5개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect5"/>
+                            <Button fx:id="btn10" text="10개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect10"/>
+                            <Button fx:id="btn15" text="15개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect15"/>
+                            <Button fx:id="btn20" text="20개" styleClass="pill-button, quiz-pill-outline" onAction="#onQuickSelect20"/>
                         </HBox>
                     </VBox>
 
