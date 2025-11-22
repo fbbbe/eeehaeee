@@ -99,14 +99,14 @@
     <center>
         <ScrollPane fitToWidth="true"
                     hbarPolicy="NEVER"
-                    styleClass="transparent-scroll-pane">
+                    styleClass="transparent-scroll-pane,main-scroll-pane">
             <content>
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <VBox spacing="28" prefWidth="960" maxWidth="960"
                               styleClass="main-content">
                             <padding>
-                                <Insets top="16" right="0" bottom="40" left="0"/>
+                                <Insets top="16" right="20" bottom="80" left="20"/>
                             </padding>
                             <children>
 

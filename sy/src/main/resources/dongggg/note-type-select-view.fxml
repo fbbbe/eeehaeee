@@ -32,8 +32,8 @@
                         <Button fx:id="normalButton"
                                 onAction="#onNormalNote"
                                 maxWidth="480"
-                                prefWidth="420"
-                                prefHeight="120"
+                                
+                                
                                 contentDisplay="GRAPHIC_ONLY"
                                 styleClass="note-type-choice, general-choice">
                             <graphic>
@@ -62,8 +62,8 @@
                         <Button fx:id="conceptButton"
                                 onAction="#onConceptNote"
                                 maxWidth="480"
-                                prefWidth="420"
-                                prefHeight="120"
+                                
+                                
                                 contentDisplay="GRAPHIC_ONLY"
                                 styleClass="note-type-choice, concept-choice">
                             <graphic>

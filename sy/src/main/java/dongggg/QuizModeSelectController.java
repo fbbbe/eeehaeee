@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Button;
 
 public class QuizModeSelectController {
 
@@ -18,6 +19,13 @@ public class QuizModeSelectController {
     @FXML private Label worstCountValueLabel;
     @FXML private Label worstSelectedCountLabel;
     @FXML private Label worstTimeLabel;
+    @FXML private Button btn5;
+    @FXML private Button btn10;
+    @FXML private Button btn15;
+    @FXML private Button btn20;
+
+
+
 
     private List<Note> selectedNotes = new ArrayList<>();
     private int totalQuestions = 0;
@@ -37,6 +45,9 @@ public class QuizModeSelectController {
     @FXML
     private void initialize() {
         worstCountSlider.valueProperty().addListener((obs, o, n) -> updateWorstCountDisplay());
+        worstCountSlider.setMin(1);
+        worstCountSlider.setMax(1.1);   // 문제 1개일 때도 동그라미 보이게
+
     }
 
     private void updateCounts() {
@@ -48,7 +59,13 @@ public class QuizModeSelectController {
 
         int max = Math.max(1, totalQuestions);
         int defaultWorst = Math.min(10, max);
+        // 문제 1개일 때도 슬라이더 동그라미(thumb) 보이게 max 살짝 늘리기
+        if (max == 1) {
+            worstCountSlider.setMax(1.1);
+        } else {
         worstCountSlider.setMax(max);
+}
+
         worstCountSlider.setValue(defaultWorst);
 
         updateWorstCountDisplay();
@@ -65,10 +82,17 @@ public class QuizModeSelectController {
         return Math.max(1, (int) Math.round(questions * 1.5));
     }
 
-    @FXML private void onQuickSelect5() { worstCountSlider.setValue(Math.min(5, worstCountSlider.getMax())); }
-    @FXML private void onQuickSelect10() { worstCountSlider.setValue(Math.min(10, worstCountSlider.getMax())); }
-    @FXML private void onQuickSelect15() { worstCountSlider.setValue(Math.min(15, worstCountSlider.getMax())); }
-    @FXML private void onQuickSelect20() { worstCountSlider.setValue(Math.min(20, worstCountSlider.getMax())); }
+    @FXML private void onQuickSelect5()  { quickSelect(5, btn5); }
+    @FXML private void onQuickSelect10() { quickSelect(10, btn10); }
+    @FXML private void onQuickSelect15() { quickSelect(15, btn15); }
+    @FXML private void onQuickSelect20() { quickSelect(20, btn20); }
+
+    private void quickSelect(int count, Button button) {
+        int max = (int) worstCountSlider.getMax();
+        worstCountSlider.setValue(Math.min(count, max));
+        updateQuickSelectStyles(button);
+    }
+
 
     @FXML
     private void onStartAll() {
@@ -111,4 +135,16 @@ public class QuizModeSelectController {
             e.printStackTrace();
         }
     }
+
+    private void updateQuickSelectStyles(Button activeButton) {
+        Button[] buttons = {btn5, btn10, btn15, btn20};
+
+        for (Button b : buttons) {
+            b.getStyleClass().removeAll("quiz-pill-primary", "quiz-pill-outline");
+
+            if (b == activeButton) b.getStyleClass().add("quiz-pill-primary");
+            else b.getStyleClass().add("quiz-pill-outline");
+        }
+    }
+
 }

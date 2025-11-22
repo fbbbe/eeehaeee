@@ -1,13 +1,15 @@
 package dongggg;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
-import java.util.Comparator;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -140,9 +142,9 @@ public class ConceptNoteController {
         explanationArea.setWrapText(true);
         explanationArea.getStyleClass().addAll("explanation-input", "note-pill-input");
 
-        // 처음에는 한 줄만 보이도록
-        termArea.setPrefRowCount(1);
-        explanationArea.setPrefRowCount(1);
+        // 기본 행 높이
+        termArea.setPrefRowCount(2);
+        explanationArea.setPrefRowCount(2);
 
         termArea.setText(term);
         explanationArea.setText(explanation);
@@ -151,9 +153,8 @@ public class ConceptNoteController {
         ConceptRow row = new ConceptRow(termArea, explanationArea);
         rows.add(row);
 
-        // 텍스트가 바뀔 때마다 이 행의 높이를 맞춘다.
-        termArea.textProperty().addListener((obs, oldText, newText) -> syncRowHeight(row));
-        explanationArea.textProperty().addListener((obs, oldText, newText) -> syncRowHeight(row));
+        // 텍스트/폭 변화에 맞춰 자동으로 높이를 키워 스크롤 없이 보여준다.
+        installAutoResize(row);
 
         // 컨테이너에 추가
         conceptContainer.getChildren().add(termArea);
@@ -161,7 +162,8 @@ public class ConceptNoteController {
     }
 
     private void loadExistingNote() {
-        if (note == null || !initialized) return;
+        if (note == null || !initialized)
+            return;
 
         titleField.setText(note.getTitle() != null ? note.getTitle() : "");
 
@@ -182,36 +184,54 @@ public class ConceptNoteController {
                         p.getExplanation() != null ? p.getExplanation() : ""));
     }
 
-    // 한 행의 개념/설명 TextArea 높이를 "같은 줄 수"로 맞춰주는 함수
-    private void syncRowHeight(ConceptRow row) {
-        TextArea termArea = row.termArea;
-        TextArea explanationArea = row.explanationArea;
+    private void installAutoResize(ConceptRow row) {
+        Runnable resize = () -> resizeRowToContent(row);
+        row.termArea.textProperty().addListener((obs, o, n) -> resize.run());
+        row.explanationArea.textProperty().addListener((obs, o, n) -> resize.run());
+        row.termArea.widthProperty().addListener((obs, o, n) -> resize.run());
+        row.explanationArea.widthProperty().addListener((obs, o, n) -> resize.run());
 
-        // 각 TextArea의 실제 줄 수(문단 수)를 구함
-        int termLines = Math.max(1, termArea.getParagraphs().size());
-        int expLines = Math.max(1, explanationArea.getParagraphs().size());
-
-        // 둘 중 더 큰 줄 수만큼 높이를 맞춘다
-        int rowsCount = Math.max(termLines, expLines);
-
-        termArea.setPrefRowCount(rowsCount);
-        explanationArea.setPrefRowCount(rowsCount);
+        // 초기 렌더링 직후 폭이 계산된 상태에서 한번 더 맞춤
+        Platform.runLater(resize);
     }
 
-    // TextArea 안에 줄 수가 늘어나면 그에 맞춰서 줄 수(prefRowCount)를 늘려주는 함수
-    private void autoGrowRows(TextArea area, String text) {
+    private void resizeRowToContent(ConceptRow row) {
+        double termHeight = computeTextAreaHeight(row.termArea);
+        double explanationHeight = computeTextAreaHeight(row.explanationArea);
+        double targetHeight = Math.max(termHeight, explanationHeight);
+
+        applyHeight(row.termArea, targetHeight);
+        applyHeight(row.explanationArea, targetHeight);
+    }
+
+    private void applyHeight(TextArea area, double height) {
+        area.setPrefHeight(height);
+        area.setMinHeight(Region.USE_PREF_SIZE);
+        area.setMaxHeight(Double.MAX_VALUE);
+    }
+
+    private double computeTextAreaHeight(TextArea area) {
+        String text = area.getText();
         if (text == null || text.isEmpty()) {
-            area.setPrefRowCount(1);
-            return;
+            text = " ";
         }
 
-        // 엔터 기준으로 줄 수 계산 (wrap까지 완벽히 반영하는 건 아니지만, 사용성에는 충분함)
-        int lines = text.split("\n", -1).length;
+        double wrappingWidth = area.getWidth()
+                - area.snappedLeftInset()
+                - area.snappedRightInset()
+                - 24; // 여유 padding
 
-        // 너무 미친 듯이 커지지 않게 적당히 상한만 걸어둠 (원하면 없애도 됨)
-        int clamped = Math.max(1, Math.min(lines, 10));
+        Text helper = new Text(text);
+        helper.setFont(area.getFont());
+        if (wrappingWidth > 0) {
+            helper.setWrappingWidth(wrappingWidth);
+        }
 
-        area.setPrefRowCount(clamped);
+        double textHeight = helper.getLayoutBounds().getHeight();
+        double padding = area.snappedTopInset() + area.snappedBottomInset() + 20;
+        double minHeight = 64;
+
+        return Math.max(minHeight, textHeight + padding);
     }
 
     /** 간단한 Alert 헬퍼 (지금은 상태 라벨 + 콘솔 출력) */

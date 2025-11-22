@@ -40,12 +40,12 @@
                             <StackPane prefWidth="26" prefHeight="26" alignment="CENTER">
                                 <SVGPath
                                     content="M21.64 3.64 L20.36 2.36 A1.21 1.21 0 0 0 18.64 2.36 L2.36 18.64 A1.21 1.21 0 0 0 2.36 20.36 L3.64 21.64 A1.2 1.2 0 0 0 5.36 21.64 L21.64 5.36 A1.2 1.2 0 0 0 21.64 3.64 M14 7 L17 10 M5 6 L5 10 M19 14 L19 18 M10 2 L10 4 M7 8 L3 8 M21 16 L17 16 M11 3 L9 3"
-                                    stroke="#FFC640"
                                     fill="transparent"
                                     strokeWidth="2"
                                     strokeLineCap="ROUND"
                                     strokeLineJoin="ROUND"
-                                    style="-fx-scale-x:0.9; -fx-scale-y:0.9;"/>
+                                    style="-fx-scale-x:0.9; -fx-scale-y:0.9;
+                                        -fx-stroke: linear-gradient(from 100% 0% to 0% 100%,  #ffd83b 0%, #a06afd 100%);"/>
                             </StackPane>
                         </HBox>
 

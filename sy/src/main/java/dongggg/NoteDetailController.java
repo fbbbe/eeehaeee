@@ -9,6 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +42,7 @@ public class NoteDetailController {
         if (note == null) {
             setNewNoteMode();
         }
+        setupAutoGrow();
     }
 
     // 외부에서 편집할 노트를 주입
@@ -62,6 +64,7 @@ public class NoteDetailController {
             // 새 노트 작성 모드
             setNewNoteMode();
         }
+        autoGrowContentArea();
     }
 
     @FXML
@@ -142,5 +145,25 @@ public class NoteDetailController {
         contentArea.clear();
         dateLabel.setText("새 노트");
         deleteButton.setDisable(true); // 새 노트는 삭제 버튼 비활성화
+        autoGrowContentArea();
+    }
+
+    /**
+     * 내용 입력 시 TextArea 높이를 줄 수에 맞춰 확장하여
+     * 페이지가 스크롤되도록 설정한다.
+     */
+    private void setupAutoGrow() {
+        contentArea.textProperty().addListener((obs, o, n) -> autoGrowContentArea());
+        autoGrowContentArea();
+    }
+
+    private void autoGrowContentArea() {
+        if (contentArea == null) return;
+        String text = contentArea.getText();
+        int lines = text == null || text.isEmpty() ? 1 : text.split("\n", -1).length;
+        int rowCount = Math.max(6, Math.min(60, lines + 2));
+        contentArea.setPrefRowCount(rowCount);
+        contentArea.setMinHeight(Region.USE_PREF_SIZE);
+        contentArea.setMaxHeight(Region.USE_COMPUTED_SIZE);
     }
 }

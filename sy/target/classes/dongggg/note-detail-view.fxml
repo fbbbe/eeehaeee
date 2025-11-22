@@ -12,75 +12,84 @@
             styleClass="root-pane,main-root">
 
     <center>
-        <VBox spacing="12">
-            <padding>
-                <Insets top="20" right="20" bottom="16" left="20"/>
-            </padding>
-            <children>
-
-                <!-- 상단 헤더 -->
-                <VBox spacing="4">
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED"
+                    pannable="true"
+                    styleClass="transparent-scroll-pane">
+            <content>
+                <VBox spacing="16" alignment="TOP_LEFT">
+                    <padding>
+                        <Insets top="20" right="28" bottom="80" left="28"/>
+                    </padding>
                     <children>
-                        <Label text="노트 편집" styleClass="section-title"/>
-                        <Label fx:id="dateLabel" styleClass="note-date"/>
+
+                        <!-- 상단 헤더 -->
+                        <VBox spacing="4" maxWidth="900">
+                            <children>
+                                <Label text="노트 편집" styleClass="section-title"/>
+                                <Label fx:id="dateLabel" styleClass="note-date"/>
+                            </children>
+                        </VBox>
+                        <!-- 제목 -->
+                        <TextField fx:id="titleField"
+                                   promptText="제목을 입력하세요"
+                                   
+                                   styleClass="note-pill-input"/>
+
+                        <!-- 내용 -->
+                        <TextArea fx:id="contentArea"
+                                  promptText="내용을 입력하세요"
+                                  wrapText="true"
+                                  prefRowCount="8"
+                                  
+                                  styleClass="note-pill-input"/>
+                        <!-- 버튼들 -->
+                        <HBox spacing="8" alignment="CENTER">
+                            <children>
+
+                                <!-- 삭제 버튼: 아이콘 + 텍스트 -->
+                                <Button fx:id="deleteButton"
+                                        text="삭제"
+                                        onAction="#onDelete"
+                                        styleClass="pill-button, pill-button-danger"
+                                        contentDisplay="LEFT"
+                                        graphicTextGap="6">
+                                    <graphic>
+                                        <StackPane prefWidth="16" prefHeight="16" alignment="CENTER">
+                                            <SVGPath
+                                                    content="M10 11v6 M14 11v6
+                                                             M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6
+                                                             M3 6h18
+                                                             M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                                    stroke="black"
+                                                    fill="transparent"
+                                                    strokeWidth="2"
+                                                    strokeLineCap="ROUND"
+                                                    strokeLineJoin="ROUND"
+                                                    style="-fx-scale-x:0.65; -fx-scale-y:0.65;"/>
+                                        </StackPane>
+                                    </graphic>
+                                </Button>
+
+                                <Pane HBox.hgrow="ALWAYS"/>
+
+                                
+                                <Button text="취소"
+                                        onAction="#onCancel"
+                                        styleClass="pill-button, pill-button-outline"/>
+
+                                <Button text="저장"
+                                        onAction="#onSave"
+                                        styleClass="pill-button, pill-button-primary"/>
+
+                            </children>
+                        </HBox>
+
                     </children>
                 </VBox>
-
-                <!-- 제목 -->
-                <TextField fx:id="titleField"
-                           promptText="제목을 입력하세요"
-                           styleClass="note-pill-input"/>
-
-                <!-- 내용 -->
-                <TextArea fx:id="contentArea"
-                          promptText="내용을 입력하세요"
-                          prefRowCount="16"
-                          wrapText="true"
-                          styleClass="note-pill-input"/>
-
-                <!-- 버튼들 -->
-                <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <children>
-
-                        <!-- 삭제 버튼: 아이콘 + 텍스트 -->
-                        <Button fx:id="deleteButton"
-                                text="삭제"
-                                onAction="#onDelete"
-                                styleClass="pill-button, pill-button-danger"
-                                contentDisplay="LEFT"
-                                graphicTextGap="6">
-                            <graphic>
-                                <StackPane prefWidth="16" prefHeight="16" alignment="CENTER">
-                                    <SVGPath
-                                            content="M10 11v6 M14 11v6
-                                                     M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6
-                                                     M3 6h18
-                                                     M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                                            stroke="black"
-                                            fill="transparent"
-                                            strokeWidth="2"
-                                            strokeLineCap="ROUND"
-                                            strokeLineJoin="ROUND"
-                                            style="-fx-scale-x:0.65; -fx-scale-y:0.65;"/>
-                                </StackPane>
-                            </graphic>
-                        </Button>
-
-                        <Pane HBox.hgrow="ALWAYS"/>
-
-                        <Button text="취소"
-                                onAction="#onCancel"
-                                styleClass="pill-button, pill-button-outline"/>
-
-                        <Button text="저장"
-                                onAction="#onSave"
-                                styleClass="pill-button, pill-button-primary"/>
-
-                    </children>
-                </HBox>
-
-            </children>
-        </VBox>
+            </content>
+        </ScrollPane>
     </center>
 
 </BorderPane>
