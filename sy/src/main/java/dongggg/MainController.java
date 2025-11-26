@@ -34,6 +34,7 @@ import dongggg.FolderRepository;
 import dongggg.NoteFolderRepository;
 import dongggg.NoteRepository;
 
+// 변수 파란색, 매소드 노란색, 타입 초록색
 /**
  * 메인 화면(폴더 + 최근 노트 목록)을 담당하는 컨트롤러.
  * 여기서는 새 창(Stage)을 만들지 않고,
@@ -69,13 +70,13 @@ public class MainController {
 
     @FXML // FXML로딩 후 자동 호충되는 매소드 (폴더 로드 > 호버 애니매이션 설치 > 초기 필터 선택)
     public void initialize() {
-        loadFolders();
-        applyFolderHoverAnimations();
-        selectDefaultFilter();
+        loadFolders(); // 309에 정의됨
+        applyFolderHoverAnimations(); // 458에 정의됨
+        selectDefaultFilter(); // 373에 정의됨
 
         // 🔥🔍 검색 기능 추가 검색창의 택스트가 바뀔 떄마다 onsearch 호출
         searchField.textProperty().addListener((obs, oldValue, newValue) -> { // 얘는 람다식 함수
-            onSearch(newValue);
+            onSearch(newValue); // 바로 하단에 정의됨
         });
 
         updateAvatarImage();
@@ -86,7 +87,7 @@ public class MainController {
         String k = keyword.trim(); // 양쪽 공백 제거
 
         folderRow.getChildren().clear();
-        recentNotesBox.getChildren().clear(); // 기존애 보이던 폴더랑 파일 지우기
+        recentNotesBox.getChildren().clear(); // 기존에 보이던 폴더랑 파일 지우기
 
         if (k.isEmpty()) { // 검색이 빈 문자열이면 원래대로 로드되게
             loadFolders();
@@ -143,12 +144,12 @@ public class MainController {
      * 클릭 시 해당 편집 화면으로 페이지 전환한다.
      */
     private HBox createNoteCard(Note note) {
-        HBox card = new HBox();
-        card.setAlignment(Pos.CENTER_LEFT);
-        card.setSpacing(8);
-        card.getStyleClass().add("note-card");
+        HBox card = new HBox(); // HBox타입의 card라는 변수 선언
+        card.setAlignment(Pos.CENTER_LEFT); // 왼쪽 정렬
+        card.setSpacing(8); // 간격 8만쿰
+        card.getStyleClass().add("note-card"); // css 추가
 
-        VBox textBox = new VBox(4);
+        VBox textBox = new VBox(4); // VBox타입의 textBox 선언
 
         Label titleLabel = new Label(note.getTitle());
         titleLabel.getStyleClass().add("note-title");
@@ -173,12 +174,12 @@ public class MainController {
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
         card.getChildren().add(spacer);
 
-        Button moreBtn = new Button("⋮");
+        Button moreBtn = new Button("⋮"); // 오른편의 점 3개짜리
         moreBtn.getStyleClass().add("note-more-button");
         moreBtn.setOnAction(e -> showNoteMenu(note, moreBtn));
         card.getChildren().add(moreBtn);
 
-        card.setOnMouseClicked(e -> {
+        card.setOnMouseClicked(e -> { // 일반, 개념 노트 구분 컨트롤
             if (note.getType().equalsIgnoreCase("CONCEPT")) {
                 App.showConceptNoteEditor(note);
             } else {
