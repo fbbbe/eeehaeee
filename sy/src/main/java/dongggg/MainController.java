@@ -1,30 +1,30 @@
 package dongggg;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.animation.Interpolator; //값이 선형이 아니라 부드럽게 움직이도록 지정
+import javafx.animation.KeyFrame; // 몇 ms뒤에 어떤 값이 되있어라
+import javafx.animation.KeyValue; //변하는 속성의 목표값
+import javafx.animation.Timeline; //시간에 따라 값이 변함
+import javafx.beans.property.DoubleProperty; //double 값이 바뀔 때 리스너를 붙일 수 있는 형태.
+import javafx.beans.property.SimpleDoubleProperty; // 그 구현체
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.geometry.Side;
-import javafx.scene.control.Button;
+import javafx.geometry.Pos; //정렬 (LEFT, RIGHT 등)
+import javafx.geometry.Side; //팝업을 어디 방향에 붙일지
+import javafx.scene.control.Button; // 여기서부터 javaFX의 컨트롤들, 메뉴 안에 HBOX같은 것 추가 가능 것.
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.CustomMenuItem;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.HBox;
+import javafx.scene.effect.DropShadow; // 그림자 효과 줌
+import javafx.scene.layout.HBox; // 컨테이너 레이아웃 들
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
-import javafx.util.Duration;
-import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color; // 색상
+import javafx.scene.shape.SVGPath; // SGV 추가 가능
+import javafx.util.Duration; // 애니매이션 시간 표현
+import javafx.scene.image.ImageView; //이미지 표시용 노드
 import dongggg.MascotProvider;
 import dongggg.DonggriRepository;
 
@@ -42,39 +42,39 @@ import dongggg.NoteRepository;
 public class MainController {
 
     @FXML
-    private TextField searchField;
+    private TextField searchField; // fx:id="searchField" 인 TextField가 여기에 주입됨.
 
     @FXML
-    private Button newNoteButton;
+    private Button newNoteButton; // + 새 노트 버튼.
 
     @FXML
-    private HBox folderRow;
+    private HBox folderRow;// 전체 노트 / 개념 노트 / 일반 노트 / 사용자 폴더들” 카드가 가로로 쭉 들어가는 컨테이너.
 
     @FXML
-    private VBox recentNotesBox;
+    private VBox recentNotesBox; // 최근 노트 리스트가 카드 형태로 쌓이는 곳.
     @FXML
-    private Label notesSectionLabel;
+    private Label notesSectionLabel; // “최근 노트”, “전체 노트”, “검색 결과” 같은 타이틀 표시하는 라벨.
     @FXML
-    private ImageView avatarImageView;
+    private ImageView avatarImageView; // 동그리 마스코트 이미지를 보여주는 ImageView.
 
-    private static final Duration HOVER_DURATION = Duration.millis(240);
-    private static final String FOLDER_ICON_COLOR = "#F4B400";
-    private static final int FILTER_ALL = -1;
-    private static final int FILTER_CONCEPT = -2;
+    private static final Duration HOVER_DURATION = Duration.millis(240); // 카드 hover 애니메이션에 사용할 시간: 240ms
+    private static final String FOLDER_ICON_COLOR = "#F4B400"; // 폴더 아이콘 기본 색상
+    private static final int FILTER_ALL = -1; // 여기부터 특수 id 값 음수는 특수 필터 (전체, 개념, 일반 노트)
+    private static final int FILTER_CONCEPT = -2; // 0이상은 실제 폴더
     private static final int FILTER_NORMAL = -3;
 
-    private Region selectedFolderCard;
-    private int currentFilter = FILTER_ALL;
+    private Region selectedFolderCard; // 현재 선택된 폴더들
+    private int currentFilter = FILTER_ALL; // 현재 필터 ID 텍스트
     private String currentFolderName = "최근 노트";
 
-    @FXML
+    @FXML // FXML로딩 후 자동 호충되는 매소드 (폴더 로드 > 호버 애니매이션 설치 > 초기 필터 선택)
     public void initialize() {
         loadFolders();
         applyFolderHoverAnimations();
         selectDefaultFilter();
 
-        // 🔥🔍 검색 기능 추가
-        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+        // 🔥🔍 검색 기능 추가 검색창의 택스트가 바뀔 떄마다 onsearch 호출
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> { // 얘는 람다식 함수
             onSearch(newValue);
         });
 
@@ -83,12 +83,12 @@ public class MainController {
 
     /** 🔍 검색 기능 */
     private void onSearch(String keyword) {
-        String k = keyword.trim();
+        String k = keyword.trim(); // 양쪽 공백 제거
 
         folderRow.getChildren().clear();
-        recentNotesBox.getChildren().clear();
+        recentNotesBox.getChildren().clear(); // 기존애 보이던 폴더랑 파일 지우기
 
-        if (k.isEmpty()) {
+        if (k.isEmpty()) { // 검색이 빈 문자열이면 원래대로 로드되게
             loadFolders();
             selectDefaultFilter();
             return;
@@ -131,7 +131,7 @@ public class MainController {
             }
         }
 
-        for (Note note : notes) {
+        for (Note note : notes) { // 각 노트를 카드로 만들고 리스트에 추가
             HBox card = createNoteCard(note);
             recentNotesBox.getChildren().add(card);
         }

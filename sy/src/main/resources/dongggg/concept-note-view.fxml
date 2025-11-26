@@ -97,7 +97,7 @@
             <children>
                 <Label fx:id="statusLabel" styleClass="note-date" HBox.hgrow="ALWAYS"/>
 
-                <Button text="닫기" onAction="#onCancel"
+                <Button text="취소" onAction="#onCancel"
                         styleClass="pill-button, pill-button-outline"/>
 
                 <Button text="저장" onAction="#onSaveAll"
