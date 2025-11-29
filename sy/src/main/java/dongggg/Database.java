@@ -115,7 +115,8 @@ public class Database {
             stmt.execute(createMascotSkins);
             ensureMascotSkins(conn);
 
-            System.out.println("[DB] notes / concept_pairs / donggri_levels / donggri_status / folders / note_folders / mascot_skins 테이블 초기화 완료");
+            System.out.println(
+                    "[DB] notes / concept_pairs / donggri_levels / donggri_status / folders / note_folders / mascot_skins 테이블 초기화 완료");
         } catch (SQLException e) {
             System.out.println("[DB] 초기화 중 오류 발생");
             e.printStackTrace();
@@ -160,6 +161,7 @@ public class Database {
     }
 
     /**
+     * 865
      * donggri_status에 단일 행이 없으면 기본값(0,0)으로 채운다.
      */
     private static void ensureDonggriStatusRow(Connection conn) throws SQLException {
@@ -170,8 +172,8 @@ public class Database {
                 return;
             }
         }
-// 1, 0, 0, 0, 1
-        String insertSql = "INSERT INTO donggri_status (id, cumulative_score, cumulative_correct, exam_count, selected_skin) VALUES (1, 999999, 999999, 0, 1)";
+        // 1, 0, 0, 0, 1
+        String insertSql = "INSERT INTO donggri_status (id, cumulative_score, cumulative_correct, exam_count, selected_skin) VALUES (1, 999999, 25244, 0, 1)";
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(insertSql);
         }
