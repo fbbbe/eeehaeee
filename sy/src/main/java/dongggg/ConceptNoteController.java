@@ -4,9 +4,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.geometry.Side;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -45,8 +52,16 @@ public class ConceptNoteController {
     @FXML
     private Button cancelb;
 
+    @FXML
+    private Button sortButton;
+
+    @FXML
+    private Button deleteButton;
+
     // 현재 화면에 존재하는 개념/설명 입력 행들을 관리
     private final List<ConceptRow> rows = new ArrayList<>();
+    private SortMode sortMode = SortMode.DEFAULT;
+    private ContextMenu sortMenu;
 
     public void setNote(Note note) {
         this.note = note;
@@ -61,12 +76,17 @@ public class ConceptNoteController {
         if (cancelb != null) {
             HoverEffects.installPurpleHover(cancelb);
         }
+        if (deleteButton != null) {
+            deleteButton.setDisable(true);
+        }
         // 화면 열릴 때 최소 1개의 입력 행을 만들어 둔다.
         addEmptyRow();
+        renderRows();
         initialized = true;
         if (note != null) {
             loadExistingNote();
         }
+        updateSortMenuLabel();
         deferBlurInputs();
     }
 
@@ -74,6 +94,33 @@ public class ConceptNoteController {
     @FXML
     private void onAddPair() {
         addEmptyRow();
+        renderRows();
+    }
+
+    @FXML
+    private void onSortDefault() {
+        setSortMode(SortMode.DEFAULT);
+    }
+
+    @FXML
+    private void onSortWrongRate() {
+        setSortMode(SortMode.WRONG_RATE);
+    }
+
+    @FXML
+    private void onOpenSortMenu() {
+        if (sortButton == null) {
+            return;
+        }
+
+        if (sortMenu != null) {
+            sortMenu.hide();
+        }
+
+        sortMenu = buildSortMenu();
+        sortMenu.getStyleClass().add("note-context-menu");
+        sortMenu.setOnHidden(e -> sortMenu = null);
+        sortMenu.show(sortButton, Side.TOP, 0, 0);
     }
 
     /** 저장 버튼 클릭 시 */
@@ -88,7 +135,9 @@ public class ConceptNoteController {
 
         // 입력된 개념/설명 쌍 모으기
         List<ConceptPairData> dataList = new ArrayList<>();
-        for (ConceptRow row : rows) {
+        for (ConceptRow row : rows.stream()
+                .sorted(Comparator.comparingInt(r -> r.sortOrder))
+                .toList()) {
             String term = row.termArea.getText() != null ? row.termArea.getText().trim() : "";
             String explanation = row.explanationArea.getText() != null ? row.explanationArea.getText().trim() : "";
 
@@ -135,25 +184,51 @@ public class ConceptNoteController {
         App.showMainView();
     }
 
+    @FXML
+    private void onDelete() {
+        if (note == null) {
+            App.showMainView();
+            return;
+        }
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("삭제 확인");
+        alert.setHeaderText("노트를 삭제할까요?");
+        alert.setContentText("이 작업은 되돌릴 수 없습니다.");
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                NoteRepository.delete(note.getId());
+                App.showMainView();
+            }
+        });
+    }
+
     /**
      * 실제로 양쪽 컬럼에 새 입력 행을 추가하는 내부 메서드.
      */
     private void addEmptyRow() {
-        addRowWithValue("", "");
+        addRowWithValue("", "", nextSortOrder(), 0.0, null);
     }
 
-    private void addRowWithValue(String term, String explanation) {
+    private void addRowWithValue(String term, String explanation, int sortOrder, double wrongRate, Integer pairId) {
+        addRowWithValue(term, explanation, sortOrder, wrongRate, pairId, 0);
+    }
+
+    private void addRowWithValue(String term, String explanation, int sortOrder, double wrongRate, Integer pairId, int totalAttempts) {
         // 왼쪽: 개념 입력 TextArea
         TextArea termArea = new TextArea();
         termArea.setPromptText("Ex. 데이터의 정의");
         termArea.setWrapText(true);
         termArea.getStyleClass().addAll("concept-input", "note-pill-input");
+        termArea.setMinWidth(0);
 
         // 오른쪽: 설명 입력 TextArea
         TextArea explanationArea = new TextArea();
         explanationArea.setPromptText("설명을 입력하세요");
         explanationArea.setWrapText(true);
         explanationArea.getStyleClass().addAll("explanation-input", "note-pill-input");
+        explanationArea.setMinWidth(0);
 
         // 기본 행 높이
         termArea.setPrefRowCount(2);
@@ -163,15 +238,59 @@ public class ConceptNoteController {
         explanationArea.setText(explanation);
 
         // 행 객체 하나 만들어서 리스트에 넣어두기
-        ConceptRow row = new ConceptRow(termArea, explanationArea);
+        ConceptRow row = new ConceptRow(termArea, explanationArea, sortOrder, wrongRate, pairId, totalAttempts);
         rows.add(row);
 
         // 텍스트/폭 변화에 맞춰 자동으로 높이를 키워 스크롤 없이 보여준다.
         installAutoResize(row);
+    }
 
-        // 컨테이너에 추가
-        conceptContainer.getChildren().add(termArea);
-        explanationContainer.getChildren().add(explanationArea);
+    private int nextSortOrder() {
+        return rows.stream().mapToInt(r -> r.sortOrder).max().orElse(-1) + 1;
+    }
+
+    private void renderRows() {
+        if (conceptContainer == null || explanationContainer == null) {
+            return;
+        }
+
+        List<ConceptRow> ordered = new ArrayList<>(rows);
+        if (sortMode == SortMode.WRONG_RATE) {
+            Comparator<ConceptRow> byWrongRate = Comparator
+                    .comparingDouble((ConceptRow r) -> r.wrongRate)
+                    .reversed()
+                    .thenComparing(Comparator.comparingInt((ConceptRow r) -> r.totalAttempts).reversed())
+                    .thenComparingInt(r -> r.sortOrder)
+                    .thenComparingInt(r -> r.pairId != null ? r.pairId : Integer.MAX_VALUE);
+            ordered.sort(byWrongRate);
+        } else {
+            ordered.sort(Comparator.comparingInt(r -> r.sortOrder));
+        }
+
+        conceptContainer.getChildren().clear();
+        explanationContainer.getChildren().clear();
+
+        for (ConceptRow row : ordered) {
+            conceptContainer.getChildren().add(row.termArea);
+            explanationContainer.getChildren().add(row.explanationArea);
+        }
+    }
+
+    private void setSortMode(SortMode mode) {
+        sortMode = mode;
+        if (sortMenu != null) {
+            sortMenu.hide();
+        }
+        updateSortMenuLabel();
+        renderRows();
+    }
+
+    private void updateSortMenuLabel() {
+        if (sortButton == null) {
+            return;
+        }
+        String label = sortMode == SortMode.WRONG_RATE ? "정렬: 오답률순" : "정렬: 기본순";
+        sortButton.setText(label);
     }
 
     private void loadExistingNote() {
@@ -184,9 +303,16 @@ public class ConceptNoteController {
         conceptContainer.getChildren().clear();
         explanationContainer.getChildren().clear();
 
+        sortMode = SortMode.DEFAULT;
+
         List<ConceptPair> pairs = ConceptPairRepository.findByNoteId(note.getId());
         if (pairs.isEmpty()) {
             addEmptyRow();
+            renderRows();
+            updateSortMenuLabel();
+            if (deleteButton != null) {
+                deleteButton.setDisable(false);
+            }
             return;
         }
 
@@ -194,7 +320,16 @@ public class ConceptNoteController {
                 .sorted(Comparator.comparingInt(ConceptPair::getSortOrder))
                 .forEach(p -> addRowWithValue(
                         p.getTerm() != null ? p.getTerm() : "",
-                        p.getExplanation() != null ? p.getExplanation() : ""));
+                        p.getExplanation() != null ? p.getExplanation() : "",
+                        p.getSortOrder(),
+                        p.getWrongRate(),
+                        p.getId(),
+                        p.getTotalAttempts()));
+        renderRows();
+        updateSortMenuLabel();
+        if (deleteButton != null) {
+            deleteButton.setDisable(false);
+        }
     }
 
     private void installAutoResize(ConceptRow row) {
@@ -229,7 +364,9 @@ public class ConceptNoteController {
             text = " ";
         }
 
-        double wrappingWidth = area.getWidth()
+        double measuredWidth = area.getWidth();
+        double minMeasureWidth = 360; // collapse 시에도 높이가 급변하지 않도록 최소 측정 폭 유지
+        double wrappingWidth = Math.max(measuredWidth, minMeasureWidth)
                 - area.snappedLeftInset()
                 - area.snappedRightInset()
                 - 24; // 여유 padding
@@ -253,14 +390,53 @@ public class ConceptNoteController {
         System.out.println("[ConceptNote][ALERT] " + message);
     }
 
+    private enum SortMode {
+        DEFAULT,
+        WRONG_RATE
+    }
+
+    private ContextMenu buildSortMenu() {
+        ContextMenu menu = new ContextMenu();
+
+        CustomMenuItem defaultItem = buildSortItem("기본순", this::onSortDefault);
+
+        CustomMenuItem wrongRateItem = buildSortItem("오답률순", this::onSortWrongRate);
+
+        menu.getItems().addAll(defaultItem, wrongRateItem);
+        return menu;
+    }
+
+    private CustomMenuItem buildSortItem(String text, Runnable action) {
+        Label label = new Label(text);
+        label.getStyleClass().add("concept-sort-label");
+
+        HBox row = new HBox(label);
+        row.setSpacing(8);
+        row.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        row.getStyleClass().add("concept-sort-item");
+
+        CustomMenuItem item = new CustomMenuItem(row);
+        item.setHideOnClick(true);
+        item.setOnAction(e -> action.run());
+        return item;
+    }
+
     /** 한 행을 구성하는 개념/설명 TextArea 쌍 */
     private static class ConceptRow {
         final TextArea termArea;
         final TextArea explanationArea;
+        final int sortOrder;
+        final double wrongRate;
+        final Integer pairId;
+        final int totalAttempts;
 
-        ConceptRow(TextArea termArea, TextArea explanationArea) {
+        ConceptRow(TextArea termArea, TextArea explanationArea, int sortOrder, double wrongRate, Integer pairId, int totalAttempts) {
             this.termArea = termArea;
             this.explanationArea = explanationArea;
+            this.sortOrder = sortOrder;
+            this.wrongRate = wrongRate;
+            this.pairId = pairId;
+            this.totalAttempts = totalAttempts;
         }
     }
 

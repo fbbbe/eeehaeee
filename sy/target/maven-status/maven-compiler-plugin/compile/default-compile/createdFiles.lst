@@ -6,6 +6,7 @@ dongggg/NoteFolderRepository.class
 dongggg/ConceptPair.class
 dongggg/WardrobeController.class
 dongggg/DashboardController.class
+dongggg/ConceptNoteController$SortMode.class
 dongggg/QuizResultController.class
 dongggg/QuizStartController.class
 dongggg/App.class

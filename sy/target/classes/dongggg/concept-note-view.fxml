@@ -54,7 +54,7 @@
                             <items>
 
                                 <!-- 왼쪽: 개념 입력 칼럼 (ScrollPane 제거) -->
-                                <VBox spacing="8">
+                                <VBox spacing="8" minWidth="0">
                                     <children>
                                         <!-- 여기에 개념 TextArea 들이 세로로 쌓인다 -->
                                         <VBox fx:id="conceptContainer" spacing="12"/>
@@ -62,7 +62,7 @@
                                 </VBox>
 
                                 <!-- 오른쪽: 설명 입력 칼럼 (ScrollPane 제거) -->
-                                <VBox spacing="8">
+                                <VBox spacing="8" minWidth="0">
                                     <children>
                                         <!-- 여기에 설명 TextArea 들이 세로로 쌓인다 -->
                                         <VBox fx:id="explanationContainer" spacing="12"/>
@@ -90,13 +90,27 @@
 
     <!-- 하단: 상태 + 닫기/저장 -->
     <bottom>
-        <HBox spacing="8" alignment="CENTER_RIGHT">
+        <HBox spacing="10" alignment="CENTER">
             <padding>
                 <Insets top="8" right="20" bottom="16" left="20"/>
             </padding>
             <children>
+                <Button fx:id="deleteButton"
+                        text="삭제"
+                        onAction="#onDelete"
+                        styleClass="pill-button, pill-button-danger"
+                        minHeight="36"
+                        prefHeight="36"
+                        contentDisplay="LEFT"/>
+
+                <Button fx:id="sortButton"
+                        text="정렬"
+                        onAction="#onOpenSortMenu"
+                        styleClass="pill-button, pill-button-outline, concept-sort-button"/>
+
                 <Label fx:id="statusLabel" styleClass="note-date" HBox.hgrow="ALWAYS"/>
 
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Button fx:id="cancelb" text="취소" onAction="#onCancel"
                         styleClass="pill-button, pill-button-outline"/>
 

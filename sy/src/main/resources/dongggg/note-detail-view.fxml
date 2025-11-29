@@ -53,6 +53,8 @@
                                         text="삭제"
                                         onAction="#onDelete"
                                         styleClass="pill-button, pill-button-danger"
+                                        minHeight="36"
+                                        prefHeight="36"
                                         contentDisplay="LEFT"
                                         graphicTextGap="6">
                                     <graphic>

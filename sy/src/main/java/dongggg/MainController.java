@@ -59,6 +59,8 @@ public class MainController {
     @FXML
     private ImageView avatarImageView; // 동그리 마스코트 이미지를 보여주는 ImageView.
 
+    private ContextMenu folderContextMenu; // 폴더 컨텍스트 메뉴는 하나만 유지
+
     private static final Duration HOVER_DURATION = Duration.millis(240); // 카드 hover 애니메이션에 사용할 시간: 240ms
     private static final String FOLDER_ICON_COLOR = "#F4B400"; // 폴더 아이콘 기본 색상
     private static final int FILTER_ALL = -1; // 여기부터 특수 id 값 음수는 특수 필터 (전체, 개념, 일반 노트)
@@ -387,7 +389,13 @@ public class MainController {
             return;
         }
 
+        if (folderContextMenu != null) {
+            folderContextMenu.hide();
+        }
+
         ContextMenu menu = new ContextMenu();
+        folderContextMenu = menu;
+        menu.setOnHidden(e -> folderContextMenu = null);
         menu.getStyleClass().add("note-context-menu");
 
         CustomMenuItem deleteItem = new CustomMenuItem(buildDeleteRow());
