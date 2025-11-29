@@ -9,8 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -53,7 +51,7 @@ public class QuizController {
     private int elapsedTime = 0;
     private Timeline timer;
 
-    private Scene previousScene;
+    private Parent previousRoot;
 
     public void initQuiz(List<Note> selectedNotes, QuizService.QuizMode mode, int limit) {
         if (next != null) {
@@ -187,18 +185,17 @@ public class QuizController {
             DonggriRepository.setLastExamResult(correctCount, totalQuestions);
 
             // 🔥 기존 기능 유지: 이전 화면 저장
-            controller.setPreviousScene(conceptLabel.getScene());
+            controller.setPreviousRoot(App.getScene().getRoot());
 
-            Stage stage = (Stage) conceptLabel.getScene().getWindow();
-            stage.setScene(new Scene(root, 1200, 720));
+            App.swapRootKeepingState(root);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setPreviousScene(Scene scene) {
-        this.previousScene = scene;
+    public void setPreviousRoot(Parent root) {
+        this.previousRoot = root;
     }
 
     // 🔥 FXML용 goBack()
@@ -207,11 +204,8 @@ public class QuizController {
         try {
             stopTimer(); // 타이머 정지
 
-            Stage stage = (Stage) conceptLabel.getScene().getWindow();
-
-            // 🔥 시험 시작 전 화면으로 그대로 복귀
-            if (previousScene != null) {
-                stage.setScene(previousScene);
+            if (previousRoot != null) {
+                App.swapRootKeepingState(previousRoot);
             }
 
         } catch (Exception e) {

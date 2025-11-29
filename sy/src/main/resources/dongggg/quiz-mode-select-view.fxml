@@ -24,7 +24,7 @@
         
 
     <center>
-        <VBox alignment="TOP_CENTER" spacing="40">
+        <VBox alignment="CENTER" spacing="40">
             
             <!-- 타이틀 영역 -->
             <VBox alignment="CENTER" spacing="8">

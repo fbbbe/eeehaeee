@@ -4,13 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.Button;
 
 public class QuizModeSelectController {
 
@@ -42,11 +39,11 @@ public class QuizModeSelectController {
     private List<Note> selectedNotes = new ArrayList<>();
     private int totalQuestions = 0;
 
-    // QuizStart 화면의 Scene 저장
-    private Scene previousScene;
+    // QuizStart 화면의 Root 저장
+    private Parent previousRoot;
 
-    public void setPreviousScene(Scene scene) {
-        this.previousScene = scene;
+    public void setPreviousRoot(Parent root) {
+        this.previousRoot = root;
     }
 
     public void setSelectedNotes(List<Note> notes) {
@@ -139,9 +136,10 @@ public class QuizModeSelectController {
     @FXML
     private void goBack() {
         try {
-            Stage stage = (Stage) totalCountLabel.getScene().getWindow();
-            if (previousScene != null) {
-                stage.setScene(previousScene);
+            if (previousRoot != null) {
+                App.swapRootKeepingState(previousRoot);
+            } else {
+                App.showQuizStartView();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,10 +153,9 @@ public class QuizModeSelectController {
 
             QuizController controller = loader.getController();
             controller.initQuiz(selectedNotes, mode, limit);
-            controller.setPreviousScene(worstCountSlider.getScene());
+            controller.setPreviousRoot(App.getScene().getRoot());
 
-            Stage stage = App.getStage();
-            stage.setScene(new Scene(root, 1200, 720));
+            App.swapRootKeepingState(root);
         } catch (Exception e) {
             e.printStackTrace();
         }

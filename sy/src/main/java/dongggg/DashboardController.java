@@ -4,10 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import dongggg.MascotProvider;
 
@@ -68,42 +64,25 @@ public class DashboardController {
     /** 🔥 노트 관리 화면 이동 — Scene 방식 */
     @FXML
     private void goNoteManager() {
-        switchScene("main-view.fxml");
+        App.showMainView();
     }
 
     /** 🔥 새 노트 작성 화면 이동 — Scene 방식 */
     @FXML
     private void goConceptNote() {
-        switchScene("note-type-select-view.fxml");
+        App.showNoteTypeSelect();
     }
 
     /** 🔥 시험 시작 화면 이동 — Scene 방식 */
     @FXML
     private void goQuiz() {
-        switchScene("quiz-start-view.fxml");
+        App.showQuizStartView();
     }
 
     /** 🔥 동그리 옷장 이동 */
     @FXML
     private void openWardrobe() {
         App.showWardrobeView();
-    }
-
-    /** 중앙 공용: Scene 교체 함수 */
-    private void switchScene(String fxml) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) noteManageButton.getScene().getWindow();
-            Scene scene = new Scene(root, 1200, 720);
-
-            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-            stage.setScene(scene);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void updateLevelCard() {

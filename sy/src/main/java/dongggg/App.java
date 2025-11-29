@@ -39,9 +39,41 @@ public class App extends Application {
     }
 
     private static void replaceSceneRoot(Parent root) {
-        scene = new Scene(root, 1200, 720);
-        scene.getStylesheets().add(MAIN_STYLESHEET);
-        stage.setScene(scene);
+        swapRootKeepingState(root);
+    }
+
+    public static Parent swapRootKeepingState(Parent newRoot) {
+        boolean wasFullScreen = stage != null && stage.isFullScreen();
+        boolean wasMaximized = stage != null && stage.isMaximized();
+        double prevWidth = stage != null ? stage.getWidth() : 1200;
+        double prevHeight = stage != null ? stage.getHeight() : 720;
+
+        Parent previousRoot = scene != null ? scene.getRoot() : null;
+
+        if (scene == null) {
+            scene = new Scene(newRoot, 1200, 720);
+            reloadStylesheet();
+            if (stage != null) {
+                stage.setScene(scene);
+            }
+        } else {
+            scene.setRoot(newRoot);
+            reloadStylesheet();
+        }
+
+        if (stage != null) {
+            if (wasFullScreen) {
+                stage.setFullScreen(true);
+            } else {
+                stage.setMaximized(wasMaximized);
+                if (!wasMaximized && prevWidth > 0 && prevHeight > 0) {
+                    stage.setWidth(prevWidth);
+                    stage.setHeight(prevHeight);
+                }
+            }
+        }
+
+        return previousRoot;
     }
 
     public static void showMainView() {

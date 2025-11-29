@@ -3,12 +3,10 @@ package dongggg;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +29,7 @@ public class QuizResultController {
     @FXML
     private VBox resultListBox;
 
-    private Scene previousScene;
+    private Parent previousRoot;
     private List<ConceptPair> quizListRef;
     private List<Boolean> answerStateList;
     private final QuizService quizService = new QuizServiceImpl();
@@ -208,9 +206,8 @@ public class QuizResultController {
     @FXML
     private void goBack() {
         persistResults(quizListRef);
-        if (previousScene != null) {
-            Stage stage = App.getStage();
-            stage.setScene(previousScene);
+        if (previousRoot != null) {
+            App.swapRootKeepingState(previousRoot);
         }
     }
 
@@ -228,8 +225,8 @@ public class QuizResultController {
         App.showDashboardView();
     }
 
-    public void setPreviousScene(Scene scene) {
-        this.previousScene = scene;
+    public void setPreviousRoot(Parent root) {
+        this.previousRoot = root;
     }
 
     public int getCorrectCount() {
