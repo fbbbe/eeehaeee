@@ -5,6 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.shape.SVGPath?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -76,7 +77,7 @@
                         <HBox alignment="CENTER" spacing="8">
                             <children>
                                 <Label text="추가" styleClass="note-date"/>
-                                <Button text="＋"
+                                <Button fx:id="plus" text="＋"
                                         onAction="#onAddPair"
                                         styleClass="concept-plus-button"/>
                             </children>
@@ -101,7 +102,24 @@
                         styleClass="pill-button, pill-button-danger"
                         minHeight="36"
                         prefHeight="36"
-                        contentDisplay="LEFT"/>
+                        contentDisplay="LEFT"
+                        graphicTextGap="6">
+                    <graphic>
+                        <StackPane prefWidth="16" prefHeight="16" alignment="CENTER">
+                            <SVGPath
+                                    content="M10 11v6 M14 11v6
+                                            M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6
+                                            M3 6h18
+                                            M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                    stroke="black"
+                                    fill="transparent"
+                                    strokeWidth="2"
+                                    strokeLineCap="ROUND"
+                                    strokeLineJoin="ROUND"
+                                    style="-fx-scale-x:0.65; -fx-scale-y:0.65;"/>
+                        </StackPane>
+                    </graphic>
+                </Button>
 
                 <Button fx:id="sortButton"
                         text="정렬"

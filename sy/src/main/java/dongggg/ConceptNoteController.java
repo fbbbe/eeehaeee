@@ -58,6 +58,9 @@ public class ConceptNoteController {
     @FXML
     private Button deleteButton;
 
+    @FXML
+    private Button plus;
+
     // 현재 화면에 존재하는 개념/설명 입력 행들을 관리
     private final List<ConceptRow> rows = new ArrayList<>();
     private SortMode sortMode = SortMode.DEFAULT;
@@ -211,7 +214,8 @@ public class ConceptNoteController {
         addRowWithValue("", "", nextSortOrder(), 0.0, null, 0, 0);
     }
 
-    private void addRowWithValue(String term, String explanation, int sortOrder, double wrongRate, Integer pairId, int totalAttempts, int correctCount) {
+    private void addRowWithValue(String term, String explanation, int sortOrder, double wrongRate, Integer pairId,
+            int totalAttempts, int correctCount) {
         // 왼쪽: 개념 입력 TextArea
         TextArea termArea = new TextArea();
         termArea.setPromptText("Ex. 데이터의 정의");
@@ -246,7 +250,8 @@ public class ConceptNoteController {
         explanationBox.setFillWidth(true);
 
         // 행 객체 하나 만들어서 리스트에 넣어두기
-        ConceptRow row = new ConceptRow(termArea, explanationArea, termBox, explanationBox, rateLabel, sortOrder, wrongRate, pairId, totalAttempts, correctCount);
+        ConceptRow row = new ConceptRow(termArea, explanationArea, termBox, explanationBox, rateLabel, sortOrder,
+                wrongRate, pairId, totalAttempts, correctCount);
         updateRateLabel(row);
         rows.add(row);
 
@@ -304,7 +309,8 @@ public class ConceptNoteController {
         }
         double rate = (row.correctCount / (double) row.totalAttempts) * 100.0;
         double rounded = Math.round(rate * 10) / 10.0;
-        String display = rounded % 1 == 0 ? String.format("정답률: %.0f%%", rounded) : String.format("정답률: %.1f%%", rounded);
+        String display = rounded % 1 == 0 ? String.format("정답률: %.0f%%", rounded)
+                : String.format("정답률: %.1f%%", rounded);
         row.rateLabel.setText(display);
     }
 
@@ -470,7 +476,8 @@ public class ConceptNoteController {
         double baseWrapWidthTerm;
         double baseWrapWidthExplanation;
 
-        ConceptRow(TextArea termArea, TextArea explanationArea, VBox termBox, VBox explanationBox, Label rateLabel, int sortOrder, double wrongRate, Integer pairId, int totalAttempts, int correctCount) {
+        ConceptRow(TextArea termArea, TextArea explanationArea, VBox termBox, VBox explanationBox, Label rateLabel,
+                int sortOrder, double wrongRate, Integer pairId, int totalAttempts, int correctCount) {
             this.termArea = termArea;
             this.explanationArea = explanationArea;
             this.termBox = termBox;
