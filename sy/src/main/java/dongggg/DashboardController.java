@@ -36,6 +36,18 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
+        if (noteManageButton != null) {
+            HoverEffects.installPurpleHover(noteManageButton);
+        }
+        if (newNoteButton != null) {
+            HoverEffects.installYellowHover(newNoteButton);
+        }
+        if (newNoteButton != null) {
+            HoverEffects.installYellowHover(newNoteButton);
+        }
+        if (quizButton != null) {
+            HoverEffects.installPinkHover(quizButton);
+        }
         updateLevelCard();
         updateConceptNoteCount();
         updateExamCount();

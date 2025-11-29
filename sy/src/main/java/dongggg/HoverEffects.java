@@ -52,6 +52,17 @@ public class HoverEffects {
                 0.05, 0.20);
     }
 
+    public static void installPinkHover(Region region) {
+        installHoverAnimation(
+                region,
+                Color.web("#ffffff"), // 기본 배경
+                Color.web("rgba(253, 242, 254, 1)"), // hover 배경 (옅은 노랑)
+                Color.web("#e8dff5"), // 기본 테두리 (연보라)
+                Color.web("rgba(207, 137, 213, 1);"), // hover 테두리 (노랑)
+                6, 18,
+                0.05, 0.20);
+    }
+
     /**
      * 실제 애니메이션 구현부 (공통).
      * base/hover 색과 그림자 값을 받아서, hover 상태에 따라 서서히 보간해 준다.
