@@ -3,6 +3,7 @@ package dongggg;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -11,7 +12,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class WardrobeController {
 
@@ -27,11 +30,38 @@ public class WardrobeController {
     private HBox skinListBox;
     @FXML
     private Button confirmButton;
+    @FXML
+    private Button back;
 
     private int currentLevel = 1;
+    private static final List<String> SKIN_NAMES = List.of(
+            "동그리",
+            "외계인 동그리",
+            "토마토 동그리",
+            "일상복 동그리",
+            "곰돌이 동그리",
+            "신사 동그리",
+            "공대생 동그리",
+            "감기 동그리",
+            "해파리 동그리",
+            "학생 동그리",
+            "잠자는 동그리",
+            "유치원생 동그리",
+            "농구 동그리",
+            "도둑 동그리",
+            "짱구 동그리",
+            "하츄핑 동그리",
+            "메타몽 동그리",
+            "경찰 동그리",
+            "코난 동그리",
+            "음식 동그리",
+            "졸업 동그리");
 
     @FXML
     private void initialize() {
+        if (back != null) {
+            HoverEffects.installPurpleHover(back);
+        }
         DonggriLevelInfo info = DonggriRepository.getLevelInfo();
         currentLevel = info.getCurrentLevel();
         if (currentLevelLabel != null) {
@@ -43,12 +73,14 @@ public class WardrobeController {
     private void refill() {
         List<MascotSkin> skins = MascotSkinRepository.getSkinsWithState(currentLevel);
         MascotSkin active = MascotSkinRepository.resolveSkinForLevel(currentLevel);
+        int activeIndex = findIndexByThreshold(skins, active.getLevelThreshold());
+        String activeName = skinNameForIndex(activeIndex);
 
         if (currentSkinImage != null) {
             currentSkinImage.setImage(loadImage(active.getImagePath()));
         }
         if (currentSkinNameLabel != null) {
-            currentSkinNameLabel.setText("Lv." + active.getLevelThreshold() + " 동그리");
+            currentSkinNameLabel.setText(activeName);
         }
         if (currentSkinDescLabel != null) {
             currentSkinDescLabel.setText("동그리 스타일");
@@ -56,21 +88,25 @@ public class WardrobeController {
 
         if (skinListBox != null) {
             skinListBox.getChildren().clear();
-            for (MascotSkin skin : skins) {
+            for (int i = 0; i < skins.size(); i++) {
+                MascotSkin skin = skins.get(i);
                 skinListBox.getChildren()
-                        .add(buildSkinCard(skin, skin.getLevelThreshold() == active.getLevelThreshold()));
+                        .add(buildSkinCard(skin, skin.getLevelThreshold() == active.getLevelThreshold(), i));
             }
         }
     }
 
-    private StackPane buildSkinCard(MascotSkin skin, boolean selected) {
+    private StackPane buildSkinCard(MascotSkin skin, boolean selected, int index) {
         boolean unlocked = skin.isUnlocked();
 
         StackPane card = new StackPane();
         card.getStyleClass().add("wardrobe-skin-card");
-        if (selected && unlocked) card.getStyleClass().add("selected");
-        if (!unlocked) card.getStyleClass().add("locked");
-        if (unlocked) card.getStyleClass().add("unlocked");
+        if (selected && unlocked)
+            card.getStyleClass().add("selected");
+        if (!unlocked)
+            card.getStyleClass().add("locked");
+        if (unlocked)
+            card.getStyleClass().add("unlocked");
 
         VBox box = new VBox(6);
         box.setAlignment(javafx.geometry.Pos.CENTER);
@@ -87,7 +123,7 @@ public class WardrobeController {
         Label name = new Label();
         name.getStyleClass().add("wardrobe-skin-name");
         if (unlocked) {
-            name.setText("동그리");
+            name.setText(skinNameForIndex(index));
         } else {
             // 잠긴 카드에는 아래 오버레이에만 레벨 표기 → 텍스트 숨김
             name.setVisible(false);
@@ -161,5 +197,21 @@ public class WardrobeController {
     @FXML
     private void onConfirm() {
         App.showDashboardView();
+    }
+
+    private String skinNameForIndex(int index) {
+        if (index >= 0 && index < SKIN_NAMES.size()) {
+            return SKIN_NAMES.get(index);
+        }
+        return "동그리";
+    }
+
+    private int findIndexByThreshold(List<MascotSkin> skins, int threshold) {
+        for (int i = 0; i < skins.size(); i++) {
+            if (skins.get(i).getLevelThreshold() == threshold) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

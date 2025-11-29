@@ -17,7 +17,7 @@
             <padding>
                 <Insets top="20" right="20" bottom="10" left="20"/>
             </padding>
-            <Button text="← 뒤로가기"
+            <Button fx:id="back" text="← 뒤로가기"
                     onAction="#onBack"
                     styleClass="button-outlined"/>
         </HBox>

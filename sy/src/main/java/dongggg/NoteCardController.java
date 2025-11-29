@@ -19,6 +19,8 @@ import dongggg.Folder;
 import dongggg.NoteRepository;
 import dongggg.NoteFolderRepository;
 import dongggg.App;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 
 public class NoteCardController {
 
@@ -126,15 +128,30 @@ public class NoteCardController {
         return row;
     }
 
-    private HBox buildDeleteRow() {
+    private SVGPath createTrashIcon() {
         SVGPath trash = new SVGPath();
+        // 🔥 Lucide trash-2 그대로 풀어쓴 path (순서는 상관없지만 그대로 두면 헷갈릴 일 없음)
         trash.setContent(
-                "M10 11v6 M14 11v6 M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6 M3 6h18 M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2");
-        trash.setStroke(Color.web("#9CA3AF"));
+                "M3 6h18 " + // 위 가로선
+                        "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6 " + // 몸통
+                        "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2 " + // 뚜껑+손잡이
+                        "M10 11v6 " + // 왼쪽 내부 막대
+                        "M14 11v6" // 오른쪽 내부 막대
+        );
+
+        trash.setStroke(Color.web("#9CA3AF")); // 상세 페이지랑 같은 회색 계열
         trash.setFill(Color.TRANSPARENT);
         trash.setStrokeWidth(1.8);
-        trash.setScaleX(0.8);
-        trash.setScaleY(0.8);
+        trash.setStrokeLineCap(StrokeLineCap.ROUND);
+        trash.setStrokeLineJoin(StrokeLineJoin.ROUND);
+        trash.setScaleX(0.85);
+        trash.setScaleY(0.85);
+
+        return trash;
+    }
+
+    private HBox buildDeleteRow() {
+        SVGPath trash = createTrashIcon(); // ✅ 공용 아이콘 사용
 
         HBox row = new HBox(8);
         row.setAlignment(Pos.CENTER_LEFT);
