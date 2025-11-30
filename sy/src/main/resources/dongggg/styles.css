@@ -1202,7 +1202,7 @@
 }
 
 .dashboard-progress > .bar {
-    -fx-background-color: linear-gradient(#FFE4B3, #FBBF24);
+    -fx-background-color: linear-gradient(to right, #A855DD, #fadd85);
     -fx-background-radius: 999;
 }
 
