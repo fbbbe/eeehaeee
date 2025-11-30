@@ -6,77 +6,87 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.shape.SVGPath?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="dongggg.WardrobeController"
-            stylesheets="@styles.css"
-            styleClass="root-pane,main-root">
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="dongggg.WardrobeController"
+           stylesheets="@styles.css"
+           styleClass="root-pane,main-root">
 
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="wardrobe-topbar">
-            <padding>
-                <Insets top="20" right="20" bottom="10" left="20"/>
-            </padding>
-            <Button fx:id="back" text="← 뒤로가기"
-                    onAction="#onBack"
-                    styleClass="button-outlined"/>
-        </HBox>
-    </top>
-
-    <center>
-        <ScrollPane fitToWidth="true"
-                    hbarPolicy="NEVER"
-                    vbarPolicy="AS_NEEDED"
-                    styleClass="transparent-scroll-pane">
-            <content>
-                <VBox alignment="CENTER" spacing="16">
+    <children>
+        <BorderPane>
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="wardrobe-topbar">
                     <padding>
-                        <Insets top="24" right="80" bottom="120" left="80"/>
+                        <Insets top="20" right="20" bottom="10" left="20"/>
                     </padding>
-                    <VBox alignment="CENTER" spacing="6">
-                        <HBox alignment="CENTER" spacing="6">
-                            <Label text="동그리 옷장" styleClass="wardrobe-title"/>
+                    <Button fx:id="back" text="← 뒤로가기"
+                            onAction="#onBack"
+                            styleClass="button-outlined"/>
+                </HBox>
+            </top>
 
-                            <StackPane prefWidth="26" prefHeight="26" alignment="CENTER">
-                                <SVGPath
-                                    content="M21.64 3.64 L20.36 2.36 A1.21 1.21 0 0 0 18.64 2.36 L2.36 18.64 A1.21 1.21 0 0 0 2.36 20.36 L3.64 21.64 A1.2 1.2 0 0 0 5.36 21.64 L21.64 5.36 A1.2 1.2 0 0 0 21.64 3.64 M14 7 L17 10 M5 6 L5 10 M19 14 L19 18 M10 2 L10 4 M7 8 L3 8 M21 16 L17 16 M11 3 L9 3"
-                                    fill="transparent"
-                                    strokeWidth="2"
-                                    strokeLineCap="ROUND"
-                                    strokeLineJoin="ROUND"
-                                    style="-fx-scale-x:0.9; -fx-scale-y:0.9;
-                                        -fx-stroke: linear-gradient(from 100% 0% to 0% 100%,  #ffd83b 0%, #a06afd 100%);"/>
+            <center>
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            styleClass="transparent-scroll-pane">
+                    <content>
+                        <VBox alignment="CENTER" spacing="16">
+                            <padding>
+                                <Insets top="24" right="80" bottom="120" left="80"/>
+                            </padding>
+                            <VBox alignment="CENTER" spacing="6">
+                                <HBox alignment="CENTER" spacing="6">
+                                    <Label text="동그리 옷장" styleClass="wardrobe-title"/>
+
+                                    <StackPane prefWidth="26" prefHeight="26" alignment="CENTER">
+                                        <SVGPath
+                                            content="M21.64 3.64 L20.36 2.36 A1.21 1.21 0 0 0 18.64 2.36 L2.36 18.64 A1.21 1.21 0 0 0 2.36 20.36 L3.64 21.64 A1.2 1.2 0 0 0 5.36 21.64 L21.64 5.36 A1.2 1.2 0 0 0 21.64 3.64 M14 7 L17 10 M5 6 L5 10 M19 14 L19 18 M10 2 L10 4 M7 8 L3 8 M21 16 L17 16 M11 3 L9 3"
+                                            fill="transparent"
+                                            strokeWidth="2"
+                                            strokeLineCap="ROUND"
+                                            strokeLineJoin="ROUND"
+                                            style="-fx-scale-x:0.9; -fx-scale-y:0.9;
+                                                -fx-stroke: linear-gradient(from 100% 0% to 0% 100%,  #ffd83b 0%, #a06afd 100%);"/>
+                                    </StackPane>
+                                </HBox>
+
+                                <Label text="마음에 드는 동그리를 골라보세요!" styleClass="wardrobe-subtitle"/>
+                                <Label fx:id="currentLevelLabel" text="현재 레벨: --" styleClass="wardrobe-badge"/>
+                            </VBox>
+
+                            <StackPane styleClass="wardrobe-main-card">
+                                <VBox alignment="CENTER" spacing="6">
+                                    <ImageView fx:id="currentSkinImage"
+                                               fitWidth="300" fitHeight="300"
+                                               preserveRatio="true" smooth="true"/>
+                                    <Label fx:id="currentSkinNameLabel" text="기본 동그리" styleClass="wardrobe-main-name"/>
+                                    <Label fx:id="currentSkinDescLabel" text="귀여운 동그리" styleClass="wardrobe-main-desc"/>
+                                </VBox>
                             </StackPane>
-                        </HBox>
 
-                        <Label text="마음에 드는 동그리를 골라보세요!" styleClass="wardrobe-subtitle"/>
-                        <Label fx:id="currentLevelLabel" text="현재 레벨: --" styleClass="wardrobe-badge"/>
-                    </VBox>
+                            <Label text="스타일 컬렉션" styleClass="wardrobe-section-title"/>
 
-                    <StackPane styleClass="wardrobe-main-card">
-                        <VBox alignment="CENTER" spacing="6">
-                            <ImageView fx:id="currentSkinImage"
-                                       fitWidth="300" fitHeight="300"
-                                       preserveRatio="true" smooth="true"/>
-                            <Label fx:id="currentSkinNameLabel" text="기본 동그리" styleClass="wardrobe-main-name"/>
-                            <Label fx:id="currentSkinDescLabel" text="귀여운 동그리" styleClass="wardrobe-main-desc"/>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="transparent-scroll-pane">
+                                <content>
+                                    <HBox fx:id="skinListBox"
+                                          spacing="14"
+                                          alignment="CENTER_LEFT"
+                                          styleClass="wardrobe-skin-list"/>
+                                </content>
+                            </ScrollPane>
+
+                            <Button fx:id="loveButton"
+                                    text="사랑 주기"
+                                    onAction="#onConfirm"
+                                    styleClass="quiz-mode-start,purple"/>
                         </VBox>
-                    </StackPane>
+                    </content>
+                </ScrollPane>
+            </center>
+        </BorderPane>
 
-                    <Label text="스타일 컬렉션" styleClass="wardrobe-section-title"/>
-
-                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="transparent-scroll-pane">
-                        <content>
-                            <HBox fx:id="skinListBox"
-                                  spacing="14"
-                                  alignment="CENTER_LEFT"
-                                  styleClass="wardrobe-skin-list"/>
-                        </content>
-                    </ScrollPane>
-
-                    <Button text="선택 완료" onAction="#onConfirm" styleClass="quiz-mode-start,purple"/>
-                </VBox>
-            </content>
-        </ScrollPane>
-    </center>
-</BorderPane>
+        <!-- 💖 하트 효과를 띄우는 오버레이 레이어 -->
+        <Pane fx:id="effectLayer" pickOnBounds="false"/>
+    </children>
+</StackPane>

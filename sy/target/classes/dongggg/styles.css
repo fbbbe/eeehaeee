@@ -1671,3 +1671,14 @@
     -fx-border-color: #FFB547;
     -fx-border-width:2;
 }
+
+.floating-heart {
+    /* 💖 동그리 하트 이펙트 - 더 귀엽게 */
+    -fx-font-size: 96; /* 너무 크지 않게 적당한 크기 */
+    -fx-font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", system-ui;
+    -fx-text-fill: #fb7185; /* 살짝 살구빛 핑크 */
+    -fx-opacity: 0.95;
+
+    /* 부드러운 발광 느낌 */
+    -fx-effect: dropshadow(gaussian, rgba(248, 113, 113, 0.65), 18, 0.4, 0, 3);
+}

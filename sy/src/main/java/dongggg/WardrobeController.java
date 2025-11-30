@@ -11,6 +11,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
+import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +40,10 @@ public class WardrobeController {
     private Button confirmButton;
     @FXML
     private Button back;
+    @FXML
+    private Pane effectLayer;
+
+    private final Random random = new Random();
 
     private int currentLevel = 1;
     private static final List<String> SKIN_NAMES = List.of(
@@ -94,6 +106,60 @@ public class WardrobeController {
                         .add(buildSkinCard(skin, skin.getLevelThreshold() == active.getLevelThreshold(), i));
             }
         }
+    }
+
+    private void playHearts() {
+        // 한 번 누를 때 여러 개 뿜고 싶으면 개수만 바꾸면 됨
+        for (int i = 0; i < 4; i++) {
+            spawnHeart();
+        }
+    }
+
+    private void spawnHeart() {
+        if (effectLayer == null || effectLayer.getScene() == null) {
+            return;
+        }
+
+        // 💖 하트 노드 생성
+        Label heart = new Label("❤");
+        heart.getStyleClass().add("floating-heart");
+
+        double layerWidth = effectLayer.getWidth() > 0
+                ? effectLayer.getWidth()
+                : effectLayer.getScene().getWidth();
+        double layerHeight = effectLayer.getHeight() > 0
+                ? effectLayer.getHeight()
+                : effectLayer.getScene().getHeight();
+
+        // 시작 위치: 화면 아래쪽 (아래에서 랜덤 X 위치로 올라오게)
+        double startX = 40 + random.nextDouble() * (layerWidth - 80);
+        double startY = layerHeight + 40;
+
+        heart.setLayoutX(startX);
+        heart.setLayoutY(startY);
+        effectLayer.getChildren().add(heart);
+
+        // 위로 날아가는 목표 Y
+        double targetY = -80 - random.nextDouble() * 80;
+        Duration duration = Duration.seconds(2 + random.nextDouble());
+
+        TranslateTransition move = new TranslateTransition(duration, heart);
+        move.setFromY(0);
+        move.setToY(targetY - startY);
+
+        FadeTransition fade = new FadeTransition(duration, heart);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        ScaleTransition scale = new ScaleTransition(duration, heart);
+        scale.setFromX(0.8);
+        scale.setFromY(0.8);
+        scale.setToX(1.2);
+        scale.setToY(1.2);
+
+        ParallelTransition combo = new ParallelTransition(move, fade, scale);
+        combo.setOnFinished(e -> effectLayer.getChildren().remove(heart));
+        combo.play();
     }
 
     private StackPane buildSkinCard(MascotSkin skin, boolean selected, int index) {
@@ -196,7 +262,7 @@ public class WardrobeController {
 
     @FXML
     private void onConfirm() {
-        App.showDashboardView();
+        playHearts();
     }
 
     private String skinNameForIndex(int index) {
